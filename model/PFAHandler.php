@@ -474,6 +474,10 @@ abstract class PFAHandler
                 }
             } else { # field is editable
                 if (isset($values[$key])) {
+                    if (($row['type'] === 'pass' || $row['type'] === 'b64p') && is_array($values[$key])) {
+                        $this->errormsg[$key] = Config::lang_f('invalid_value_given', $key);
+                        continue;
+                    }
                     if (
                         ($row['type'] != "pass" && $row['type'] != 'b64p') || # field  type is NOT 'pass' or 'b64p' - or -
                         strlen($values[$key]) > 0 ||    # new value is not empty - or -

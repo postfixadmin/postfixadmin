@@ -36,9 +36,9 @@ class TotpexceptionHandler extends PFAHandler
         $this->struct = array(
             # field name              allow       display in...   type    $PALANG label                     $PALANG description  default / options / ...
             #                         editing?    form    list
-            'password_current' => self::pacol(1, 1, 0, 'pass', 'pPassword_password_current', '', '', array(), 1, 1),
+            'password_current' => self::pacol(1,  1,      0,      'pass', 'pPassword_password_current',     '', '', array(), 1, 1),
             'id'          => self::pacol(0,       0,      1,      'num',  'pFetchmail_field_id',            '', '', array(), 0, 1),
-            'username'    => self::pacol(1, $this->is_admin, 1,      'text', 'pTotp_exceptions_user',          ''),
+            'username'    => self::pacol(1, $this->is_admin, 1,   'text', 'pTotp_exceptions_user',          ''),
             'ip'          => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_address',       ''),
             'description' => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_description',   ''),
         );
@@ -82,9 +82,17 @@ class TotpexceptionHandler extends PFAHandler
      */
     public function checkCurrentPassword(string $password, ?Login $login = null): bool
     {
-        $username = $this->is_admin ? $this->admin_username : $this->username;
+        if ($this->is_admin) {
+            $username = $this->admin_username;
+            $table = 'admin';
+        } else {
+            $username = $this->username;
+            $table = 'mailbox';
+        }
         if ($username !== '' && $password !== '') {
-            $login = $login ?? new Login($this->is_admin ? 'admin' : 'mailbox');
+            if ($login === null) {
+                $login = new Login($table);
+            }
             if ($login->login($username, $password)) {
                 return true;
             }
@@ -93,21 +101,18 @@ class TotpexceptionHandler extends PFAHandler
         return false;
     }
 
-    public function set(array $values)
+    protected function setmore(array $values)
     {
-        // Requiring the field here also covers omitted/empty passwords on edits,
-        // where PFAHandler normally skips unchanged password fields.
-        $this->values_valid = false;
+        // Check every update, including omitted passwords that the base handler skips.
         $password = $values['password_current'] ?? '';
-        if (!$this->checkCurrentPassword(is_string($password) ? $password : '')) {
-            return false;
+        if (!is_string($password)) {
+            $password = '';
         }
+        $this->checkCurrentPassword($password);
         if (!$this->is_admin) {
-            $values['username'] = $this->username;
+            $this->values['username'] = $this->username;
         }
-        $valid = parent::set($values);
         unset($this->values['password_current'], $this->RAWvalues['password_current']);
-        return $valid;
     }
 
     protected function _inp_pass($field, $val)
@@ -159,6 +164,12 @@ class TotpexceptionHandler extends PFAHandler
      */
     protected function _validate_username(string $field, string $value): bool
     {
+        // Users can only set exceptions for themselves
+        if (!$this->is_admin) {
+            $this->values['username'] = $this->username;
+            return false; # to avoid that set() overwrites $this->values[$field] with the raw (attacker-controlled) input
+        }
+
         // Normalize empty string to NULL for global exceptions
         if ($value === '') {
             if ($this->is_superadmin) {
@@ -167,12 +178,6 @@ class TotpexceptionHandler extends PFAHandler
             }
             $this->errormsg[$field] = Config::Lang('pException_user_global_error');
             return false;
-        }
-
-        // Users can only set exceptions for themselves
-        if (!$this->is_admin) {
-            $this->values['username'] = $this->username;
-            return false; # to avoid that set() overwrites $this->values[$field] with the raw (attacker-controlled) input
         }
 
         // Superadmins can set for anyone
