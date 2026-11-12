@@ -551,6 +551,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Пароль не може бути �
 $PALANG['pAppPassAdd_result_error'] = 'Не додавати пароль заявки';
 $PALANG['MFA_submit'] = 'Підтвердити логін';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Додати виключення TOTP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Виняток TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Додати пароль';
 $PALANG['mailbox_postapppassword_failed'] = 'Скрипт поштових скриньок не вдалося, перевірте журнал помилки для деталей!';
