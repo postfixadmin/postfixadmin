@@ -122,6 +122,7 @@ protected function initStruct()
 | `vnum` | Virtual numeric (not stored in DB) |
 | `vtxt` | Virtual text (not stored in DB) |
 | `quot` | Quota display |
+| `totp` | Read-only TOTP action in account edit forms; the handler returns a boolean and the template renders it |
 
 This list covers the most common types. Additional types may exist in
 `PFAHandler` and individual Handler classes — check the source for the
