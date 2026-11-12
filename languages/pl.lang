@@ -543,6 +543,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Nie może być pusty';
 $PALANG['pAppPassAdd_result_error'] = 'Could not add the name password';
 $PALANG['MFA_submit'] = 'Confirm login';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Wyjątek TOTP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Wyjątek TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Adddupacja';
 $PALANG['mailbox_postapppassword_failed'] = 'Scenariusz pocztówki nie powiódł się, sprawdzając błąd w detalach.';

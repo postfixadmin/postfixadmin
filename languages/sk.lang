@@ -538,6 +538,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Heslo nemôže byť prázdne';
 $PALANG['pAppPassAdd_result_error'] = 'Nemožno pridať aplikačné heslo';
 $PALANG['MFA_submit'] = 'Potvrdiť prihlásenie';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Pridať TOTP výnimku';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Odstrániť TOTP výnimku';
 $PALANG['pViewlog_action_add_app_password'] = 'Pridať aplikačné heslo';
 $PALANG['mailbox_postapppassword_failed'] = 'Mail postapppassword skript zlyhal, skontrolujte chybový protokol pre detaily!';

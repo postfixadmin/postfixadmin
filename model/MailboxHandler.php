@@ -262,7 +262,6 @@ class MailboxHandler extends PFAHandler
                     $db_result[$key]['password_expiry'] = $password_expiration_never_label;
                 }
             }
-
             # Render TOTP action
             if (isset($this->struct['totp_action']) && is_string($row['username'])) {
 
@@ -279,6 +278,7 @@ class MailboxHandler extends PFAHandler
                         htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
                 }
             }
+
         }
 
         return $db_result;

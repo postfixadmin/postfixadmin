@@ -537,6 +537,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Password ei voi olla tyhjä';
 $PALANG['pAppPassAdd_result_error'] = 'Ei voi lisätä salasanaa';
 $PALANG['MFA_submit'] = 'Vahvista logiikka';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Lisää TOTP-poikkeus';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Poikkeuksen poistaminen';
 $PALANG['pViewlog_action_add_app_password'] = 'Lisää sovelluksen salasana';
 $PALANG['mailbox_postapppassword_failed'] = 'Postilaatikko postapppassword script epäonnistui, tarkista virheloki yksityiskohtiin!';

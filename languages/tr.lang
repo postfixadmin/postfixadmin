@@ -537,6 +537,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Şifre boş olamaz';
 $PALANG['pAppPassAdd_result_error'] = 'Uygulama şifresini ekleyebilir';
 $PALANG['MFA_submit'] = 'Onay girişi';
 $PALANG['pViewlog_action_add_totp_exception'] = 'TOTP istisna ek';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Delete TOTP istisna';
 $PALANG['pViewlog_action_add_app_password'] = 'Uygulama parolasını ekleyin';
 $PALANG['mailbox_postapppassword_failed'] = 'Posta kutusu postapppassword senaryosu başarısız oldu, ayrıntıları için hata logunu kontrol edin!';

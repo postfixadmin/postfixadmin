@@ -536,6 +536,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'La contrasenya no pot ser buida';
 $PALANG['pAppPassAdd_result_error'] = 'No es pot afegir la contrasenya de l\'aplicació';
 $PALANG['MFA_submit'] = 'Confirmar contrasenya';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Afegir excepció TOTP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Suprimeix l\'excepció TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Afegir contrasenya d\'aplicació';
 $PALANG['mailbox_postapppassword_failed'] = 'L\'script de postapppassword de la bústia ha fallat, comproveu el registre d\'errors per obtenir més informació.';

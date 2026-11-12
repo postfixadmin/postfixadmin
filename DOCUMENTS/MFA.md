@@ -7,11 +7,12 @@ MFA column only when its complete authorized search result contains such a
 mailbox. Pagination does not change the column's visibility. Inactive accounts
 retain their configured-MFA status. No secrets are included in these indicators.
 
-Administrative MFA reset through the web interface is disabled by default.
-To enable it, set this in `config.local.php`:
+Administrative MFA reset through the web interface is enabled by default,
+preserving the existing behavior. To restrict administrative reset to the CLI,
+set this in `config.local.php`:
 
 ```php
-$CONF['totp_allow_admin_reset'] = 'YES';
+$CONF['totp_allow_admin_reset'] = 'NO';
 ```
 
 Existing permissions still apply: global administrators can reset administrator

@@ -19,7 +19,6 @@ class TotpManagementHttpTest extends TestCase
         self::assertTrue(mkdir($this->directory));
         $config = Config::getInstance()->getAll();
         $config['totp'] = 'YES';
-        $config['totp_allow_admin_reset'] = 'NO';
         $config['page_size'] = 2;
         $config['default_language'] = 'en';
         $config['language_hook'] = '';
@@ -138,12 +137,16 @@ class TotpManagementHttpTest extends TestCase
     }
 
     #[DataProvider('accountTypes')]
-    public function testAdministrativeWebResetRequiresOptInAndCsrf(string $table, string $role): void
+    public function testAdministrativeWebResetDefaultsToEnabledAndRespectsOptOutAndCsrf(string $table, string $role): void
     {
         db_update($table, 'username', self::USERNAME, ['totp_secret' => self::SECRET]);
         db_insert('domain_admins', ['username' => self::USERNAME, 'domain' => self::DOMAIN, 'active' => true], ['created'], true);
         $token = $this->startSession('global-admin');
         $path = '/edit.php?table=' . $table . '&edit=' . urlencode(self::USERNAME);
+        [$status, $body] = $this->request($path);
+        self::assertSame(200, $status, $body);
+        self::assertStringContainsString('name="reset_totp"', $body);
+        $this->setHttpConfig('totp_allow_admin_reset', 'NO');
         [$status, $body] = $this->request($path);
         self::assertSame(200, $status, $body);
         self::assertStringNotContainsString('name="reset_totp"', $body);

@@ -308,6 +308,7 @@ $PALANG['pViewlog_pagination'] = 'Log pages';
 $PALANG['pViewlog_data'] = 'Data';
 
 $PALANG['pViewlog_action_add_totp_exception'] = 'Add TOTP exception';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception';
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Delete TOTP exception';
 $PALANG['pViewlog_action_create_domain'] = 'create domain';
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain';

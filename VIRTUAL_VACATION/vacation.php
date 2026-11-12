@@ -21,6 +21,8 @@ use PDOException;
 use RuntimeException;
 use Throwable;
 
+require_once dirname(__DIR__) . '/model/VacationReplyIntervals.php';
+
 abstract class VacationCliException extends RuntimeException
 {
     public function __construct(string $message, public readonly int $exitStatus)
@@ -980,9 +982,13 @@ final class VacationCli
             throw new ConfigurationException("Invalid INI configuration: {$path}");
         }
         $warnings = [];
+        $replyChoices = \VacationReplyIntervals::fromIni($parsed);
         $values = [
             'message_no_vacation_pattern' => VacationMessageInspector::DEFAULT_NO_VACATION_PATTERN,
         ];
+        if ($replyChoices !== null) {
+            $values['vacation_choice_of_reply'] = $replyChoices;
+        }
         if (isset($parsed['postfixadmin']) && is_array($parsed['postfixadmin'])) {
             $values['postfixadmin_root'] = trim((string)($parsed['postfixadmin']['root'] ?? ''));
         } else {
@@ -1218,6 +1224,18 @@ final class VacationCli
                 $lines[] = 'account_name = true';
             }
         }
+        array_push(
+            $lines,
+            '',
+            '; Optional web reply choices. Uncomment the section and desired entries.',
+            '; Without this section, config.local.php overrides config.inc.php as usual.',
+            '; Configure vacation_config in PostfixAdmin to point to this file.',
+            '; [reply_intervals]',
+            '; once = 0',
+            '; every = 1',
+            '; day = 86400',
+            '; week = 604800',
+        );
         $logSyslog = filter_var($loggingOptions['syslog'] ?? true, FILTER_VALIDATE_BOOL);
         $logFileEnabled = filter_var($loggingOptions['file_enabled'] ?? false, FILTER_VALIDATE_BOOL);
         array_push($lines, '', '[logging]');

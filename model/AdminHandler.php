@@ -200,7 +200,6 @@ class AdminHandler extends PFAHandler
             if ($row['superadmin']) {
                 $db_result[$key]['domain_count'] = Config::lang('super_admin');
             }
-
             # Render TOTP action
             if (isset($this->struct['totp_action']) && is_string($row['username'])) {
 
@@ -217,6 +216,7 @@ class AdminHandler extends PFAHandler
                         htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
                 }
             }
+
         }
 
         return $db_result;
