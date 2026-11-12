@@ -304,6 +304,12 @@ url_user_foo = ../list.php?table=foo
 
 Then reference them in templates using `{#url_foo#}`.
 
+Domain administrators may create or edit TOTP exceptions only for their managed
+domains and accounts within those domains. Their own administrator login is not
+an exemption from this authorization rule. Global administrators retain unrestricted
+target selection; mailbox users retain their own-account behavior. Existing stored
+exceptions are not removed automatically by this change.
+
 ## Lifecycle
 
 1. `list.php`/`edit.php` instantiates the Handler: `new FooHandler($new, $username, $is_admin)`
