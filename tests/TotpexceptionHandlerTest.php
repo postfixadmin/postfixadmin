@@ -97,6 +97,7 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->init(''));
 
         $this->assertSame(0, $handler->getStruct()['username']['display_in_form']);
+        $this->assertSame(0, $handler->getStruct()['username']['editable']);
         $this->assertTrue($handler->set([
             'password_current' => 'current-password',
             'ip' => '10.0.0.3',
@@ -151,6 +152,7 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('username', $formconf['user_hardcoded_field']);
         $this->assertSame('pass', $handler->getStruct()['password_current']['type']);
         $this->assertSame(1, $handler->getStruct()['username']['display_in_form']);
+        $this->assertSame(1, $handler->getStruct()['username']['editable']);
         $this->assertTrue($handler->init(''));
         foreach ([[], ['password_current' => ''], ['password_current' => 'wrong'], ['password_current' => ['invalid']]] as $password) {
             $this->assertFalse($handler->set($password + ['username' => 'admin@example.com', 'ip' => '10.0.0.6', 'description' => 'test']));
@@ -207,6 +209,29 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
             'username' => 'admin@example.com', 'ip' => '10.0.0.9', 'description' => 'target password']));
         $this->assertFalse($handler->save());
         $this->assertSame([], $this->storedUsernames());
+    }
+
+    public function testAdminSelfExceptionDoesNotAuthorizeItsUnmanagedDomain(): void
+    {
+        foreach (['foo.com', 'bar.com'] as $domain) {
+            db_insert('domain', ['domain' => $domain, 'description' => 'managed',
+                'transport' => 'virtual', 'active' => true, 'backupmx' => false]);
+            db_insert('domain_admins', ['username' => 'admin@example.com',
+                'domain' => $domain, 'active' => true], ['created'], true);
+        }
+        $this->asAdmin();
+        $targets = ['admin@example.com' => true, 'foo.com' => true, 'user@foo.com' => true,
+            'user@bar.com' => true, 'example.com' => false, 'other@example.com' => false];
+        foreach ($targets as $target => $allowed) {
+            $handler = new TotpexceptionHandler(1, 'admin@example.com', 1);
+            $this->assertTrue($handler->init(''));
+            $this->assertSame($allowed, $handler->set(['password_current' => 'admin-password',
+                'username' => $target, 'ip' => '192.0.2.20', 'description' => 'scope check']), $target);
+        }
+        $totp = new TotpPf('admin', new Login('admin'));
+        $this->assertTrue($totp->addException('admin@example.com', 'admin-password',
+            '192.0.2.21', 'admin@example.com', 'existing dedicated-page contract'));
+        $this->assertSame(['admin@example.com'], $this->storedUsernames());
     }
 
 }
