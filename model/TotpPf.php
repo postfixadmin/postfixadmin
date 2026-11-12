@@ -317,7 +317,7 @@ class TotpPf
             }
 
             // Ensure admin has access to the domain of the exception
-            if ($exception_username != $username && !in_array($Exception_domain, $domains)) {
+            if (!in_array($Exception_domain, $domains)) {
                 throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
             }
         } else {

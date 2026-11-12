@@ -211,7 +211,7 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], $this->storedUsernames());
     }
 
-    public function testAdminSelfExceptionDoesNotAuthorizeItsUnmanagedDomain(): void
+    public function testAdminCannotExemptSelfOutsideManagedDomains(): void
     {
         foreach (['foo.com', 'bar.com'] as $domain) {
             db_insert('domain', ['domain' => $domain, 'description' => 'managed',
@@ -220,7 +220,7 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
                 'domain' => $domain, 'active' => true], ['created'], true);
         }
         $this->asAdmin();
-        $targets = ['admin@example.com' => true, 'foo.com' => true, 'user@foo.com' => true,
+        $targets = ['admin@example.com' => false, 'foo.com' => true, 'user@foo.com' => true,
             'user@bar.com' => true, 'example.com' => false, 'other@example.com' => false];
         foreach ($targets as $target => $allowed) {
             $handler = new TotpexceptionHandler(1, 'admin@example.com', 1);
@@ -229,9 +229,45 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
                 'username' => $target, 'ip' => '192.0.2.20', 'description' => 'scope check']), $target);
         }
         $totp = new TotpPf('admin', new Login('admin'));
+        try {
+            $totp->addException('admin@example.com', 'admin-password',
+                '192.0.2.21', 'admin@example.com', 'unmanaged self exception');
+            $this->fail('An administrator must not exempt an unmanaged own login');
+        } catch (\Exception $e) {
+            $this->assertSame(Config::lang('pException_user_entire_domain_error'), $e->getMessage());
+        }
+        $this->assertSame([], $this->storedUsernames());
+    }
+
+    public function testAdminCanExemptSelfInManagedDomain(): void
+    {
+        db_insert('domain_admins', ['username' => 'admin@example.com',
+            'domain' => 'example.com', 'active' => true], ['created'], true);
+        $this->asAdmin();
+        $handler = new TotpexceptionHandler(1, 'admin@example.com', 1);
+        $this->assertTrue($handler->init(''));
+        $this->assertTrue($handler->set(['password_current' => 'admin-password',
+            'username' => 'admin@example.com', 'ip' => '192.0.2.22', 'description' => 'managed self']));
+        $this->assertTrue($handler->save());
+        $totp = new TotpPf('admin', new Login('admin'));
         $this->assertTrue($totp->addException('admin@example.com', 'admin-password',
-            '192.0.2.21', 'admin@example.com', 'existing dedicated-page contract'));
-        $this->assertSame(['admin@example.com'], $this->storedUsernames());
+            '192.0.2.23', 'admin@example.com', 'managed self via dedicated page'));
+        $this->assertSame(['admin@example.com', 'admin@example.com'], $this->storedUsernames());
+    }
+
+    public function testAdminCannotEditUnmanagedSelfExceptionByOmittingTarget(): void
+    {
+        db_insert('totp_exception_address', ['username' => 'admin@example.com',
+            'ip' => '192.0.2.24', 'description' => 'existing exception'], ['created', 'modified'], true);
+        $row = db_query_one('SELECT id FROM totp_exception_address');
+        $this->asAdmin();
+        $handler = new TotpexceptionHandler(0, 'admin@example.com', 1);
+        $this->assertTrue($handler->init((string)$row['id']));
+        foreach ([[], ['username' => null]] as $target) {
+            $this->assertFalse($handler->set($target + ['password_current' => 'admin-password', 'ip' => '192.0.2.25']));
+            $this->assertFalse($handler->save());
+        }
+        $this->assertSame('192.0.2.24', db_query_one('SELECT ip FROM totp_exception_address')['ip']);
     }
 
 }

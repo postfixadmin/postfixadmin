@@ -110,6 +110,10 @@ class TotpexceptionHandler extends PFAHandler
             $password = '';
         }
         $this->checkCurrentPassword($password);
+        // Partial edits must authorize the stored target as well as submitted targets.
+        if ($this->is_admin && !$this->new && !isset($values['username'])) {
+            $this->_validate_username('username', (string)($this->result['username'] ?? ''));
+        }
         if (!$this->is_admin) {
             $this->values['username'] = $this->username;
         }
@@ -183,11 +187,6 @@ class TotpexceptionHandler extends PFAHandler
 
         // Superadmins can set for anyone
         if ($this->is_superadmin) {
-            return true;
-        }
-
-        // Match TotpPf::addException(): an administrator may exempt their own login.
-        if ($value === $this->admin_username) {
             return true;
         }
 
