@@ -76,6 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $result = PasswordChangeAttempt::run($handler, $totppf, $tUsername, $tCode, safepost('fTOTP_code'), $fPassword, $fPassword2);
 
+        foreach ($result['errors'] as $msg) {
+            flash_error($msg);
+        }
+
         if ($result['success']) {
             // only reachable once the new password has actually been validated and
             // persisted, and the recovery code invalidated - see security report on
@@ -84,10 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             flash_info(Config::lang_f('pPassword_result_success', $tUsername));
             header('Location: main.php');
             exit(0);
-        } else {
-            foreach ($result['errors'] as $msg) {
-                flash_error($msg);
-            }
         }
     }
 }

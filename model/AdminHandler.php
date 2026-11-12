@@ -196,23 +196,23 @@ class AdminHandler extends PFAHandler
             if ($row['superadmin']) {
                 $db_result[$key]['domain_count'] = Config::lang('super_admin');
             }
-        }
+            # Render TOTP action
+            if (isset($this->struct['totp_action']) && is_string($row['username'])) {
 
-        # Render TOTP action
-        if (isset($this->struct['totp_action']) && is_string($row['username'])) {
+                $totp = new TotpPf('admin', new Login('admin'));
+                $has_totp = $totp->usesTOTP($row['username']);
 
-            $totp = new TotpPf('admin', new Login('admin'));
-            $has_totp = $totp->usesTOTP($row['username']);
-
-            if ($has_totp) {
-                $db_result[$key]['totp_action'] =
-                    '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
-                    htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
-                    '</button>';
-            } else {
-                $db_result[$key]['totp_action'] =
-                    htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+                if ($has_totp) {
+                    $db_result[$key]['totp_action'] =
+                        '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
+                        htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
+                        '</button>';
+                } else {
+                    $db_result[$key]['totp_action'] =
+                        htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+                }
             }
+
         }
 
         return $db_result;

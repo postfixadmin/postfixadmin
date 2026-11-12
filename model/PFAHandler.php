@@ -474,6 +474,10 @@ abstract class PFAHandler
                 }
             } else { # field is editable
                 if (isset($values[$key])) {
+                    if (($row['type'] === 'pass' || $row['type'] === 'b64p') && is_array($values[$key])) {
+                        $this->errormsg[$key] = Config::lang_f('invalid_value_given', $key);
+                        continue;
+                    }
                     if (
                         ($row['type'] != "pass" && $row['type'] != 'b64p') || # field  type is NOT 'pass' or 'b64p' - or -
                         strlen($values[$key]) > 0 ||    # new value is not empty - or -
@@ -710,17 +714,19 @@ abstract class PFAHandler
         $cols = join(',', $select_cols);
         $table = table_by_key($this->db_table);
 
-        $additional_where = '';
+        $restrictions = [];
         $params = [];
         if ($this->domain_field != "") {
-            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains, $params);
+            $restrictions[] = db_in_clause($this->domain_field, $this->allowed_domains, $params);
         }
 
         # if logged in as user, restrict to the items the user is allowed to see
         if ((!$this->is_admin) && $this->user_field != '') {
-            $additional_where .= " AND " . $this->user_field . " = :_user_field ";
+            $restrictions[] = $this->user_field . " = :_user_field";
             $params['_user_field'] = $this->username;
         }
+
+        $additional_where = $restrictions ? ' AND ' . join(' AND ', $restrictions) : '';
 
         if (is_array($condition)) {
             if (isset($condition['_']) && count($this->searchfields) > 0) {
@@ -735,10 +741,11 @@ abstract class PFAHandler
             }
             $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
         } else {
-            if ($condition == "") {
-                $condition = '1=1';
+            $where_parts = $restrictions;
+            if ($condition !== '') {
+                array_unshift($where_parts, "( $condition )");
             }
-            $where = " WHERE ( $condition ) $additional_where";
+            $where = $where_parts ? ' WHERE ' . join(' AND ', $where_parts) : '';
         }
 
         return array(
@@ -759,6 +766,9 @@ abstract class PFAHandler
     {
         if (is_array($condition)) {
             $condition = $this->filterSearchCondition($condition);
+            if ($condition === []) {
+                $condition = '';
+            }
         }
         $queryparts = $this->build_select_query($condition, $searchmode);
         return create_page_browser($this->label_field, $queryparts['from_where_order'], $queryparts['params'] ?? []);
@@ -884,6 +894,9 @@ abstract class PFAHandler
     {
         if (is_array($condition)) {
             $real_condition = $this->filterSearchCondition($condition);
+            if ($real_condition === []) {
+                $real_condition = '';
+            }
         } else {
             # warning: no sanity checks are applied if $condition is not an array!
             $real_condition = $condition;

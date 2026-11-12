@@ -10,10 +10,12 @@
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="password" name="fPassword_current"
                                                       id="fPassword_current"/></div>
             </div>
-            <div class="mb-3">
-                <label class="col-md-2 col-sm-2" for="fUser">{$PALANG.pTotp_exceptions_user}:</label>
-                <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fUser" id="fUser"/></div>
-            </div>
+            {if $authentication_has_role.admin || $authentication_has_role.global_admin}
+                <div class="mb-3">
+                    <label class="col-md-2 col-sm-2" for="fUser">{$PALANG.pTotp_exceptions_user}:</label>
+                    <div class="col-md-6 col-sm-8"><input class="form-control" type="text" name="fUser" id="fUser"/></div>
+                </div>
+            {/if}
             <div class="mb-3">
                 <label class="col-md-2 col-sm-2" for="fIp">{$PALANG.pTotp_exceptions_address}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fIp" id="fIp"/></div>
