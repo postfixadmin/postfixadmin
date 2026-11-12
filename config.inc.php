@@ -468,6 +468,10 @@ $CONF['vacation_control'] ='YES';
 // Set to 'YES' if your domain admins should be able to edit user vacation.
 $CONF['vacation_control_admin'] = 'YES';
 
+// Optional PHP Vacation INI file used by the web reply selector.
+// A declared [reply_intervals] section overrides the choices below.
+$CONF['vacation_config'] = '/etc/postfixadmin/vacation.ini';
+
 // ReplyType options
 // If you want to define additional reply options put them in array below.
 // The array has the format   seconds between replies => $PALANG text
@@ -478,6 +482,7 @@ $CONF['vacation_choice_of_reply'] = array (
    0 => 'reply_once',        // Sends only Once the message during Out of Office
    # considered annoying - only send a reply on every mail if you really need it
    # 1 => 'reply_every_mail',       // Reply on every email
+   60*60 *24*1 => 'reply_once_per_day',        // Reply if last autoreply was at least a day ago
    60*60 *24*7 => 'reply_once_per_week'        // Reply if last autoreply was at least a week ago
 );
 
