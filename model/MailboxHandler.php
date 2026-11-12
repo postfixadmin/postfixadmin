@@ -66,13 +66,16 @@ class MailboxHandler extends PFAHandler
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
-        # Admin-side TOTP management
+        # Compute status in the account query without exposing the secret or querying each row.
         if (Config::bool('totp') && !$this->new) {
             $this->struct['totp_action'] = self::pacol(
-                0, 1, 0, 'html', 'pUsersMenu_totp', '', '',
+                0, 1, 0, 'totp', 'pUsersMenu_totp', '', false,
                 array(),
-                /*not_in_db*/ 1,
-                /*dont_write_to_db*/ 1
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ "CASE WHEN active = '" . db_get_boolean(true) . "' AND totp_secret IS NOT NULL " .
+                    "AND LENGTH(totp_secret) > 0 AND NOT (LENGTH(totp_secret) = 1 AND totp_secret = '0') " .
+                    "THEN 1 ELSE 0 END AS totp_action"
             );
         }
 
@@ -260,21 +263,8 @@ class MailboxHandler extends PFAHandler
                     $db_result[$key]['password_expiry'] = $password_expiration_never_label;
                 }
             }
-            # Render TOTP action
-            if (isset($this->struct['totp_action']) && is_string($row['username'])) {
-
-                $totp = new TotpPf('mailbox', new Login('mailbox'));
-                $has_totp = $totp->usesTOTP($row['username']);
-
-                if ($has_totp) {
-                    $db_result[$key]['totp_action'] =
-                        '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
-                        htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
-                        '</button>';
-                } else {
-                    $db_result[$key]['totp_action'] =
-                        htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
-                }
+            if (isset($row['totp_action'])) {
+                $db_result[$key]['totp_action'] = (bool)$row['totp_action'];
             }
 
         }

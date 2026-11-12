@@ -17,7 +17,9 @@
                             <label class="col-md-4" for="{$key}">{$field.label}</label>
                             <div class="col-md-6 col-sm-8">
                                 {if $field.editable == 0}
-                                    {if $field.type == 'enma'}
+                                    {if $field.type == 'totp'}
+                                        {include file="_totp-action.tpl" has_totp=$value_{$key}}
+                                    {elseif $field.type == 'enma'}
                                         {$struct.{$key}.options.{$value_{$key}}}
                                     {else}
                                         {$value_{$key}}
