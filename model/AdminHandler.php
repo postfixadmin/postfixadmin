@@ -96,7 +96,7 @@ class AdminHandler extends PFAHandler
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'      , ''),
         );
         # Admin-side TOTP management
-        if (Config::bool('totp') && Config::bool('totp_allow_admin_reset') && !$this->new) {
+        if (Config::bool('totp') && !$this->new) {
             $this->struct['totp_action'] = self::pacol(
                 0, 1, 0, 'html', 'pUsersMenu_totp', '', '',
                 array(),

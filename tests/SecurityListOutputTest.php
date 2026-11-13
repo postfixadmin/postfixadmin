@@ -33,7 +33,6 @@ class SecurityListOutputTest extends TestCase
         self::assertTrue(mkdir($this->directory));
         $config = Config::getInstance()->getAll();
         $config['totp'] = 'YES';
-        $config['totp_allow_admin_reset'] = 'YES';
         $config['app_passwords'] = 'YES';
         $config['default_language'] = 'en';
         $config['language_hook'] = '';

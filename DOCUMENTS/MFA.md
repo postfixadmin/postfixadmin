@@ -7,19 +7,11 @@ MFA column only when its complete authorized search result contains such a
 mailbox. Pagination does not change the column's visibility. Inactive accounts
 retain their configured-MFA status. No secrets are included in these indicators.
 
-Administrative MFA reset through the web interface is enabled by default,
-preserving the existing behavior. To restrict administrative reset to the CLI,
-set this in `config.local.php`:
-
-```php
-$CONF['totp_allow_admin_reset'] = 'NO';
-```
-
-Existing permissions still apply: global administrators can reset administrator
-accounts; domain administrators can reset mailboxes within their managed domains.
-TOTP must also be enabled for the web reset action to be available. When web
-reset is disabled, direct reset requests are rejected as well as hiding the action.
-This setting does not affect account holders managing their own MFA.
+Administrative MFA reset through the web interface retains its existing
+permissions: global administrators can reset administrator accounts; domain
+administrators can reset mailboxes within their managed domains. TOTP must be
+enabled for the web reset action to be available. Account holders can still
+manage their own MFA.
 
 With local access to the installation, reset an existing account using:
 
@@ -28,7 +20,7 @@ scripts/postfixadmin-cli admin resetmfa admin@example.com
 scripts/postfixadmin-cli mailbox resetmfa user@example.com
 ```
 
-The CLI reset remains available when web reset or TOTP is disabled. It removes
+The CLI reset remains available when TOTP is disabled. It removes
 the stored TOTP secret, including for inactive accounts. The account holder can
 configure MFA again. As with the existing administrative web reset, this does
 not revoke application passwords or exceptions and does not invoke the mailbox

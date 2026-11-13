@@ -137,24 +137,12 @@ class TotpManagementHttpTest extends TestCase
     }
 
     #[DataProvider('accountTypes')]
-    public function testAdministrativeWebResetDefaultsToEnabledAndRespectsOptOutAndCsrf(string $table, string $role): void
+    public function testAdministrativeWebResetRetainsPermissionsAndCsrf(string $table, string $role): void
     {
         db_update($table, 'username', self::USERNAME, ['totp_secret' => self::SECRET]);
         db_insert('domain_admins', ['username' => self::USERNAME, 'domain' => self::DOMAIN, 'active' => true], ['created'], true);
         $token = $this->startSession('global-admin');
         $path = '/edit.php?table=' . $table . '&edit=' . urlencode(self::USERNAME);
-        [$status, $body] = $this->request($path);
-        self::assertSame(200, $status, $body);
-        self::assertStringContainsString('name="reset_totp"', $body);
-        $this->setHttpConfig('totp_allow_admin_reset', 'NO');
-        [$status, $body] = $this->request($path);
-        self::assertSame(200, $status, $body);
-        self::assertStringNotContainsString('name="reset_totp"', $body);
-        [$status] = $this->request($path, ['CSRF_Token' => $token, 'reset_totp' => '1']);
-        self::assertSame(403, $status);
-        self::assertSame(self::SECRET, $this->storedSecret($table));
-
-        $this->setHttpConfig('totp_allow_admin_reset', 'YES');
         [$status, $body] = $this->request($path);
         self::assertSame(200, $status, $body);
         self::assertStringContainsString('name="reset_totp"', $body);
@@ -176,7 +164,6 @@ class TotpManagementHttpTest extends TestCase
 
     public function testDomainAdminCannotResetAnUnmanagedMailbox(): void
     {
-        $this->setHttpConfig('totp_allow_admin_reset', 'YES');
         db_update('mailbox', 'username', self::USERNAME, ['totp_secret' => self::SECRET]);
         $token = $this->startSession('admin');
         [$status] = $this->request('/edit.php?table=mailbox&edit=' . urlencode(self::USERNAME), ['CSRF_Token' => $token, 'reset_totp' => '1']);
@@ -215,14 +202,6 @@ class TotpManagementHttpTest extends TestCase
         [$status, $body] = $this->request('/list.php?table=domain');
         self::assertSame(200, $status, $body);
         self::assertStringNotContainsString('badge text-bg-success">MFA</span>', $body);
-    }
-
-    private function setHttpConfig(string $key, $value): void
-    {
-        $path = $this->directory . '/config.json';
-        $config = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
-        $config[$key] = $value;
-        file_put_contents($path, json_encode($config, JSON_THROW_ON_ERROR));
     }
 
     private function currentCode(string $secret): string

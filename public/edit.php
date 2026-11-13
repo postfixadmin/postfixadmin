@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     # Reset TOTP secret (mailbox/admin edit by Admin)
     if (safepost('reset_totp') === '1') {
-        if (!$is_admin || !Config::bool('totp_allow_admin_reset')) {
+        if (!$is_admin) {
             http_response_code(403);
             exit(Config::lang('invalid_parameter'));
         }

@@ -63,25 +63,20 @@ class MfaStatusTest extends \PHPUnit\Framework\TestCase
         self::assertArrayNotHasKey('mfa-hidden.example', $rows);
     }
 
-    public function testResetActionDefaultsToEnabledAndCanBeDisabled(): void
+    public function testResetActionRetainsExistingBehavior(): void
     {
         foreach ([AdminHandler::class, MailboxHandler::class] as $class) {
             self::assertArrayHasKey('totp_action', (new $class())->getStruct());
-            Config::write('totp_allow_admin_reset', 'NO');
-            self::assertArrayNotHasKey('totp_action', (new $class())->getStruct());
-            Config::write('totp_allow_admin_reset', 'YES');
             db_update($class === AdminHandler::class ? 'admin' : 'mailbox', 'username', 'yes@mfa-visible.example', ['active' => true]);
             $handler = new $class();
             self::assertTrue($handler->init('yes@mfa-visible.example'));
             self::assertStringContainsString('name="reset_totp"', $handler->result()['totp_action']);
             self::assertArrayNotHasKey('totp_action', (new $class(1))->getStruct());
-            Config::write('totp_allow_admin_reset', 'YES');
         }
     }
 
-    public function testCliResetWorksWithWebResetAndTotpDisabled(): void
+    public function testCliResetWorksWithTotpDisabled(): void
     {
-        Config::write('totp_allow_admin_reset', 'NO');
         Config::write('totp', 'NO');
         foreach ([AdminHandler::class => 'admin', MailboxHandler::class => 'mailbox'] as $class => $table) {
             $dispatch = (object)['params' => [], 'args' => ['YES@mfa-visible.example'], 'shell' => $table, 'shellCommand' => 'resetmfa'];

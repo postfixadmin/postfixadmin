@@ -8,7 +8,7 @@
 
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
-   - Show configured MFA in administrator, domain and mailbox lists; allow disabling administrative web MFA reset and add the admin/mailbox resetmfa CLI task.
+   - Show configured MFA in administrator, domain and mailbox lists; add the admin/mailbox resetmfa CLI task.
    - Follow up security search filtering, password-recovery messages and password confirmation for TOTP exception forms.
    - Populate TOTP actions for each returned administrator or mailbox and handle empty account lists.
    - Open expanded navigation dropdowns on mouse hover while retaining click, touch and keyboard controls.
