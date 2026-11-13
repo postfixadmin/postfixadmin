@@ -49,6 +49,10 @@ if (empty($job) || !BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_g
     exit;
 }
 
+if (in_array($job['status'], BroadcastQueue::activeStatuses(), true)) {
+    header('Refresh: 5');
+}
+
 $smarty->assign('broadcast_job', $job);
 $broadcastDomains = BroadcastQueue::getJobDomains($jobId);
 $smarty->assign('broadcast_domains', $broadcastDomains);
