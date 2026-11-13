@@ -7,6 +7,8 @@
  */
 class MailboxHandler extends PFAHandler
 {
+    public array $taskNames = ['Help', 'Add', 'Update', 'Delete', 'View', 'Scheme', 'Resetmfa'];
+
     protected string $db_table = 'mailbox';
     protected string $id_field = 'username';
     protected ?string $domain_field = 'domain';

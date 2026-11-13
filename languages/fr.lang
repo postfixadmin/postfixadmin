@@ -7,6 +7,7 @@ $PALANG['dns_active'] = 'DNS actif';
 $PALANG['dns_inactive'] = 'DNS inactif';
 
 $PALANG['search_mailboxes_aliases'] = 'Rechercher les boîtes aux lettres et alias...';
+$PALANG['mfa'] = 'MFA'; # XXX
 # $Id$
 //
 // Language file French

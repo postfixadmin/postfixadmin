@@ -129,11 +129,14 @@
                                         <a href="list-virtual.php?domain={$item.target_domain|escape:"quotes"}">{$item.target_domain}</a>
                                         {* do we need escape:url or escpae:quotes here? see #705 *}
                                     {elseif $table == 'domain' && $key == 'domain'}
-                                        {$linktext} {if $item.full_mailbox_count > 0}<span class="text-danger">({$item.full_mailbox_count})</span>{/if}
+                                        {$linktext} {if isset($item.mfa) && $item.mfa}<span class="badge text-bg-success">{$PALANG.mfa}</span>{/if}
+                                        {if $item.full_mailbox_count > 0}<span class="text-danger">({$item.full_mailbox_count})</span>{/if}
                                         {if $dns_check_mode > 0 && isset($item.dns_active) && $item.dns_active == 0}<span class="bi bi-exclamation-triangle text-danger" role="img" aria-label="Inactive DNS" title="Inactive DNS"></span>{/if}
                                         {*                    {elseif $table == 'domain' && $key == 'domain'}
                                                                 <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
                                         *}
+                                    {elseif $key == 'mfa'}
+                                        {if $item.mfa}{$PALANG.YES}{else}{$PALANG.NO}{/if}
                                     {elseif $key == 'active'}
                                         {if $item._can_edit}
                                             <a class="btn btn-sm btn-{if ($item.active==0)}info{else}warning{/if} list-action-icon" title="{$field.label}: {$item._active}" aria-label="{$field.label}: {$item._active}"

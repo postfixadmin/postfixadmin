@@ -33,6 +33,7 @@
             <th class="text-center text-nowrap">{$PALANG.password}</th>
         {/if}
         <th>{$PALANG.active}</th>
+        {if $show_mailbox_mfa|default:false}<th>{$PALANG.mfa}</th>{/if}
         {if $CONF.smtp_active_flag===YES}
             <th>{$PALANG.smtp_active}</th>{/if}
         {assign var="colspan" value="`$colspan-6`"}
@@ -123,6 +124,7 @@
                             {else}
                             <span class="bi bi-square" aria-hidden="true"></span>
                             {/if}</a></td>
+                {if $show_mailbox_mfa|default:false}<td>{if $item.mfa}{$PALANG.YES}{else}{$PALANG.NO}{/if}</td>{/if}
                 {if $CONF.smtp_active_flag===YES}
                     <td><a class="btn btn-sm btn-{if ($item.smtp_active==0)}info{else}warning{/if} list-action-icon" title="{$PALANG.smtp_active}: {if $item.smtp_active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}" aria-label="{$PALANG.smtp_active}: {if $item.smtp_active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}"
                         href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.smtp_active==0)}1{else}0{/if}&amp;field=smtp_active&amp;token={CSRF_Token type="url"}"

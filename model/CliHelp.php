@@ -61,6 +61,10 @@ class CliHelp extends Shell
                         "\t\tA address of recipient.\n",
         );
 
+        if (in_array($this->handler_to_use, [AdminHandler::class, MailboxHandler::class], true)) {
+            $this->out("    resetmfa <address>    Reset MFA for an existing account.\n");
+        }
+
         foreach ($commands as $cmd) {
             $this->out("{$cmd}\n\n");
         }

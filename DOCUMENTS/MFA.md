@@ -1,0 +1,28 @@
+# MFA status and administrative reset
+
+The administrator list shows whether each account has an MFA secret configured.
+The domain list marks a domain with an MFA badge when at least one of its
+mailboxes has a configured secret. The mailbox list shows a translated Yes/No
+MFA column only when its complete authorized search result contains such a
+mailbox. Pagination does not change the column's visibility. Inactive accounts
+retain their configured-MFA status. No secrets are included in these indicators.
+
+Administrative MFA reset through the web interface retains its existing
+permissions: global administrators can reset administrator accounts; domain
+administrators can reset mailboxes within their managed domains. TOTP must be
+enabled for the web reset action to be available. Account holders can still
+manage their own MFA.
+
+With local access to the installation, reset an existing account using:
+
+```sh
+scripts/postfixadmin-cli admin resetmfa admin@example.com
+scripts/postfixadmin-cli mailbox resetmfa user@example.com
+```
+
+The CLI reset remains available when TOTP is disabled. It removes
+the stored TOTP secret, including for inactive accounts. The account holder can
+configure MFA again. As with the existing administrative web reset, this does
+not revoke application passwords or exceptions and does not invoke the mailbox
+TOTP-change hook. Reset commands must be run by someone authorized to administer
+the installation and with access to its configuration and database.
