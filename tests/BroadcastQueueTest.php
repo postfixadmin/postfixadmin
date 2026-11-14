@@ -154,6 +154,10 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('cancelled', BroadcastQueue::getJob($jobId)['status']);
         $this->assertSame(['unknown', 'cancelled'], array_column(BroadcastQueue::getRecipients($jobId), 'status'));
         $this->assertSame(1, BroadcastQueue::getUnknownCount($jobId));
+        $unknown = BroadcastQueue::getUnknownRecipients($jobId)[0];
+        $this->assertTrue(BroadcastQueue::resolveUnknown($jobId, (int)$unknown['id'], 'retry'));
+        $this->assertSame('pending', BroadcastQueue::getJob($jobId)['status']);
+        $this->assertSame('finished', BroadcastQueue::processNext(1, true, $jobId)['status']);
     }
 
     public function testCancelWhileBatchRunningLeavesJobCancelling(): void
@@ -225,6 +229,38 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $statuses = array_column(BroadcastQueue::getRecipients($first), 'status');
         $this->assertSame(['unknown', 'sent'], $statuses);
         $this->assertSame('Message-ID: <test@invalid>', BroadcastQueue::getRecipients($first)[0]['smtp_response']);
+    }
+
+    public function testResolveUnknownRecipientsIndividually(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'Review',
+            'Body',
+            [$this->domains[0]],
+            true,
+            ["one@{$this->domains[0]}", "two@{$this->domains[0]}"]
+        );
+        $recipientTable = table_by_key('broadcast_recipient');
+        $jobTable = table_by_key('broadcast_job');
+        db_execute("UPDATE $recipientTable SET status = 'unknown', smtp_response = 'Message-ID: <test@invalid>' WHERE job_id = :job_id", ['job_id' => $jobId]);
+        db_execute("UPDATE $jobTable SET status = 'finished' WHERE id = :id", ['id' => $jobId]);
+        $recipients = BroadcastQueue::getUnknownRecipients($jobId);
+        $this->assertCount(2, $recipients);
+
+        $this->assertFalse(BroadcastQueue::resolveUnknown($jobId, (int)$recipients[0]['id'], 'retry', [], false, 'other@example.test'));
+        $this->assertTrue(BroadcastQueue::resolveUnknown($jobId, (int)$recipients[0]['id'], 'retry', $this->domains, false, 'admin@example.test'));
+        $this->assertSame('pending', BroadcastQueue::getJob($jobId)['status']);
+        $this->assertTrue(BroadcastQueue::resolveUnknown($jobId, (int)$recipients[1]['id'], 'discard', $this->domains, false, 'admin@example.test'));
+        $this->assertSame(0, BroadcastQueue::getUnknownCount($jobId));
+        $this->assertSame(1, (int)BroadcastQueue::getJob($jobId)['cancelled_count']);
+
+        $result = BroadcastQueue::processNext(1, true, $jobId);
+        $this->assertSame('finished', $result['status']);
+        $this->assertSame(['sent', 'cancelled'], array_column(BroadcastQueue::getRecipients($jobId), 'status'));
     }
 
     public function testWorkerModeControlsDefaultProcessing(): void

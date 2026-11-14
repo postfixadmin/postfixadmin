@@ -105,6 +105,53 @@
     </script>
 {/if}
 
+{if $broadcast_unknown_count > 0}
+<div class="card mt-4">
+    <div class="card-header"><h4>{$PALANG.broadcast_unknown}</h4></div>
+    <div class="card-body">
+        <p id="broadcast-retry-warning" class="alert alert-warning">{$PALANG.broadcast_unknown_warning}</p>
+        <div class="table-responsive">
+            <table class="table table-striped table-sm">
+                <tbody>
+                {foreach from=$broadcast_unknown_recipients item=recipient}
+                    <tr>
+                        <td>{$recipient.recipient|escape}</td>
+                        <td>{$recipient.smtp_response|escape}</td>
+                        <td>
+                            <form method="post" action="broadcast-status.php" class="d-inline broadcast-retry-form">
+                                {CSRF_Token}
+                                <input type="hidden" name="job_id" value="{$broadcast_job.id}"/>
+                                <input type="hidden" name="recipient_id" value="{$recipient.id}"/>
+                                <button type="submit" name="action" value="retry" class="btn btn-sm btn-warning">{$PALANG.broadcast_retry}</button>
+                            </form>
+                            <form method="post" action="broadcast-status.php" class="d-inline">
+                                {CSRF_Token}
+                                <input type="hidden" name="job_id" value="{$broadcast_job.id}"/>
+                                <input type="hidden" name="recipient_id" value="{$recipient.id}"/>
+                                <button type="submit" name="action" value="discard" class="btn btn-sm btn-outline-danger">{$PALANG.broadcast_discard}</button>
+                            </form>
+                        </td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const warning = document.getElementById('broadcast-retry-warning').textContent;
+    document.querySelectorAll('.broadcast-retry-form').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!window.confirm(warning)) {
+                event.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{/if}
+
 <div class="card mt-4">
     <div class="card-header"><h4>{$PALANG.broadcast_report}</h4></div>
     <div class="card-body">

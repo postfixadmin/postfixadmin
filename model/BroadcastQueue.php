@@ -222,6 +222,75 @@ class BroadcastQueue
         return (int)$row['count'];
     }
 
+    public static function getUnknownRecipients(int $jobId): array
+    {
+        $recipientTable = table_by_key('broadcast_recipient');
+        return db_query_all(
+            "SELECT id, recipient, smtp_response FROM $recipientTable WHERE job_id = :job_id AND status = 'unknown' ORDER BY id",
+            ['job_id' => $jobId]
+        );
+    }
+
+    public static function resolveUnknown(int $jobId, int $recipientId, string $action, array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): bool
+    {
+        if (!in_array($action, ['retry', 'discard'], true)) {
+            return false;
+        }
+        $job = self::getJob($jobId);
+        if (!self::canManageJob($job, $allowedDomains, $globalAdmin, $username)) {
+            return false;
+        }
+        $recipientTable = table_by_key('broadcast_recipient');
+        $jobTable = table_by_key('broadcast_job');
+        $recipient = db_query_one(
+            "SELECT smtp_response FROM $recipientTable WHERE id = :id AND job_id = :job_id AND status = 'unknown'",
+            ['id' => $recipientId, 'job_id' => $jobId]
+        );
+        if (empty($recipient)) {
+            return false;
+        }
+        if ($action === 'retry') {
+            if ($job['status'] === 'cancelling') {
+                return false;
+            }
+            $busy = self::getBusyDomains(self::getJobDomains($jobId));
+            if (!empty($busy) && !in_array($job['status'], self::activeStatuses(), true)) {
+                return false;
+            }
+        }
+
+        $pdo = db_connect();
+        $pdo->beginTransaction();
+        try {
+            if ($action === 'retry') {
+                db_execute(
+                    "UPDATE $recipientTable SET status = 'pending', error = NULL, smtp_response = NULL, modified = " . self::nowSql() . " WHERE id = :id AND job_id = :job_id AND status = 'unknown'",
+                    ['id' => $recipientId, 'job_id' => $jobId],
+                    true
+                );
+                db_execute(
+                    "UPDATE $jobTable SET status = 'pending', cancel_requested = 0, modified = " . self::nowSql() . " WHERE id = :id AND status IN ('finished', 'cancelled')",
+                    ['id' => $jobId],
+                    true
+                );
+            } else {
+                db_execute(
+                    "UPDATE $recipientTable SET status = 'cancelled', error = NULL, modified = " . self::nowSql() . " WHERE id = :id AND job_id = :job_id AND status = 'unknown'",
+                    ['id' => $recipientId, 'job_id' => $jobId],
+                    true
+                );
+            }
+            self::updateCounters($jobId, true);
+            $pdo->commit();
+        } catch (Throwable $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
+        $reference = $recipient['smtp_response'] ?: 'no Message-ID recorded';
+        error_log("PostfixAdmin broadcast: job $jobId recipient $recipientId ($reference) manually $action");
+        return true;
+    }
+
     public static function getRecipients(int $jobId, int $limit = 200): array
     {
         $recipientTable = table_by_key('broadcast_recipient');
@@ -467,7 +536,7 @@ class BroadcastQueue
         }
     }
 
-    private static function updateCounters(int $jobId): void
+    private static function updateCounters(int $jobId, bool $throwExceptions = false): void
     {
         $jobTable = table_by_key('broadcast_job');
         $recipientTable = table_by_key('broadcast_recipient');
@@ -480,7 +549,7 @@ class BroadcastQueue
             }
         }
 
-        db_execute("UPDATE $jobTable SET sent_count = :sent, failed_count = :failed, cancelled_count = :cancelled, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $jobId, 'sent' => $counts['sent'], 'failed' => $counts['failed'], 'cancelled' => $counts['cancelled']]);
+        db_execute("UPDATE $jobTable SET sent_count = :sent, failed_count = :failed, cancelled_count = :cancelled, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $jobId, 'sent' => $counts['sent'], 'failed' => $counts['failed'], 'cancelled' => $counts['cancelled']], $throwExceptions);
     }
 
     private static function nowSql(): string

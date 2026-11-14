@@ -24,6 +24,28 @@ $allowed_domains = list_domains_for_admin($username);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     CsrfToken::assertValid(safepost('CSRF_Token'));
 
+    if (in_array(safepost('action'), ['retry', 'discard'], true)) {
+        $jobId = (int)safepost('job_id');
+        if (!BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_global_admin, $username)) {
+            http_response_code(403);
+            exit;
+        }
+        $lock = BroadcastQueue::acquireProcessLock();
+        if ($lock === null) {
+            flash_error($PALANG['broadcast_unknown_action_failed']);
+        } else {
+            try {
+                if (!BroadcastQueue::resolveUnknown($jobId, (int)safepost('recipient_id'), safepost('action'), $allowed_domains, $is_global_admin, $username)) {
+                    flash_error($PALANG['broadcast_unknown_action_failed']);
+                }
+            } finally {
+                BroadcastQueue::releaseProcessLock($lock);
+            }
+        }
+        header("Location: broadcast-status.php?id=" . $jobId);
+        exit;
+    }
+
     if (safepost('action') === 'process') {
         $jobId = (int)safepost('job_id');
         if (!BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_global_admin, $username)) {
@@ -94,6 +116,7 @@ $smarty->assign('broadcast_domains', $broadcastDomains);
 $smarty->assign('broadcast_domains_text', implode(', ', $broadcastDomains));
 $smarty->assign('broadcast_recipients', BroadcastQueue::getRecipients($jobId));
 $smarty->assign('broadcast_unknown_count', BroadcastQueue::getUnknownCount($jobId));
+$smarty->assign('broadcast_unknown_recipients', BroadcastQueue::getUnknownRecipients($jobId));
 $smarty->assign('broadcast_active_statuses', BroadcastQueue::activeStatuses());
 $smarty->assign('smarty_template', 'broadcast-status');
 $smarty->display('index.tpl');
