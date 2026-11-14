@@ -215,6 +215,13 @@ class BroadcastQueue
         return count(array_diff($jobDomains, $allowedDomains)) === 0;
     }
 
+    public static function getUnknownCount(int $jobId): int
+    {
+        $recipientTable = table_by_key('broadcast_recipient');
+        $row = db_query_one("SELECT COUNT(*) AS count FROM $recipientTable WHERE job_id = :job_id AND status = 'unknown'", ['job_id' => $jobId]);
+        return (int)$row['count'];
+    }
+
     public static function getRecipients(int $jobId, int $limit = 200): array
     {
         $recipientTable = table_by_key('broadcast_recipient');
@@ -240,11 +247,10 @@ class BroadcastQueue
         $statusWhere = db_in_clause('status', self::activeStatuses(), $params);
         db_execute("UPDATE $jobTable SET status = 'cancelling', cancel_requested = 1, modified = " . self::nowSql() . " WHERE id = :id AND $statusWhere", $params);
 
-        // A running worker notices the flag and finalises the job itself. If no
-        // worker is running (e.g. it could not be started), nothing would ever pick
-        // the request up, so finalise the cancellation straight away.
+        // An active batch notices the flag and finalises the job itself. If no
+        // batch is running, finalise the cancellation immediately.
         if ($finaliseIfIdle) {
-            $lock = self::acquireWorkerLock();
+            $lock = self::acquireProcessLock();
             if ($lock !== null) {
                 try {
                     $fresh = self::getJob($jobId);
@@ -252,7 +258,7 @@ class BroadcastQueue
                         self::cancelPending($jobId);
                     }
                 } finally {
-                    self::releaseWorkerLock($lock);
+                    self::releaseProcessLock($lock);
                 }
             }
         }
@@ -261,15 +267,15 @@ class BroadcastQueue
     }
 
     /**
-     * Try to take the (non-blocking) worker lock.
+     * Try to take the (non-blocking) processing lock.
      *
-     * @return resource|null the lock handle, or null if another worker holds it
+     * @return resource|null the lock handle, or null if another batch holds it
      */
-    public static function acquireWorkerLock()
+    public static function acquireProcessLock()
     {
-        $path = sys_get_temp_dir() . '/postfixadmin-broadcast-worker.lock';
+        $path = sys_get_temp_dir() . '/postfixadmin-broadcast-queue.lock';
         if (file_exists($path) ? !is_writable($path) : !is_writable(dirname($path))) {
-            error_log("PostfixAdmin broadcast: cannot write worker lock file $path");
+            error_log("PostfixAdmin broadcast: cannot write processing lock file $path");
             return null;
         }
 
@@ -287,7 +293,7 @@ class BroadcastQueue
     /**
      * @param resource $lock
      */
-    public static function releaseWorkerLock($lock): void
+    public static function releaseProcessLock($lock): void
     {
         flock($lock, LOCK_UN);
         fclose($lock);
@@ -330,77 +336,28 @@ class BroadcastQueue
         db_execute("DELETE FROM $jobTable WHERE $idWhere", $params);
     }
 
-    public static function startWorker(int $limit = 50): bool
+    public static function recoverInterrupted(int $jobId): void
     {
-        $script = dirname(__DIR__) . '/scripts/broadcast-worker.php';
-        $php = self::phpCliBinary();
-
-        if ($php === null) {
-            error_log("PostfixAdmin broadcast: no PHP CLI found to start $script ");
-            return false;
+        $recipientTable = table_by_key('broadcast_recipient');
+        $interrupted = db_query_all(
+            "SELECT id, smtp_response FROM $recipientTable WHERE job_id = :job_id AND status = 'sending'",
+            ['job_id' => $jobId]
+        );
+        if (empty($interrupted)) {
+            return;
         }
-
-        if (!is_file($script)) {
-            error_log("PostfixAdmin broadcast: worker script $script not found");
-            return false;
+        db_execute(
+            "UPDATE $recipientTable SET status = 'unknown', error = :error, modified = " . self::nowSql() . " WHERE job_id = :job_id AND status = 'sending'",
+            ['job_id' => $jobId, 'error' => 'Submission interrupted; check SMTP logs before deciding whether to resend']
+        );
+        foreach ($interrupted as $recipient) {
+            $reference = $recipient['smtp_response'] ?: 'no Message-ID recorded';
+            error_log("PostfixAdmin broadcast: job $jobId recipient {$recipient['id']} ($reference) has an unknown SMTP result; check SMTP logs before any manual retry");
         }
-
-        $limit = max(1, min($limit, 500));
-
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $cmd = 'start /B "" ' . escapeshellarg($php) . ' ' . escapeshellarg($script) . ' --limit=' . $limit;
-        } else {
-            $cmd = escapeshellarg($php) . ' ' . escapeshellarg($script) . ' --limit=' . $limit . ' > /dev/null 2>&1 < /dev/null &';
-        }
-
-        $handle = popen($cmd, 'r');
-        if ($handle === false) {
-            return false;
-        }
-
-        return pclose($handle) === 0;
+        self::updateCounters($jobId);
     }
 
-    /**
-     * Locate a PHP CLI binary to run the worker with.
-     *
-     * PHP_BINARY can't be relied on from a web request: under mod_php it is an
-     * empty string, and under PHP-FPM it points at the php-fpm daemon rather than
-     * the CLI. Allow an explicit $CONF['broadcast_php_cli'], otherwise look next to
-     * the running PHP's bindir.
-     */
-    public static function phpCliBinary(): ?string
-    {
-        $configured = Config::has('broadcast_php_cli') ? trim((string)Config::read('broadcast_php_cli')) : '';
-        if ($configured !== '') {
-            if (is_file($configured) && is_executable($configured)) {
-                return $configured;
-            }
-            error_log("PostfixAdmin broadcast: \$CONF['broadcast_php_cli'] ($configured) is not an executable file; cannot start the broadcast worker");
-            return null;
-        }
-
-        $candidates = [];
-        if (PHP_SAPI === 'cli' && PHP_BINARY !== '') {
-            $candidates[] = PHP_BINARY;
-        }
-        $versioned = 'php' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-        foreach ([PHP_BINDIR, '/usr/bin', '/usr/local/bin'] as $dir) {
-            $candidates[] = $dir . '/' . $versioned;
-            $candidates[] = $dir . '/php';
-        }
-
-        foreach ($candidates as $candidate) {
-            if (is_file($candidate) && is_executable($candidate)) {
-                return $candidate;
-            }
-        }
-
-        error_log("PostfixAdmin broadcast: no PHP CLI binary found (tried " . implode(', ', array_unique($candidates)) . "); set \$CONF['broadcast_php_cli'] to start the broadcast worker");
-        return null;
-    }
-
-    public static function processNext(int $limit = 50, ?bool $dryRun = null): array
+    public static function processNext(int $limit = 50, ?bool $dryRun = null, ?int $jobId = null): array
     {
         $dryRun = $dryRun ?? self::isDryRunMode();
         $jobTable = table_by_key('broadcast_job');
@@ -409,7 +366,9 @@ class BroadcastQueue
         $sent = 0;
         $failed = 0;
 
-        $job = db_query_one("SELECT * FROM $jobTable WHERE status IN ('pending', 'running', 'cancelling') ORDER BY id ASC LIMIT 1");
+        $job = $jobId === null
+            ? db_query_one("SELECT * FROM $jobTable WHERE status IN ('pending', 'running', 'cancelling') ORDER BY id ASC LIMIT 1")
+            : db_query_one("SELECT * FROM $jobTable WHERE id = :id AND status IN ('pending', 'running', 'cancelling')", ['id' => $jobId]);
         if (empty($job)) {
             return ['job_id' => 0, 'processed' => 0, 'sent' => 0, 'failed' => 0, 'status' => 'idle'];
         }
@@ -434,11 +393,12 @@ class BroadcastQueue
 
             $recipientId = (int)$item['id'];
             $recipient = $item['recipient'];
-            db_execute("UPDATE $recipientTable SET status = 'sending', modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId]);
+            $messageId = '<broadcast-' . $jobId . '-' . $recipientId . '-' . bin2hex(random_bytes(8)) . '@' . php_uname('n') . '>';
+            db_execute("UPDATE $recipientTable SET status = 'sending', smtp_response = :message_id, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'message_id' => 'Message-ID: ' . $messageId]);
 
-            $ok = $dryRun ? true : self::sendRecipient($job, $recipient);
+            $ok = $dryRun ? true : self::sendRecipient($job, $recipient, $messageId);
             if ($ok) {
-                db_execute("UPDATE $recipientTable SET status = 'sent', smtp_response = :response, sent_at = " . self::nowSql() . ", modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'response' => $dryRun ? 'dry-run' : 'accepted by SMTP']);
+                db_execute("UPDATE $recipientTable SET status = 'sent', smtp_response = :response, sent_at = " . self::nowSql() . ", modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'response' => ($dryRun ? 'dry-run; ' : 'accepted by SMTP; ') . 'Message-ID: ' . $messageId]);
                 $sent++;
             } else {
                 db_execute("UPDATE $recipientTable SET status = 'failed', error = :error, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'error' => 'SMTP submission failed']);
@@ -449,13 +409,18 @@ class BroadcastQueue
             self::updateCounters($jobId);
         }
 
-        self::finishIfDone($jobId);
+        $freshJob = self::getJob($jobId);
+        if (!empty($freshJob) && (int)$freshJob['cancel_requested'] === 1) {
+            self::cancelPending($jobId);
+        } else {
+            self::finishIfDone($jobId);
+        }
         $finalJob = self::getJob($jobId);
 
         return ['job_id' => $jobId, 'processed' => $processed, 'sent' => $sent, 'failed' => $failed, 'status' => $finalJob['status'] ?? 'unknown'];
     }
 
-    private static function sendRecipient(array $job, string $recipient): bool
+    private static function sendRecipient(array $job, string $recipient, string $messageId): bool
     {
         if (self::hasLineBreak($recipient)) {
             return false;
@@ -466,8 +431,6 @@ class BroadcastQueue
         $name = mb_encode_mimeheader(self::headerValue($job['sender_name']), 'UTF-8', 'Q');
         $subject = mb_encode_mimeheader(self::headerValue($job['subject']), 'UTF-8', 'Q');
         $message = chunk_split(base64_encode($job['body']));
-        $serverName = php_uname('n');
-
         $headers = 'To: ' . $recipient . "\n";
         $headers .= 'From: ' . $name . ' <' . $sender . ">\n";
         $headers .= 'Subject: ' . $subject . "\n";
@@ -475,7 +438,7 @@ class BroadcastQueue
         $headers .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
         $headers .= 'Content-Transfer-Encoding: base64' . "\n";
         $headers .= 'Date: ' . date('r', time()) . "\n";
-        $headers .= 'Message-ID: <' . ((string)microtime(true)) . '-' . md5($sender . $recipient) . "@{$serverName}>\n\n";
+        $headers .= 'Message-ID: ' . $messageId . "\n\n";
         $headers .= $message;
 
         return smtp_mail($recipient, $sender, $headers);
@@ -486,7 +449,8 @@ class BroadcastQueue
         $jobTable = table_by_key('broadcast_job');
         $recipientTable = table_by_key('broadcast_recipient');
 
-        db_execute("UPDATE $recipientTable SET status = 'cancelled', modified = " . self::nowSql() . " WHERE job_id = :job_id AND status IN ('pending', 'sending')", ['job_id' => $jobId]);
+        self::recoverInterrupted($jobId);
+        db_execute("UPDATE $recipientTable SET status = 'cancelled', modified = " . self::nowSql() . " WHERE job_id = :job_id AND status = 'pending'", ['job_id' => $jobId]);
         self::updateCounters($jobId);
         db_execute("UPDATE $jobTable SET status = 'cancelled', finished = " . self::nowSql() . ", modified = " . self::nowSql() . " WHERE id = :id", ['id' => $jobId]);
     }

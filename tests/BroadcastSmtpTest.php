@@ -50,7 +50,7 @@ class BroadcastSmtpTest extends TestCase
                 'body' => "Broadcast fixture body\nUTF-8: \u{00F1}",
             ];
             $method = new ReflectionMethod(BroadcastQueue::class, 'sendRecipient');
-            $this->assertTrue($method->invoke(null, $job, 'recipient@example.invalid'));
+            $this->assertTrue($method->invoke(null, $job, 'recipient@example.invalid', '<broadcast-test@example.invalid>'));
 
             $capture = json_decode(stream_get_contents($pipes[1]), true, 512, JSON_THROW_ON_ERROR);
             $this->assertSame($password === '' ? '' : base64_encode('fixture-user'), $capture['auth_user']);
@@ -59,6 +59,7 @@ class BroadcastSmtpTest extends TestCase
             $this->assertStringContainsString('<sender@example.invalid>', $capture['data']);
             $this->assertStringContainsString('Subject: ' . $job['subject'], $capture['data']);
             $this->assertStringContainsString('Content-Type: text/plain; charset=UTF-8', $capture['data']);
+            $this->assertStringContainsString('Message-ID: <broadcast-test@example.invalid>', $capture['data']);
             $parts = preg_split('/\r?\n\r?\n/', $capture['data'], 2);
             $this->assertCount(2, $parts);
             $this->assertSame($job['body'], base64_decode(trim($parts[1]), true));

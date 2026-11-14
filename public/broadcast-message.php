@@ -102,10 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $recipients
                 );
 
-                if (!BroadcastQueue::startWorker()) {
-                    flash_error($PALANG['broadcast_worker_start_failed']);
-                }
-
                 flash_info(Config::lang_f('broadcast_queued', (string)$jobId));
                 header("Location: broadcast-status.php?id=" . $jobId);
                 exit;

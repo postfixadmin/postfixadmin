@@ -24,6 +24,45 @@ $allowed_domains = list_domains_for_admin($username);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     CsrfToken::assertValid(safepost('CSRF_Token'));
 
+    if (safepost('action') === 'process') {
+        $jobId = (int)safepost('job_id');
+        if (!BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_global_admin, $username)) {
+            http_response_code(403);
+            exit;
+        }
+        $lock = BroadcastQueue::acquireProcessLock();
+        if ($lock === null) {
+            if (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') === false) {
+                header("Location: broadcast-status.php?id=" . $jobId);
+                exit;
+            }
+            header('Content-Type: application/json');
+            echo json_encode(['busy' => true]);
+            exit;
+        }
+        try {
+            BroadcastQueue::recoverInterrupted($jobId);
+            $result = BroadcastQueue::processNext(1, null, $jobId);
+            $job = BroadcastQueue::getJob($jobId);
+        } finally {
+            BroadcastQueue::releaseProcessLock($lock);
+        }
+        if (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') === false) {
+            header("Location: broadcast-status.php?id=" . $jobId);
+            exit;
+        }
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => $job['status'] ?? 'unknown',
+            'sent' => (int)($job['sent_count'] ?? 0),
+            'failed' => (int)($job['failed_count'] ?? 0),
+            'unknown' => BroadcastQueue::getUnknownCount($jobId),
+            'cancelled' => (int)($job['cancelled_count'] ?? 0),
+            'processed' => $result['processed'],
+        ]);
+        exit;
+    }
+
     if (safepost('action') === 'cancel') {
         if (!BroadcastQueue::requestCancel((int)safepost('job_id'), $allowed_domains, $is_global_admin, $username)) {
             flash_error($PALANG['pViewlog_result_error'] ?? 'Permission denied');
@@ -49,15 +88,12 @@ if (empty($job) || !BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_g
     exit;
 }
 
-if (in_array($job['status'], BroadcastQueue::activeStatuses(), true)) {
-    header('Refresh: 5');
-}
-
 $smarty->assign('broadcast_job', $job);
 $broadcastDomains = BroadcastQueue::getJobDomains($jobId);
 $smarty->assign('broadcast_domains', $broadcastDomains);
 $smarty->assign('broadcast_domains_text', implode(', ', $broadcastDomains));
 $smarty->assign('broadcast_recipients', BroadcastQueue::getRecipients($jobId));
+$smarty->assign('broadcast_unknown_count', BroadcastQueue::getUnknownCount($jobId));
 $smarty->assign('broadcast_active_statuses', BroadcastQueue::activeStatuses());
 $smarty->assign('smarty_template', 'broadcast-status');
 $smarty->display('index.tpl');

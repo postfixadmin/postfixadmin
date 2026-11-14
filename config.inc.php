@@ -534,12 +534,6 @@ $CONF['sendmail'] = 'YES';
 // send mails to their users
 $CONF['sendmail_all_admins'] = 'NO';
 
-// Full path to the PHP CLI executable for the background broadcast worker.
-// If set, this path is used; if empty, common PHP CLI paths are searched.
-// Example: $CONF['broadcast_php_cli'] = '/usr/bin/php8.4';
-// Do not point this setting at PHP-FPM or the Apache module.
-$CONF['broadcast_php_cli'] = '';
-
 // Logging
 // If you don't want logging set this to 'NO';
 $CONF['logging'] = 'YES';

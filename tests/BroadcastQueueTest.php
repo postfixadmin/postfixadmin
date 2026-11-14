@@ -112,7 +112,7 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], BroadcastQueue::getJobDomains($jobId));
     }
 
-    public function testCancelWithNoWorkerRunningFinalisesImmediately(): void
+    public function testCancelWithNoBatchRunningFinalisesImmediately(): void
     {
         $this->createDomain($this->domains[0]);
         $jobId = BroadcastQueue::createJob(
@@ -131,7 +131,32 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('cancelled', BroadcastQueue::getRecipients($jobId)[0]['status']);
     }
 
-    public function testCancelWhileWorkerRunningLeavesJobCancelling(): void
+    public function testCancellationKeepsInterruptedSubmissionUnconfirmed(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'Cancel interrupted',
+            'Body',
+            [$this->domains[0]],
+            true,
+            ["one@{$this->domains[0]}", "two@{$this->domains[0]}"]
+        );
+        $recipientTable = table_by_key('broadcast_recipient');
+        db_execute(
+            "UPDATE $recipientTable SET status = 'sending', smtp_response = 'Message-ID: <test@invalid>' WHERE job_id = :job_id AND recipient = :recipient",
+            ['job_id' => $jobId, 'recipient' => "one@{$this->domains[0]}"]
+        );
+
+        $this->assertTrue(BroadcastQueue::requestCancel($jobId));
+        $this->assertSame('cancelled', BroadcastQueue::getJob($jobId)['status']);
+        $this->assertSame(['unknown', 'cancelled'], array_column(BroadcastQueue::getRecipients($jobId), 'status'));
+        $this->assertSame(1, BroadcastQueue::getUnknownCount($jobId));
+    }
+
+    public function testCancelWhileBatchRunningLeavesJobCancelling(): void
     {
         $this->createDomain($this->domains[0]);
         $jobId = BroadcastQueue::createJob(
@@ -145,23 +170,61 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
             ["one@{$this->domains[0]}"]
         );
 
-        $lock = BroadcastQueue::acquireWorkerLock();
+        $lock = BroadcastQueue::acquireProcessLock();
         $this->assertNotNull($lock);
         try {
             $this->assertTrue(BroadcastQueue::requestCancel($jobId));
             $this->assertSame('cancelling', BroadcastQueue::getJob($jobId)['status']);
         } finally {
-            BroadcastQueue::releaseWorkerLock($lock);
+            BroadcastQueue::releaseProcessLock($lock);
         }
     }
 
-    public function testPhpCliBinaryHonoursConfig(): void
+    public function testInterruptedSubmissionIsReportedWithoutRetryAndJobsStayIndependent(): void
     {
-        Config::write('broadcast_php_cli', '/nonexistent/php');
-        $this->assertNull(BroadcastQueue::phpCliBinary());
+        $this->createDomain($this->domains[0]);
+        $this->createDomain($this->domains[1]);
+        $first = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'First',
+            'Body',
+            [$this->domains[0]],
+            true,
+            ["one@{$this->domains[0]}", "two@{$this->domains[0]}"]
+        );
+        $second = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'Second',
+            'Body',
+            [$this->domains[1]],
+            true,
+            ["one@{$this->domains[1]}"]
+        );
 
-        Config::write('broadcast_php_cli', '');
-        $this->assertNotNull(BroadcastQueue::phpCliBinary());
+        $recipientTable = table_by_key('broadcast_recipient');
+        db_execute(
+            "UPDATE $recipientTable SET status = 'sending', smtp_response = 'Message-ID: <test@invalid>' WHERE job_id = :job_id AND recipient = :recipient",
+            ['job_id' => $first, 'recipient' => "one@{$this->domains[0]}"]
+        );
+        BroadcastQueue::recoverInterrupted($first);
+
+        $result = BroadcastQueue::processNext(1, true, $second);
+        $this->assertSame($second, $result['job_id']);
+        $this->assertSame('finished', $result['status']);
+
+        $result = BroadcastQueue::processNext(1, true, $first);
+        $this->assertSame('finished', $result['status']);
+        $job = BroadcastQueue::getJob($first);
+        $this->assertSame(1, (int)$job['sent_count']);
+        $this->assertSame(0, (int)$job['failed_count']);
+        $this->assertSame(1, BroadcastQueue::getUnknownCount($first));
+        $statuses = array_column(BroadcastQueue::getRecipients($first), 'status');
+        $this->assertSame(['unknown', 'sent'], $statuses);
+        $this->assertSame('Message-ID: <test@invalid>', BroadcastQueue::getRecipients($first)[0]['smtp_response']);
     }
 
     public function testWorkerModeControlsDefaultProcessing(): void
@@ -187,7 +250,7 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
 
         $recipients = BroadcastQueue::getRecipients($jobId);
         $this->assertSame('sent', $recipients[0]['status']);
-        $this->assertSame('dry-run', $recipients[0]['smtp_response']);
+        $this->assertStringStartsWith('dry-run; Message-ID: <broadcast-', $recipients[0]['smtp_response']);
 
         BroadcastQueue::setWorkerMode(BroadcastQueue::MODE_LIVE);
         $this->assertSame(BroadcastQueue::MODE_LIVE, BroadcastQueue::workerMode());
