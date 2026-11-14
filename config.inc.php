@@ -144,6 +144,9 @@ $CONF['database_tables'] = array (
     'quota2' => 'quota2',
     'dkim' => 'dkim',
     'dkim_signing' => 'dkim_signing',
+    'broadcast_job' => 'broadcast_job',
+    'broadcast_job_domain' => 'broadcast_job_domain',
+    'broadcast_recipient' => 'broadcast_recipient',
 );
 
 // Site Admin
