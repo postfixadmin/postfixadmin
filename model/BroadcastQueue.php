@@ -377,17 +377,16 @@ class BroadcastQueue
         $activeWhere = db_in_clause('status', self::activeStatuses(), $params);
 
         if ($globalAdmin) {
-            $inactiveSql = "SELECT id FROM $jobTable WHERE NOT ($activeWhere)";
-            db_execute("DELETE FROM $recipientTable WHERE job_id IN ($inactiveSql)", $params);
-            db_execute("DELETE FROM $domainTable WHERE job_id IN ($inactiveSql)", $params);
-            db_execute("DELETE FROM $jobTable WHERE NOT ($activeWhere)", $params);
-            return;
+            $jobs = db_query_all("SELECT id FROM $jobTable WHERE NOT ($activeWhere)", $params);
+        } else {
+            $jobs = self::getJobs(100, $allowedDomains, false, $username);
         }
 
         $jobIds = [];
-        foreach (self::getJobs(100, $allowedDomains, false, $username) as $job) {
-            if (!in_array($job['status'], self::activeStatuses(), true)) {
-                $jobIds[] = (int)$job['id'];
+        foreach ($jobs as $job) {
+            $jobId = (int)$job['id'];
+            if (self::getUnknownCount($jobId) === 0 && !in_array(self::getJob($jobId)['status'], self::activeStatuses(), true)) {
+                $jobIds[] = $jobId;
             }
         }
 

@@ -40,7 +40,7 @@
                 <input type="hidden" name="job_id" value="{$broadcast_job.id}"/>
                 <button type="submit" class="btn btn-warning">{$PALANG.cancel}</button>
             </form>
-        {else}
+        {elseif $broadcast_unknown_count == 0}
             <form method="post" action="broadcast-status.php">
                 {CSRF_Token}
                 <input type="hidden" name="action" value="reset"/>

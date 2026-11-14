@@ -250,6 +250,8 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         db_execute("UPDATE $jobTable SET status = 'finished' WHERE id = :id", ['id' => $jobId]);
         $recipients = BroadcastQueue::getUnknownRecipients($jobId);
         $this->assertCount(2, $recipients);
+        BroadcastQueue::resetInactive();
+        $this->assertCount(2, BroadcastQueue::getUnknownRecipients($jobId));
 
         $this->assertFalse(BroadcastQueue::resolveUnknown($jobId, (int)$recipients[0]['id'], 'retry', [], false, 'other@example.test'));
         $this->assertTrue(BroadcastQueue::resolveUnknown($jobId, (int)$recipients[0]['id'], 'retry', $this->domains, false, 'admin@example.test'));
@@ -261,6 +263,8 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $result = BroadcastQueue::processNext(1, true, $jobId);
         $this->assertSame('finished', $result['status']);
         $this->assertSame(['sent', 'cancelled'], array_column(BroadcastQueue::getRecipients($jobId), 'status'));
+        BroadcastQueue::resetInactive();
+        $this->assertSame([], BroadcastQueue::getJob($jobId));
     }
 
     public function testWorkerModeControlsDefaultProcessing(): void
