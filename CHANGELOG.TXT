@@ -9,6 +9,7 @@
 Changes after 4.0.6 (not in a release yet)
 --------------------------
    - Honor the configured theme logo in the mailbox-user navigation menu.
+   - Add missing strings to all languages
 
 Version 4.0.6 (2026/11/06)
 --------------------------
