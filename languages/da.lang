@@ -59,6 +59,7 @@ $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Log ind'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Dit brugernavn eller adgangskode var ikke korrekt.';
 $PALANG['pLogin_login_users'] = 'Log ind på brugersektionen her.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Oversigt';
