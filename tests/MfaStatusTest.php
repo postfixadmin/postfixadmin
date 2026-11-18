@@ -70,7 +70,7 @@ class MfaStatusTest extends \PHPUnit\Framework\TestCase
             db_update($class === AdminHandler::class ? 'admin' : 'mailbox', 'username', 'yes@mfa-visible.example', ['active' => true]);
             $handler = new $class();
             self::assertTrue($handler->init('yes@mfa-visible.example'));
-            self::assertStringContainsString('name="reset_totp"', $handler->result()['totp_action']);
+            self::assertTrue($handler->result()['totp_action']);
             self::assertArrayNotHasKey('totp_action', (new $class(1))->getStruct());
         }
     }
