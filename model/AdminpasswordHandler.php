@@ -33,6 +33,7 @@ class AdminpasswordHandler extends PFAHandler {
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
+            '_can_delete'      => pacol(0,          0,      1,      'vnum', '', '', '', [], 0, 1, '0 as _can_delete'),
         );
     }
 
@@ -75,6 +76,16 @@ class AdminpasswordHandler extends PFAHandler {
 
             'hardcoded_edit' => true,
         );
+    }
+
+    /**
+     * This class is meant to let a logged admin change their own password.
+     * It doesn't make sense to use this class in list view.
+     * Limit build_select_query() to the logged-in admin to prevent disclosing other admin usernames
+     */
+    protected function build_select_query($condition, $searchmode) {
+        $condition = array('username' => $this->admin_username);
+        return parent::build_select_query($condition, $searchmode);
     }
 
     /**
