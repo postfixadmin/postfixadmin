@@ -232,6 +232,60 @@ file_enabled = false
 file = "/var/log/vacation.log"
 ```
 
+## Optional reply interval choices
+
+PostfixAdmin starts with `vacation_choice_of_reply` from `config.inc.php`.
+A definition in `config.local.php` replaces that array. If `vacation.ini`
+contains `[reply_intervals]`, that section replaces the effective array for
+its web Vacation selector. If the file or section is absent, the effective
+PostfixAdmin array remains unchanged, including numeric expressions and custom
+intervals. The generated INI leaves this optional section commented out.
+
+```ini
+[reply_intervals]
+once = 0
+; every = 1
+day = 86400
+week = 604800
+```
+
+Use the documented equivalents: `once = 0`, `every = 1`, `day = 86400`,
+`week = 604800`. Uncomment `every` only when a reply to every message is wanted.
+The section must contain at least one enabled entry; unknown names or other
+values are configuration errors. Custom numeric intervals remain available
+through the existing PHP array when this section is omitted.
+
+The web application defaults to `/etc/postfixadmin/vacation.ini`. For another
+location, set this in `config.local.php` (and use the same file for the CLI):
+
+```php
+$CONF['vacation_config'] = '/etc/mail/postfixadmin/vacation.ini';
+```
+
+The web process must be able to read that file. Retain restrictive permissions
+because it may contain credentials; grant access through the appropriate group,
+not world-readable permissions. An existing unreadable or malformed file fails
+rather than silently ignoring its choices. Set `vacation_config` to an empty
+string to disable web INI loading explicitly. Independent Roundcube plugins
+must load the same choices themselves; this does not change their settings.
+
+For example, without the INI section this legacy local array still works:
+
+```php
+$CONF['vacation_choice_of_reply'] = array (
+    0 => 'reply_once',
+    // 1 => 'reply_every_mail',
+    60*60 *24*1 => 'reply_once_per_day',
+    60*60 *24*7 => 'reply_once_per_week'
+);
+```
+
+The selector submits numeric seconds; stored mailbox intervals, XML-RPC and
+transport timing remain unchanged. Existing records are not rewritten or
+restricted by the offered choices. Daily and weekly intervals are elapsed time
+since the last reply per sender, not calendar boundaries. No schema upgrade
+is required.
+
 Defaults and behavior:
 
 - `smtp.server`: `localhost`

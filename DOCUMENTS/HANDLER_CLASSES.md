@@ -122,6 +122,7 @@ protected function initStruct()
 | `vnum` | Virtual numeric (not stored in DB) |
 | `vtxt` | Virtual text (not stored in DB) |
 | `quot` | Quota display |
+| `totp` | Read-only TOTP action in account edit forms; the handler returns a boolean and the template renders it |
 
 This list covers the most common types. Additional types may exist in
 `PFAHandler` and individual Handler classes — check the source for the
@@ -209,6 +210,13 @@ protected function _validate_ip(string $field, string $value): bool
 ```
 
 These are called automatically by `PFAHandler::set()` when processing input.
+`TotpexceptionHandler::set()` additionally requires `password_current` for the
+acting account on every creation or edit. The generic editor submits this as
+`value[password_current]`. The password is not persisted, and a later `set()`
+call requires confirmation again. `TotpPf::addException()` shares the same
+password check while retaining its existing signature and persistence/hooks.
+Mailbox users do not select a target: the handler always uses their acting
+username, even when a different target is submitted.
 
 ### 9. Hooks: preSave() and postSave()
 

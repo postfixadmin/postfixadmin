@@ -118,4 +118,25 @@ class PasswordChangeAttemptTest extends TestCase
         $this->assertTrue($result['success']);
         $this->assertEquals([], $result['errors']);
     }
+    public function testSuccessfulChangeUsesOnlyPasswordFieldsAndReturnsWarnings(): void
+    {
+        foreach ([MailboxHandler::class, AdminHandler::class] as $class) {
+            $handler = $this->createMock($class);
+            $handler->method('checkPasswordRecoveryCode')->willReturn(true);
+            $handler->method('init')->willReturn(true);
+            $handler->result = ['username' => 'bob', 'active' => '1', 'email_other' => 'invalid legacy value'];
+            $handler->expects($this->once())->method('set')->with([
+                'password' => 'newpass', 'password2' => 'newpass',
+            ])->willReturn(true);
+            $handler->method('save')->willReturnCallback(function () use ($handler): bool {
+                $handler->errormsg = ['post-save warning'];
+                return true;
+            });
+            $handler->expects($this->once())->method('wipePasswordRecoveryCode')->with('bob');
+            $result = PasswordChangeAttempt::run($handler, $this->totpPf(), 'bob', 'code', '', 'newpass', 'newpass');
+            $this->assertTrue($result['success']);
+            $this->assertSame(['post-save warning'], $result['errors']);
+        }
+    }
+
 }

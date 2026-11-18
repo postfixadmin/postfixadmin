@@ -16,10 +16,11 @@ use LockFile::Simple qw(lock trylock unlock);
 # database backend - uncomment one of these
 our $db_type = 'Pg';
 #my $db_type = 'mysql';
+#my $db_type = 'SQLite';
 
-# host name
+# host name (ignored for SQLite)
 our $db_host="127.0.0.1";
-# database name
+# database name (for SQLite: full path to the database file)
 our $db_name="postfix";
 # database username
 our $db_username="mail";
@@ -87,6 +88,8 @@ if (-e $configfile) {
 
 if($db_type eq "Pg" || $db_type eq "mysql") {
 	$dsn = "DBI:$db_type:database=$db_name;host=$db_host";
+} elsif($db_type eq "SQLite") {
+	$dsn = "DBI:SQLite:dbname=$db_name";
 } else {
 	log_and_die "unsupported db_type $db_type";
 }
@@ -107,7 +110,12 @@ if($db_type eq "Pg") {
 	$sql_cond = "active = 't' AND date_part('epoch',now())-date_part('epoch',date)";
 } elsif($db_type eq "mysql") {
 	$sql_cond = "active = 1 AND unix_timestamp(now())-unix_timestamp(date)";
+} elsif($db_type eq "SQLite") {
+	$sql_cond = "active = 1 AND strftime('%s','now')-strftime('%s',date)";
 }
+
+# SQLite has no now()
+$sql_now = ($db_type eq "SQLite") ? "datetime('now')" : "now()";
 
 $sql = "
 	SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,usessl, sslcertck, sslcertpath, sslfingerprint, src_port
@@ -164,7 +172,7 @@ TXT
 
   unlink $filename;
 
-  $sql="UPDATE fetchmail SET returned_text=".$dbh->quote($ret).", date=now() WHERE id=".$id;
+  $sql="UPDATE fetchmail SET returned_text=".$dbh->quote($ret).", date=$sql_now WHERE id=".$id;
   $dbh->do($sql);
 }@{$dbh->selectall_arrayref($sql)};
 

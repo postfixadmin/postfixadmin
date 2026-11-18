@@ -78,7 +78,11 @@ $error = 0;
 
 $vh = new VacationHandler($fUsername);
 
-$choice_of_reply = Config::read_array('vacation_choice_of_reply');
+require_once dirname(__DIR__) . '/model/VacationReplyIntervals.php';
+$choice_of_reply = VacationReplyIntervals::load(
+    Config::read_array('vacation_choice_of_reply'),
+    Config::read_string('vacation_config')
+);
 foreach (array_keys($choice_of_reply) as $key) {
     $choice_of_reply[$key] = Config::Lang($choice_of_reply[$key]);
 }

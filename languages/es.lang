@@ -14,6 +14,8 @@ $PALANG['search_mailboxes_aliases'] = 'Buscar buzones y alias...';
 //
 // by Iñaki Rodríguez (irodriguez@ackstorm.es / irodriguez@virtualminds.es)
 
+$PALANG['mfa'] = 'MFA';
+
 $PALANG['YES'] = 'SI';
 $PALANG['NO'] = 'NO';
 $PALANG['edit'] = 'editar';
@@ -580,6 +582,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'La contraseña no puede estar vacía'
 $PALANG['pAppPassAdd_result_error'] = 'No se puede agregar contraseña de aplicación';
 $PALANG['MFA_submit'] = 'Confirmar inicio de sesión';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Añadir una excepción de TOTP para una dirección IP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Modificar exención TOTP';
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Suprímase la excepción TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Agregar contraseña de aplicación';
 $PALANG['mailbox_postapppassword_failed'] = 'Falló el script ejecutado después de cambiar la contraseña de aplicación del buzón; revise el registro de errores para obtener más detalles.';

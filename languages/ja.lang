@@ -7,6 +7,7 @@ $PALANG['dns_active'] = 'Active DNS'; # XXX
 $PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
 
 $PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
+$PALANG['mfa'] = 'MFA'; # XXX
 # $Id: en.lang 275 2007-12-28 21:42:09Z christian_boltz $
 //
 // Language file Japanese
@@ -590,6 +591,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'パスワードが空にすること�
 $PALANG['pAppPassAdd_result_error'] = 'アプリケーションパスワードを追加できません';
 $PALANG['MFA_submit'] = 'ログイン確認';
 $PALANG['pViewlog_action_add_totp_exception'] = 'TOTP例外の追加';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'TOTP例外の削除';
 $PALANG['pViewlog_action_add_app_password'] = 'アプリケーションパスワードの追加';
 $PALANG['mailbox_postapppassword_failed'] = 'mailbox postapppasswordスクリプトが失敗しました。詳細はエラーログを確認してください!';

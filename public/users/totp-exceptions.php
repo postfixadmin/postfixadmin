@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $fPass = $_POST['fPassword_current'];
         $fIp = $_POST['fIp'];
         $fDesc = $_POST['fDesc'];
-        $fUser = $_POST['fUser'];
+        $fUser = $admin === 0 ? $username : safepost('fUser');
 
         try {
             if ($totppf->addException($username, $fPass, $fIp, $fUser, $fDesc)) {

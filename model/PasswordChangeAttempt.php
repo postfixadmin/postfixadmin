@@ -36,9 +36,7 @@ class PasswordChangeAttempt
             return ['success' => false, 'errors' => $handler->errormsg];
         }
 
-        $values = $handler->result;
-        $values['password'] = $password;
-        $values['password2'] = $password2;
+        $values = ['password' => $password, 'password2' => $password2];
 
         if (!($handler->set($values) && $handler->save())) {
             return ['success' => false, 'errors' => $handler->errormsg];

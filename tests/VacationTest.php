@@ -37,6 +37,51 @@ final class VacationShortWriteStream
 
 final class VacationTest extends TestCase
 {
+    public function testReplyIntervalConfiguration(): void
+    {
+        $cli = new VacationCli();
+        $directory = $this->temporaryDirectory();
+        try {
+            $path = $directory . '/vacation.ini';
+            $generated = $cli->renderConfig('/var/www/postfixadmin', 'localhost', 25, 'mail.example.org');
+            $this->assertStringContainsString('; [reply_intervals]', $generated);
+            file_put_contents($path, $generated);
+            $this->assertArrayNotHasKey('vacation_choice_of_reply', $cli->loadVacationConfig($path)['values']);
+            file_put_contents($path, $generated . "[reply_intervals]\nonce = 0\nday = 86400\nweek = 604800\n");
+            $this->assertSame(
+                [0 => 'reply_once', 86400 => 'reply_once_per_day', 604800 => 'reply_once_per_week'],
+                $cli->loadVacationConfig($path)['values']['vacation_choice_of_reply']
+            );
+        } finally {
+            $this->removeDirectory($directory);
+        }
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidReplyIntervals')]
+    public function testInvalidReplyIntervalsAreRejected(string $ini): void
+    {
+        $directory = $this->temporaryDirectory();
+        try {
+            file_put_contents($directory . '/vacation.ini', $ini);
+            $this->expectException(\InvalidArgumentException::class);
+            (new VacationCli())->loadVacationConfig($directory . '/vacation.ini');
+        } finally {
+            $this->removeDirectory($directory);
+        }
+    }
+
+    public static function invalidReplyIntervals(): array
+    {
+        return [
+            'empty section' => ["[reply_intervals]\n"],
+            'unknown choice' => ["[reply_intervals]\nhour = 3600\n"],
+            'wrong equivalent' => ["[reply_intervals]\nday = 3600\n"],
+            'negative interval' => ["[reply_intervals]\nday = -1\n"],
+            'non-numeric interval' => ["[reply_intervals]\nday = invalid\n"],
+            'array value' => ["[reply_intervals]\nday[] = 86400\n"],
+        ];
+    }
+
     public function testNoActionPrintsOneLine(): void
     {
         $input = fopen('php://memory', 'r+');
