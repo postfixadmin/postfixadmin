@@ -45,6 +45,62 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(["one@{$this->domains[0]}"], BroadcastQueue::buildRecipients([$this->domains[0]], true));
     }
 
+    public function testAllSelectedDomainsCanIncludeAliases(): void
+    {
+        foreach ($this->domains as $domain) {
+            $this->createDomain($domain);
+            $this->createMailbox("one@$domain", $domain);
+            $this->createAlias("alias@$domain", $domain, "external@$domain");
+        }
+
+        $this->assertCount(4, BroadcastQueue::buildRecipients($this->domains, false));
+        $this->assertCount(2, BroadcastQueue::buildRecipients($this->domains, true));
+    }
+
+    public function testDomainAdminListFindsOwnJobAfterManyForeignJobs(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $own = BroadcastQueue::createJob(
+            'owner@example.test', 'sender@example.test', 'PostfixAdmin', 'Own job', 'Body',
+            [$this->domains[0]], true, []
+        );
+        for ($i = 0; $i < 201; $i++) {
+            BroadcastQueue::createJob(
+                'other@example.test', 'sender@example.test', 'PostfixAdmin', 'Other job', 'Body',
+                [$this->domains[0]], true, []
+            );
+        }
+
+        $this->createDomain($this->domains[1]);
+        BroadcastQueue::createJob(
+            'owner@example.test', 'sender@example.test', 'PostfixAdmin', 'Shared job', 'Body',
+            $this->domains, true, []
+        );
+
+        $visible = BroadcastQueue::getJobs(20, [$this->domains[0]], false, 'owner@example.test');
+        $this->assertSame([$own], array_map('intval', array_column($visible, 'id')));
+        $this->assertSame([], BroadcastQueue::getJobs(20, [], false, 'owner@example.test'));
+    }
+
+    public function testRecipientReportCanReadRowsPastFirstPage(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $recipients = [];
+        for ($i = 0; $i < 205; $i++) {
+            $recipients[] = "user$i@{$this->domains[0]}";
+        }
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test', 'sender@example.test', 'PostfixAdmin', 'Paged report', 'Body',
+            [$this->domains[0]], true, $recipients
+        );
+
+        $this->assertCount(200, BroadcastQueue::getRecipients($jobId));
+        $page = BroadcastQueue::getRecipients($jobId, 200, 200);
+        $this->assertCount(5, $page);
+        $this->assertSame($recipients[200], $page[0]['recipient']);
+        $this->assertSame($recipients[204], $page[4]['recipient']);
+    }
+
     public function testInvalidAliasDestinationFailsWithoutStoppingOtherRecipients(): void
     {
         $this->createDomain($this->domains[0]);

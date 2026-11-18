@@ -63,39 +63,6 @@
     </div>
 </form>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var domains = document.getElementById('domains');
-    var mailboxesOnly = document.getElementById('mailboxes_only');
-
-    if (!domains || !mailboxesOnly) {
-        return;
-    }
-
-    function syncMailboxesOnly() {
-        var selectableCount = 0;
-        var allSelected = true;
-        for (var i = 0; i < domains.options.length; i++) {
-            if (domains.options[i].disabled) {
-                continue;
-            }
-            selectableCount++;
-            if (!domains.options[i].selected) {
-                allSelected = false;
-                break;
-            }
-        }
-
-        if (selectableCount > 0 && allSelected) {
-            mailboxesOnly.checked = true;
-        }
-    }
-
-    domains.addEventListener('change', syncMailboxesOnly);
-    syncMailboxesOnly();
-});
-</script>
-
 {if $broadcast_jobs|@count > 0}
     <div class="card mt-4">
         <div class="card-header"><h4>{$PALANG.broadcast_jobs}</h4></div>

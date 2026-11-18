@@ -83,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $error = 1;
             flash_error($PALANG['broadcast_no_available_domains']);
         } else {
-            $all_domains_selected = count($wanted_domains) === count($available_domains);
-            $mailboxes_only = $all_domains_selected || intval(safepost('mailboxes_only')) == 1;
+            $mailboxes_only = intval(safepost('mailboxes_only')) == 1;
             $recipients = BroadcastQueue::buildRecipients($wanted_domains, $mailboxes_only);
 
             if (count($recipients) == 0) {

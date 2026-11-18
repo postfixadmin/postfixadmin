@@ -110,12 +110,29 @@ if (empty($job) || !BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_g
     exit;
 }
 
+$reportPageSize = 200;
+$reportPages = max(1, (int)ceil((int)$job['total_count'] / $reportPageSize));
+$reportPage = max(1, min((int)safeget('page'), $reportPages));
+$reportPagination = [];
+if ($reportPages > 1) {
+    $base = 'broadcast-status.php?id=' . $jobId . '&amp;page=';
+    $reportPagination[] = ['label' => '&lsaquo;', 'url' => $base . max(1, $reportPage - 1),
+        'disabled' => $reportPage === 1, 'aria' => $PALANG['pOverview_left_arrow']];
+    foreach (pagination_window($reportPage, $reportPages, 2) as $page) {
+        $reportPagination[] = $page === null ? ['ellipsis' => true] :
+            ['label' => $page, 'url' => $base . $page, 'active' => $page === $reportPage];
+    }
+    $reportPagination[] = ['label' => '&rsaquo;', 'url' => $base . min($reportPages, $reportPage + 1),
+        'disabled' => $reportPage === $reportPages, 'aria' => $PALANG['pOverview_right_arrow']];
+}
+
 $smarty = PFASmarty::getInstance();
 $smarty->assign('broadcast_job', $job);
+$smarty->assign('broadcast_pagination', $reportPagination);
 $broadcastDomains = BroadcastQueue::getJobDomains($jobId);
 $smarty->assign('broadcast_domains', $broadcastDomains);
 $smarty->assign('broadcast_domains_text', implode(', ', $broadcastDomains));
-$smarty->assign('broadcast_recipients', BroadcastQueue::getRecipients($jobId));
+$smarty->assign('broadcast_recipients', BroadcastQueue::getRecipients($jobId, $reportPageSize, ($reportPage - 1) * $reportPageSize));
 $smarty->assign('broadcast_unknown_count', BroadcastQueue::getUnknownCount($jobId));
 $smarty->assign('broadcast_unknown_recipients', BroadcastQueue::getUnknownRecipients($jobId));
 $smarty->assign('broadcast_active_statuses', BroadcastQueue::activeStatuses());

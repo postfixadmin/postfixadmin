@@ -148,11 +148,24 @@ class BroadcastQueue
 
     public static function getJobs(int $limit = 20, array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): array
     {
+        if (!$globalAdmin && ($username === '' || empty($allowedDomains))) {
+            return [];
+        }
+
         $jobTable = table_by_key('broadcast_job');
         $limit = max(0, min($limit, 100));
-        $queryLimit = $globalAdmin ? $limit : min(max($limit * 10, 100), 500);
-        $limitSql = $limit === 0 ? '' : " LIMIT $queryLimit";
-        $jobs = db_query_all("SELECT * FROM $jobTable ORDER BY id DESC$limitSql");
+        $limitSql = $limit === 0 ? '' : " LIMIT $limit";
+        $params = [];
+        $where = '';
+        if (!$globalAdmin) {
+            $domainTable = table_by_key('broadcast_job_domain');
+            $params['created_by'] = $username;
+            $domainWhere = db_in_clause('d.domain', $allowedDomains, $params);
+            $where = " WHERE j.created_by = :created_by " .
+                "AND EXISTS (SELECT 1 FROM $domainTable d WHERE d.job_id = j.id) " .
+                "AND NOT EXISTS (SELECT 1 FROM $domainTable d WHERE d.job_id = j.id AND NOT ($domainWhere))";
+        }
+        $jobs = db_query_all("SELECT j.* FROM $jobTable j$where ORDER BY j.id DESC$limitSql", $params);
         $visibleJobs = [];
 
         foreach ($jobs as $job) {
@@ -291,11 +304,12 @@ class BroadcastQueue
         return true;
     }
 
-    public static function getRecipients(int $jobId, int $limit = 200): array
+    public static function getRecipients(int $jobId, int $limit = 200, int $offset = 0): array
     {
         $recipientTable = table_by_key('broadcast_recipient');
         $limit = max(1, min($limit, 1000));
-        $recipients = db_query_all("SELECT * FROM $recipientTable WHERE job_id = :job_id ORDER BY id LIMIT $limit", ['job_id' => $jobId]);
+        $offset = max(0, $offset);
+        $recipients = db_query_all("SELECT * FROM $recipientTable WHERE job_id = :job_id ORDER BY id LIMIT $limit OFFSET $offset", ['job_id' => $jobId]);
 
         foreach ($recipients as $key => $recipient) {
             $recipients[$key]['status_label'] = self::statusLabel($recipient['status']);

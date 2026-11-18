@@ -184,5 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 </tbody>
             </table>
         </div>
+        {include file="_pagination.tpl" pagination=$broadcast_pagination pagination_label=$PALANG.broadcast_report}
     </div>
 </div>
