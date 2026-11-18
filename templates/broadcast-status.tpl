@@ -60,6 +60,7 @@
         <button type="submit" class="btn btn-primary">{$PALANG.broadcast_continue}</button>
     </form>
     <script>
+    {literal}
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('broadcast-process-form');
         let stopped = false;
@@ -102,6 +103,7 @@
         }
         window.setTimeout(processBatch, 100);
     });
+    {/literal}
     </script>
 {/if}
 
@@ -139,6 +141,7 @@
     </div>
 </div>
 <script>
+{literal}
 document.addEventListener('DOMContentLoaded', function () {
     const warning = document.getElementById('broadcast-retry-warning').textContent;
     document.querySelectorAll('.broadcast-retry-form').forEach(function (form) {
@@ -149,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+{/literal}
 </script>
 {/if}
 
