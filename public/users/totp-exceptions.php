@@ -108,6 +108,7 @@ if ($admin == 2) {
 // Admins can revoke exceptions for own domain
 // Global-admin can revoke all exceptions
 foreach ($exceptions as $n => $ex) {
+    $exceptions[$n]['edit'] = 0;
     if ($ex['username'] == $username) {
         $exceptions[$n]['edit'] = 1;
     }
