@@ -131,10 +131,10 @@
     <td>{if $item._can_delete}
         <form method="post" action="{#url_delete#}">
             <input type="hidden" name="table" value="{$table}">
-            <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
+            <input type="hidden" name="delete" value="{$item.$id_field}">
             <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
 
-            <button class="btn btn-danger" onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
+            <button class="btn btn-danger" onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':{$RAW_item.$id_field|escape:'javascript'|escape:'html'}}')">
                 {$PALANG.del}
             </button>
         </form>

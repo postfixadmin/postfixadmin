@@ -6,6 +6,13 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.17 - 2026/11/18
+-------------------------------------------------
+   - XSS security update - see CVE-2026-127178
+   - Fix possible XSS issues (incorrect use of Smarty's escape:"quotes" which does not escape double quotes), thanks @mirko
+   - Fix possible XSS issue through viewlog.php, thanks @mirko & @TrapoSAMA (backport of #1134, see also #1128) 
+   - Improve alias validation (do not allow two @'s in an alias), thanks @mirko
+
 Version 3.3.16 - 2025/09/09
 -------------------------------------------------
    - Correct PHP requirement to >= 7.2 - it seems we've managed to lose support for PHP 7.0 somehow (Smarty,PHPUnit), possibly related to https://github.com/postfixadmin/postfixadmin/pull/541. 
