@@ -68,7 +68,71 @@ class TotpActionTest extends TestCase
         $enabled = $rows['enabled@' . self::DOMAIN];
         $plain = $rows['plain@' . self::DOMAIN];
         $this->assertArrayHasKey('totp_action', $enabled);
-        $this->assertStringContainsString('name="reset_totp"', $enabled['totp_action']);
-        $this->assertSame(htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8'), $plain['totp_action']);
+        $this->assertTrue($enabled['totp_action']);
+        $this->assertArrayNotHasKey('totp_secret', $enabled);
+        $this->assertFalse($plain['totp_action']);
     }
+    #[DataProvider('handlers')]
+    public function testInactiveAndEmptySecretsDoNotOfferReset(string $handlerClass): void
+    {
+        $table = $handlerClass === AdminHandler::class ? 'admin' : 'mailbox';
+        $handler = new $handlerClass();
+        $username = 'enabled@' . self::DOMAIN;
+        foreach ([null, '', '0'] as $secret) {
+            db_update($table, 'username', $username, ['totp_secret' => $secret]);
+            $this->assertTrue($handler->getList(['username' => $username]));
+            $this->assertFalse($handler->result()[$username]['totp_action']);
+        }
+        db_update($table, 'username', $username, ['totp_secret' => 'JBSWY3DPEHPK3PXP', 'active' => false]);
+        $this->assertTrue($handler->getList(['username' => $username]));
+        $this->assertFalse($handler->result()[$username]['totp_action']);
+    }
+
+    #[DataProvider('handlers')]
+    public function testDisabledTotpOmitsAction(string $handlerClass): void
+    {
+        global $CONF;
+        Config::write('totp', 'NO');
+        $CONF['totp'] = 'NO';
+        $handler = new $handlerClass();
+        $username = 'enabled@' . self::DOMAIN;
+        $this->assertTrue($handler->getList(['username' => $username]));
+        $this->assertArrayNotHasKey('totp_action', $handler->result()[$username]);
+    }
+
+    #[DataProvider('handlers')]
+    public function testEditTemplateRendersBooleanAction(string $handlerClass): void
+    {
+        $smarty = new \Smarty\Smarty();
+        $smarty->setCompileDir(sys_get_temp_dir());
+        $smarty->setTemplateDir(__DIR__ . '/../templates');
+        $smarty->registerPlugin('function', 'CSRF_Token', static fn (): string => '<input type="hidden" name="token" value="fixture">');
+        $smarty->assign([
+            'table' => $handlerClass === AdminHandler::class ? 'admin' : 'mailbox',
+            'formtitle' => 'Fixture', 'submitbutton' => 'Save', 'cancel_url' => 'list.php',
+            'fielderror' => ['totp_action' => ''],
+            'struct' => ['totp_action' => PFAHandler::pacol(0, 1, 0, 'totp', '', '')],
+        ]);
+        foreach (['en', 'es'] as $language) {
+            $PALANG = [];
+            require __DIR__ . '/../languages/' . $language . '.lang';
+            $PALANG['pUsersMenu_reset_totp'] = '<Reset & confirm>';
+            $PALANG['pUsersMenu_no_totp_set'] = '<Not configured & safe>';
+            $smarty->assign('PALANG', PFASmarty::getInstance()->sanitise($PALANG));
+            foreach ([true, false] as $hasTotp) {
+                $smarty->assign('value_totp_action', $hasTotp);
+                $html = $smarty->fetch('editform.tpl');
+                $this->assertStringContainsString('name="token"', $html);
+                if ($hasTotp) {
+                    $this->assertStringContainsString('name="reset_totp" value="1"', $html);
+                    $this->assertStringContainsString('&lt;Reset &amp; confirm&gt;', $html);
+                } else {
+                    $this->assertStringNotContainsString('name="reset_totp"', $html);
+                    $this->assertStringContainsString('&lt;Not configured &amp; safe&gt;', $html);
+                }
+                $this->assertStringNotContainsString('<Reset', $html);
+            }
+        }
+    }
+
 }
