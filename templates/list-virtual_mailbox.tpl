@@ -116,9 +116,9 @@
 			<td>
 				<form method="post" action="delete.php">
 					<input type="hidden" name="table" value="mailbox">
-					<input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
+					<input type="hidden" name="delete" value="{$item.username}">
 					<input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
-					<button type="submit" class="btn btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
+					<button type="submit" class="btn btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$RAW_tMailbox[$i].username|escape:'javascript'|escape:'html'}');">
 						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 					</button>
 				</form>
