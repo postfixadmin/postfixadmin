@@ -52,7 +52,7 @@
 </div>
 
 {if in_array($broadcast_job.status, $broadcast_active_statuses)}
-    <p id="broadcast-process-error" class="alert alert-danger d-none">{$PALANG.broadcast_process_error}</p>
+    <p id="broadcast-process-error" class="alert alert-danger d-none" role="alert">{$PALANG.broadcast_process_error}</p>
     <form id="broadcast-process-form" method="post" action="broadcast-status.php">
         {CSRF_Token}
         <input type="hidden" name="action" value="process"/>
@@ -63,6 +63,7 @@
     {literal}
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('broadcast-process-form');
+        const tokenInput = form.querySelector('input[name="CSRF_Token"]');
         let stopped = false;
         let processed = 0;
         async function processBatch() {
@@ -80,6 +81,10 @@
                     throw new Error('Broadcast request failed');
                 }
                 const result = await response.json();
+                if (typeof result.csrf_token !== 'string' || result.csrf_token === '') {
+                    throw new Error('Broadcast response is missing a CSRF token');
+                }
+                tokenInput.value = result.csrf_token;
                 if (!result.busy) {
                     document.getElementById('broadcast-sent').textContent = result.sent;
                     document.getElementById('broadcast-failed').textContent = result.failed;

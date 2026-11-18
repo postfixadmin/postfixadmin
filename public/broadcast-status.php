@@ -10,7 +10,6 @@ if (Config::bool('sendmail_all_admins')) {
 }
 
 $CONF = Config::getInstance()->getAll();
-$smarty = PFASmarty::getInstance();
 
 if ($CONF['sendmail'] != 'YES') {
     header("Location: main.php");
@@ -59,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
             header('Content-Type: application/json');
-            echo json_encode(['busy' => true]);
+            echo json_encode(['busy' => true, 'csrf_token' => CsrfToken::generate()]);
             exit;
         }
         try {
@@ -81,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'unknown' => BroadcastQueue::getUnknownCount($jobId),
             'cancelled' => (int)($job['cancelled_count'] ?? 0),
             'processed' => $result['processed'],
+            'csrf_token' => CsrfToken::generate(),
         ]);
         exit;
     }
@@ -110,6 +110,7 @@ if (empty($job) || !BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_g
     exit;
 }
 
+$smarty = PFASmarty::getInstance();
 $smarty->assign('broadcast_job', $job);
 $broadcastDomains = BroadcastQueue::getJobDomains($jobId);
 $smarty->assign('broadcast_domains', $broadcastDomains);

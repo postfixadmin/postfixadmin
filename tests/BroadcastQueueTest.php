@@ -45,6 +45,30 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(["one@{$this->domains[0]}"], BroadcastQueue::buildRecipients([$this->domains[0]], true));
     }
 
+    public function testInvalidAliasDestinationFailsWithoutStoppingOtherRecipients(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $this->createMailbox("one@{$this->domains[0]}", $this->domains[0]);
+        $invalid = '@test.in@"><svg/onload=alert(1)>@test';
+        $this->createAlias("webmaster@{$this->domains[0]}", $this->domains[0], $invalid);
+        $recipients = BroadcastQueue::buildRecipients([$this->domains[0]], false);
+        $this->assertContains($invalid, $recipients);
+
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test', 'noreply@example.test', 'PostfixAdmin', 'Invalid alias', 'Body',
+            [$this->domains[0]], false, $recipients
+        );
+        $result = BroadcastQueue::processNext(10, true, $jobId);
+        $this->assertSame('finished', $result['status']);
+        $this->assertSame(1, $result['failed']);
+        $this->assertSame(1, $result['sent']);
+        $rows = array_column(BroadcastQueue::getRecipients($jobId), null, 'recipient');
+        $this->assertSame('failed', $rows[$invalid]['status']);
+        $this->assertSame('Invalid recipient address', $rows[$invalid]['error']);
+        $this->assertNull($rows[$invalid]['smtp_response']);
+        $this->assertSame('sent', $rows["one@{$this->domains[0]}"]['status']);
+    }
+
     public function testCreateJobBusyDomainsAndDryRunProcessing(): void
     {
         $this->createDomain($this->domains[0]);

@@ -472,16 +472,20 @@ class BroadcastQueue
             $recipientId = (int)$item['id'];
             $recipient = $item['recipient'];
             $messageId = '<broadcast-' . $jobId . '-' . $recipientId . '-' . bin2hex(random_bytes(8)) . '@' . php_uname('n') . '>';
-            db_execute("UPDATE $recipientTable SET status = 'sending', smtp_response = :message_id, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'message_id' => 'Message-ID: ' . $messageId], true);
-
-            $ok = $dryRun ? true : self::sendRecipient($job, $recipient, $messageId);
+            $invalidRecipient = self::hasLineBreak($recipient) || filter_var($recipient, FILTER_VALIDATE_EMAIL) === false;
+            if ($invalidRecipient) {
+                $ok = false;
+            } else {
+                db_execute("UPDATE $recipientTable SET status = 'sending', smtp_response = :message_id, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'message_id' => 'Message-ID: ' . $messageId], true);
+                $ok = $dryRun ? true : self::sendRecipient($job, $recipient, $messageId);
+            }
             $pdo = db_connect();
             $pdo->beginTransaction();
             try {
                 if ($ok) {
                     db_execute("UPDATE $recipientTable SET status = 'sent', smtp_response = :response, sent_at = " . self::nowSql() . ", modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'response' => ($dryRun ? 'dry-run; ' : 'accepted by SMTP; ') . 'Message-ID: ' . $messageId], true);
                 } else {
-                    db_execute("UPDATE $recipientTable SET status = 'failed', error = :error, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'error' => 'SMTP submission failed'], true);
+                    db_execute("UPDATE $recipientTable SET status = 'failed', error = :error, modified = " . self::nowSql() . " WHERE id = :id", ['id' => $recipientId, 'error' => $invalidRecipient ? 'Invalid recipient address' : 'SMTP submission failed'], true);
                 }
                 self::updateCounters($jobId, true);
                 $pdo->commit();
