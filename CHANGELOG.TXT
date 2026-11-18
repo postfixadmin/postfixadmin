@@ -6,10 +6,15 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Changes after 4.0.6 (not in a release yet)
+
+Version 4.0.7 (2026/11/18)
 --------------------------
-   - Honor the configured theme logo in the mailbox-user navigation menu.
-   - Add missing strings to all languages
+
+   - Fix XSS issues due to incorrect use of smarty escape:quotes, or invalid aliases being stored - CVE-2026-127178 ( thanks @mirko )
+   - Block a domain admin from being able to enumerate all admin/superadmin usernames via list.php?table=adminpassword (thanks @cboltz & @mirko)
+   - Honor the configured theme logo in the mailbox-user navigation menu ( thanks @TrapoSAMA, see #1195 )
+   - Add missing strings to all languages ( thanks @cboltz & @TrapoSAMA, see #1114 )
+   - Virtual Mailbox List - indicate by colour whether vacation is active ( thanks @csware, see #1193 )
 
 Version 4.0.6 (2026/11/06)
 --------------------------
