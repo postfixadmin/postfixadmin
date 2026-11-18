@@ -7,6 +7,7 @@ $PALANG['dns_active'] = 'Active DNS'; # XXX
 $PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
 
 $PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
+$PALANG['mfa'] = 'MFA'; # XXX
 # $Id: en.lang 275 2007-12-28 21:42:09Z christian_boltz $
 //
 // Language file Japanese

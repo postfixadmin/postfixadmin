@@ -386,6 +386,7 @@ class PostfixAdmin
         $this->stdout("    delete    Delete an item");
         $this->stdout("    scheme    Print database scheme (useful for developers only)");
         $this->stdout("    help      Print help output");
+        $this->stdout("    resetmfa  Reset MFA (admin and mailbox modules only)");
         $this->stdout("");
         $this->stdout("");
         $this->stdout("For module-specific help, see:");

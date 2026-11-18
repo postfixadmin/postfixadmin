@@ -19,6 +19,7 @@ class TotpManagementHttpTest extends TestCase
         self::assertTrue(mkdir($this->directory));
         $config = Config::getInstance()->getAll();
         $config['totp'] = 'YES';
+        $config['page_size'] = 2;
         $config['default_language'] = 'en';
         $config['language_hook'] = '';
         $config['mailbox_post_TOTP_change_secret_script'] = '';
@@ -69,6 +70,9 @@ class TotpManagementHttpTest extends TestCase
         foreach (['admin', 'mailbox'] as $table) {
             db_execute('DELETE FROM ' . table_by_key($table) . ' WHERE username = :username', ['username' => self::USERNAME]);
         }
+        db_delete('domain_admins', 'domain', self::DOMAIN);
+        db_delete('mailbox', 'username', 'plain@' . self::DOMAIN);
+        db_delete('mailbox', 'username', 'zz@' . self::DOMAIN);
         db_execute('DELETE FROM ' . table_by_key('domain') . ' WHERE domain = :domain', ['domain' => self::DOMAIN]);
         if (isset($this->directory) && is_dir($this->directory)) {
             foreach (new DirectoryIterator($this->directory) as $file) {
@@ -130,6 +134,74 @@ class TotpManagementHttpTest extends TestCase
         ]);
         self::assertSame(200, $status);
         self::assertSame($newSecret, $this->storedSecret($table));
+    }
+
+    #[DataProvider('accountTypes')]
+    public function testAdministrativeWebResetRetainsPermissionsAndCsrf(string $table, string $role): void
+    {
+        db_update($table, 'username', self::USERNAME, ['totp_secret' => self::SECRET]);
+        db_insert('domain_admins', ['username' => self::USERNAME, 'domain' => self::DOMAIN, 'active' => true], ['created'], true);
+        $token = $this->startSession('global-admin');
+        $path = '/edit.php?table=' . $table . '&edit=' . urlencode(self::USERNAME);
+        [$status, $body] = $this->request($path);
+        self::assertSame(200, $status, $body);
+        self::assertStringContainsString('name="reset_totp"', $body);
+        [$status] = $this->request($path, ['CSRF_Token' => 'invalid', 'reset_totp' => '1']);
+        self::assertSame(419, $status);
+        self::assertSame(self::SECRET, $this->storedSecret($table));
+
+        $token = $this->startSession('admin');
+        [$status] = $this->request($path, ['CSRF_Token' => $token, 'reset_totp' => '1']);
+        if ($table === 'admin') {
+            self::assertSame(302, $status);
+            self::assertSame(self::SECRET, $this->storedSecret($table));
+            $token = $this->startSession('global-admin');
+            [$status] = $this->request($path, ['CSRF_Token' => $token, 'reset_totp' => '1']);
+        }
+        self::assertSame(302, $status);
+        self::assertNull($this->storedSecret($table));
+    }
+
+    public function testDomainAdminCannotResetAnUnmanagedMailbox(): void
+    {
+        db_update('mailbox', 'username', self::USERNAME, ['totp_secret' => self::SECRET]);
+        $token = $this->startSession('admin');
+        [$status] = $this->request('/edit.php?table=mailbox&edit=' . urlencode(self::USERNAME), ['CSRF_Token' => $token, 'reset_totp' => '1']);
+        self::assertSame(302, $status);
+        self::assertSame(self::SECRET, $this->storedSecret('mailbox'));
+    }
+
+    public function testMailboxMfaVisibilityUsesTheCompleteAuthorizedSearchResult(): void
+    {
+        db_insert('domain_admins', ['username' => self::USERNAME, 'domain' => self::DOMAIN, 'active' => true], ['created'], true);
+        foreach (['plain' => null, 'zz' => self::SECRET] as $name => $secret) {
+            db_insert('mailbox', ['username' => $name . '@' . self::DOMAIN, 'password' => 'unused',
+                'name' => $name, 'maildir' => '', 'local_part' => $name, 'domain' => self::DOMAIN,
+                'active' => true, 'totp_secret' => $secret], ['created', 'modified'], true);
+        }
+        $this->startSession('admin');
+        $path = '/list-virtual.php?domain=' . self::DOMAIN;
+        [$status, $body] = $this->request($path . '&limit=0');
+        self::assertSame(200, $status, $body);
+        self::assertStringContainsString('<th>MFA</th>', $body);
+        self::assertStringNotContainsString('<td>Yes</td>', $body);
+        self::assertStringNotContainsString(self::SECRET, $body);
+        [$status, $body] = $this->request($path . '&limit=2');
+        self::assertSame(200, $status, $body);
+        self::assertStringContainsString('<td>YES</td>', $body);
+        [$status, $body] = $this->request($path . '&limit=0&search%5B_%5D=plain');
+        self::assertSame(200, $status, $body);
+        self::assertStringNotContainsString('<th>MFA</th>', $body);
+        [$status, $body] = $this->request('/list.php?table=domain');
+        self::assertSame(200, $status, $body);
+        self::assertStringContainsString('badge text-bg-success">MFA</span>', $body);
+        db_update('mailbox', 'username', 'zz@' . self::DOMAIN, ['totp_secret' => null]);
+        [$status, $body] = $this->request($path . '&limit=0');
+        self::assertSame(200, $status, $body);
+        self::assertStringNotContainsString('<th>MFA</th>', $body);
+        [$status, $body] = $this->request('/list.php?table=domain');
+        self::assertSame(200, $status, $body);
+        self::assertStringNotContainsString('badge text-bg-success">MFA</span>', $body);
     }
 
     private function currentCode(string $secret): string

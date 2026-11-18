@@ -14,6 +14,8 @@ $PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...';
 //
 
 
+$PALANG['mfa'] = 'MFA';
+
 $PALANG['YES'] = 'YES';
 $PALANG['NO'] = 'NO';
 $PALANG['edit'] = 'edit';
