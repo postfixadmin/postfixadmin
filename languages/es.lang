@@ -518,6 +518,7 @@ $PALANG['pMain_global_search'] = 'Búsqueda global';
 $PALANG['pMain_global_search_placeholder'] = 'Buscar globalmente (buzón, alias ...)';
 $PALANG['pMain_search_button'] = 'Buscar';
 $PALANG['pMain_dashboard'] = 'Panel';
+$PALANG['pSearch_for_domains'] = 'Search for domains'; # XXX
 $PALANG['pTOTP_code_text'] = 'Escanea la imagen anterior e ingresa el código actual para habilitar la autenticación TOTP en tu cuenta.';
 $PALANG['pTOTP_enabled'] = 'TOTP está activado.';
 $PALANG['pTOTP_restart'] = 'Reiniciar TOTP';

@@ -85,6 +85,8 @@ $PALANG['pMain_global_search_placeholder'] = 'Global search (mailbox, alias ...)
 $PALANG['pMain_search_button'] = 'Search';
 $PALANG['pMain_dashboard'] = 'Dashboard';
 
+$PALANG['pSearch_for_domains'] = 'Search for domains';
+
 $PALANG['pOverview_disabled'] = 'Disabled';
 $PALANG['pOverview_unlimited'] = 'Unlimited';
 $PALANG['pOverview_title'] = 'Defined Domains';
