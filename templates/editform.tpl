@@ -126,9 +126,10 @@
 
         }
     }
+{/literal}
     {if (isset($struct.local_part) && $struct.local_part.options.legal_chars) }
     // If set: Check for illegal characters in local part of username
-
+{literal}
     // decode htmlentities
     var div = document.createElement('div');
     div.innerHTML = "{$struct.local_part.options.legal_char_warning}";
