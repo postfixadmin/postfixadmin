@@ -8,7 +8,8 @@ set_exception_handler(function ($exception) {
     if ($exception instanceof CsrfInvalidException) {
         // 419 is not a registered status code: without an explicit reason phrase
         // Apache replaces the status line with "500 Internal Server Error".
-        header(($_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.1') . ' 419 Page Expired', true, 419);
+        // Always HTTP/1.1: mod_php only applies a status line starting with "HTTP/1.".
+        header('HTTP/1.1 419 Page Expired', true, 419);
         $title = Config::lang('session_expired_title') ?: 'Session expired';
         $message = Config::lang('session_expired_message') ?: 'The page token is no longer valid. Please return and try again.';
         $button = Config::lang('session_expired_button') ?: 'Continue';
