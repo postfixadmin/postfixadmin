@@ -108,6 +108,7 @@
 </form>
 
 <script type="text/javascript">
+{literal}
     function searchDomains() {
         input = document.getElementById("id_searchDomains").value.toLowerCase();
         ul = document.getElementById("domainsList");
@@ -146,4 +147,5 @@
         });
     }
     {/if}
+{/literal}
 </script>
