@@ -201,11 +201,11 @@
                     <td class="list-col-action">{if $item._can_delete}
                             <form method="post" action="{#url_delete#}">
                                 <input type="hidden" name="table" value="{$table}">
-                                <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
+                                <input type="hidden" name="delete" value="{$item.$id_field}">
                                 {CSRF_Token}
 
                                 <button class="btn btn-sm btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}"
-                                        onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
+                                        onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':{$RAW_item.$id_field|escape:'javascript'|escape:'html'}}')">
                                     <span class="bi bi-trash" aria-hidden="true"></span>
                                 </button>
                             </form>
