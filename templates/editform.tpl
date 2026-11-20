@@ -39,7 +39,7 @@
                                     {elseif $field.type == 'list'}
                                         <input type="text" class="form-control" style="margin-bottom : 25px;"
                                                id="id_searchDomains" onkeyup="searchDomains()"
-                                               placeholder="Search for domains..." title="search domains">
+                                               placeholder="{$PALANG.pSearch_for_domains}">
                                         <ul id="domainsList" name="value[{$key}][]"
                                             style="max-height : 250px; overflow: auto;">
                                             {foreach from=$struct.{$key}.options item=domain}
@@ -108,6 +108,7 @@
 </form>
 
 <script type="text/javascript">
+{literal}
     function searchDomains() {
         input = document.getElementById("id_searchDomains").value.toLowerCase();
         ul = document.getElementById("domainsList");
@@ -125,9 +126,10 @@
 
         }
     }
+{/literal}
     {if (isset($struct.local_part) && $struct.local_part.options.legal_chars) }
     // If set: Check for illegal characters in local part of username
-
+{literal}
     // decode htmlentities
     var div = document.createElement('div');
     div.innerHTML = "{$struct.local_part.options.legal_char_warning}";
@@ -146,4 +148,5 @@
         });
     }
     {/if}
+{/literal}
 </script>

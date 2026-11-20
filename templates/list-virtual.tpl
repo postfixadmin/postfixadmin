@@ -17,7 +17,7 @@
             {if isset($search._)}
                 <h4>{$PALANG.pSearch_welcome} {$search._}</h4>
             {else}
-                <h4>{$PALANG.pOverview_welcome}{$fDomain} :</h4>
+                <h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
                 <ul>
                     <li style="list-style-type: none">{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</li>
                     <li style="list-style-type: none"> {$PALANG.mailboxes}: {$limit.mailbox_count}

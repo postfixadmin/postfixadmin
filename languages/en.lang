@@ -85,15 +85,17 @@ $PALANG['pMain_global_search_placeholder'] = 'Global search (mailbox, alias ...)
 $PALANG['pMain_search_button'] = 'Search';
 $PALANG['pMain_dashboard'] = 'Dashboard';
 
+$PALANG['pSearch_for_domains'] = 'Search for domains';
+
 $PALANG['pOverview_disabled'] = 'Disabled';
 $PALANG['pOverview_unlimited'] = 'Unlimited';
-$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_title'] = 'Defined Domains';
 $PALANG['pOverview_up_arrow'] = 'Go Top';
 $PALANG['pOverview_right_arrow'] = 'Next Page';
 $PALANG['pOverview_left_arrow'] = 'Previous Page';
-$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases';
-$PALANG['pOverview_alias_title'] = ':: Forwards ';
-$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_alias_domain_title'] = 'Domain Aliases';
+$PALANG['pOverview_alias_title'] = 'Forwards ';
+$PALANG['pOverview_mailbox_title'] = 'Mailboxes';
 $PALANG['go'] = 'Go';
 $PALANG['pOverview_welcome'] = 'Overview for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains';
