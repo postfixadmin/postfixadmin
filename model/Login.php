@@ -38,8 +38,7 @@ class Login
             try {
                 $crypt_password = pacrypt($password, $row['password'], $username);
             } catch (\Exception $e) {
-                error_log("Error while trying to call pacrypt()");
-                error_log("" . $e->getMessage());
+                error_log("Error while trying to call pacrypt() : " . $e->getMessage());
                 hash_equals("not", "comparable");
                 return false; // just refuse to login?
             }
@@ -51,8 +50,7 @@ class Login
             // this causes errors with e.g. dovecot as there is no prefix.
             $x = pacrypt('abc', 'def');
         } catch (\Exception $e) {
-            error_log("Error trying to call pacrypt()");
-            error_log("" . $e);
+            error_log("Error trying to call pacrypt() : " . $e->getMessage());
         }
 
         return hash_equals('not', 'comparable');
