@@ -4,7 +4,10 @@ require_once(dirname(__FILE__) . '/../common.php');
 
 function pfa_handle_invalid_token(): void
 {
-    http_response_code(419); // HTTP 419 Page Expired.
+    // 419 is not a registered status code: without an explicit reason phrase
+    // Apache replaces the status line with "500 Internal Server Error".
+    // Always HTTP/1.1: mod_php only applies a status line starting with "HTTP/1.".
+    header('HTTP/1.1 419 Page Expired', true, 419);
 
     $returnUrl = 'main.php';
     $title = Config::lang('session_expired_title') ?: 'Session expired';
