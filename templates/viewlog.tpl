@@ -111,6 +111,6 @@
 
 <script>
         function go2page(page){
-                window.location.href = '{$url}?page='+page+'&fDomain={$fDomain}';
+                window.location.href = '?page='+page+'&fDomain={$fDomain}';
         }
 </script>

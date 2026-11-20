@@ -153,8 +153,6 @@ foreach ($tLog as $k => $v) {
         $tLog[$k] = $v;
     }
 }
-//get url
-$url = explode("?",(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
 
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
@@ -163,7 +161,6 @@ $smarty->assign('fDomain', $fDomain);
 
 $smarty->assign('number_of_pages', $number_of_pages);
 $smarty->assign('page_number', $page_number);
-$smarty->assign('url',$url);
 
 $smarty->assign('smarty_template', 'viewlog');
 $smarty->display('index.tpl');

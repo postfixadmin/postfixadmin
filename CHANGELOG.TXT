@@ -7,6 +7,11 @@
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
 
+Unreleased
+----------
+
+   - Preserve the current origin when paginating the admin log (see #1210).
+
 Version 4.0.7 (2026/11/18)
 --------------------------
 
