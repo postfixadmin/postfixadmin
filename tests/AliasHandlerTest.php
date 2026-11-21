@@ -308,6 +308,56 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * An address with more than one "@" must be rejected. Before this was fixed,
+     * a localpart such as '@example.com@<payload>' slipped past the catch-all
+     * shortcut in validate_new_id() (empty local part => check_email() skipped)
+     * and was stored verbatim, leading to stored HTML/JS injection in the alias
+     * list (the id is rendered via $item in templates/list.tpl).
+     */
+    public function testCannotCreateAliasWithMalformedAddress()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['global-admin']
+            ]
+        ];
+
+        # the create-alias webform combines the 'localpart' and 'domain' fields via mergeId()
+        $handler = new AliasHandler(1, 'admin', true);
+        $handler->webformConfig(); # switch to webform (localpart + domain) mode
+
+        $address = $handler->mergeId([
+            'localpart' => '@example.com@"><svg/onload=alert(1)>',
+            'domain' => 'example.com',
+        ]);
+
+        $this->assertFalse($handler->init($address), "malformed address must be rejected: $address");
+        $this->assertNotEmpty($handler->errormsg);
+
+        # nothing must have been stored
+        $this->assertEmpty(db_query_all('SELECT address FROM alias WHERE address LIKE :a', ['a' => '%svg%']));
+    }
+
+    /**
+     * Regression guard: the above fix must not break legitimate "@domain" catch-all aliases.
+     */
+    public function testCatchallAliasStillAllowed()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['global-admin']
+            ]
+        ];
+
+        $handler = new AliasHandler(1, 'admin', true);
+        $this->assertTrue($handler->init('@example.com'), json_encode($handler->errormsg));
+    }
+
 
     /**
      * @see https://github.com/postfixadmin/postfixadmin/pull/375 and https://github.com/postfixadmin/postfixadmin/issues/358

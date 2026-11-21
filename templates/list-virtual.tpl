@@ -42,23 +42,24 @@
         <div class="row">
             <div class="col-md-12 text-center">{$PALANG.show}
                 {if isset($search._)}
-                    {assign var="searchsuffix" value="&search[_]={$search._}"}
+                    {* plain '&' here - auto-escaping turns it into &amp; when printed *}
+                    {assign var="searchsuffix" value="&search[_]={$search._|escape:url}"}
                 {else}
                     {assign var="searchsuffix" value=""}
                 {/if}
 
                 {if $tab=='all'}<span class='active'>{$PALANG.all}</span>
-                {else}<a href="?domain={$smarty.get.domain}&amp;tab=all{$searchsuffix}">{$PALANG.all}</a>{/if}
+                {else}<a href="?domain={$smarty.get.domain|escape:url}&amp;tab=all{$searchsuffix}">{$PALANG.all}</a>{/if}
                 {if $tab=='mailbox'}<span class='active'>{$PALANG.pOverview_mailbox_title}</span>
                 {else}<a
-                    href="?domain={$smarty.get.domain}&amp;tab=mailbox{$searchsuffix}">{$PALANG.pOverview_mailbox_title}</a>{/if}
+                    href="?domain={$smarty.get.domain|escape:url}&amp;tab=mailbox{$searchsuffix}">{$PALANG.pOverview_mailbox_title}</a>{/if}
                 {if $tab=='alias'}<span class='active'>{$PALANG.pOverview_alias_title}</span>
                 {else}<a
-                    href="?domain={$smarty.get.domain}&amp;tab=alias{$searchsuffix}">{$PALANG.pOverview_alias_title}</a>{/if}
+                    href="?domain={$smarty.get.domain|escape:url}&amp;tab=alias{$searchsuffix}">{$PALANG.pOverview_alias_title}</a>{/if}
                 {if $boolconf_alias_domain}
                     {if $tab=='alias_domain'}<span class='active'>{$PALANG.pOverview_alias_domain_title}</span>
                     {else}<a
-                        href="?domain={$smarty.get.domain}&amp;tab=alias_domain{$searchsuffix}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
+                        href="?domain={$smarty.get.domain|escape:url}&amp;tab=alias_domain{$searchsuffix}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
                 {/if}
             </div>
         </div>
@@ -79,20 +80,20 @@
 {if $tab=='alias' || $tab=='all'}
     <div class="text-center mb-2">{$PALANG.alias_active_filter}
         {if $alias_active=='all'}<span class='active'>{$PALANG.all}</span>
-        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=all&amp;limit=0{$searchsuffix}">{$PALANG.all}</a>{/if}
+        {else}<a href="?domain={$smarty.get.domain|escape:url}&amp;tab={$tab}&amp;alias_active=all&amp;limit=0{$searchsuffix}">{$PALANG.all}</a>{/if}
         {if $alias_active=='active'}<span class='active'>{$PALANG.active}</span>
-        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=active&amp;limit=0{$searchsuffix}">{$PALANG.active}</a>{/if}
+        {else}<a href="?domain={$smarty.get.domain|escape:url}&amp;tab={$tab}&amp;alias_active=active&amp;limit=0{$searchsuffix}">{$PALANG.active}</a>{/if}
         {if $alias_active=='inactive'}<span class='active'>{$PALANG.inactive}</span>
-        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
+        {else}<a href="?domain={$smarty.get.domain|escape:url}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
     </div>
     {include file="list-virtual_alias.tpl"}
     {if $alias_active=='inactive' && $tAlias}
         <div class="text-center mb-2">
             <form method="post" action="delete-inactive.php" style="display:inline">
-                <input type="hidden" name="fDomain" value="{$fDomain|escape:"quotes"}">
+                <input type="hidden" name="fDomain" value="{$fDomain}">
                 {CSRF_Token}
                 <button class="btn btn-sm btn-danger"
-                        onclick="return confirm('{$PALANG.delete_inactive_confirm|escape:"javascript"}')"><span
+                        onclick="return confirm('{$PALANG.delete_inactive_confirm|escape:"javascript"|escape:"force"}')"><span
                             class="bi bi-trash" aria-hidden="true"></span> {$PALANG.delete_inactive_button}</button>
             </form>
         </div>
@@ -132,25 +133,25 @@
     <br/>
     {if $CONF.show_undeliverable===YES}
         &nbsp;
-        <span title="{$PALANG.pStatus_undeliverable_tooltip|escape:"html"}">
-            <span style='background-color:{$CONF.show_undeliverable_color};'>{$CONF.show_status_text}</span>
+        <span title="{$PALANG.pStatus_undeliverable_tooltip}">
+            <span style='background-color:{$CONF.show_undeliverable_color};'>{$CONF.show_status_text|raw}</span>
             ={$PALANG.pStatus_undeliverable}
         </span>
         &nbsp;
-        <span title="{$PALANG.pStatus_external_tooltip|escape:"html"}">
-            <span style='background-color:{$CONF.show_external_color};'>{$CONF.show_status_text}</span>
+        <span title="{$PALANG.pStatus_external_tooltip}">
+            <span style='background-color:{$CONF.show_external_color};'>{$CONF.show_status_text|raw}</span>
             ={$PALANG.pStatus_external}
         </span>
     {/if}
     {if $CONF.show_popimap===YES}
         &nbsp;
-        <span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text}</span>
+        <span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text|raw}</span>
         ={$PALANG.pStatus_popimap}
     {/if}
     {if $CONF.show_custom_domains|@count>0}
         {foreach from=$CONF.show_custom_domains item=item key=i}
             &nbsp;
-            <span style='background-color:{$CONF.show_custom_colors[$i]};'>{$CONF.show_status_text}</span>
+            <span style='background-color:{$CONF.show_custom_colors[$i]};'>{$CONF.show_status_text|raw}</span>
             ={$PALANG.pStatus_custom}{$item}
         {/foreach}
     {/if}

@@ -5,7 +5,7 @@
             <div class="alert alert-info" role="alert">
                 <ul class="flash-info">
                     {foreach from=$smarty.session.flash.info item=msg}
-                        <li>{$msg|escape:html}</li>
+                        <li>{$msg}</li>
                     {/foreach}
                 </ul>
             </div>
@@ -14,7 +14,7 @@
             <div class="alert alert-danger" role="alert">
                 <ul class="flash-error">
                     {foreach from=$smarty.session.flash.error item=msg}
-                        <li>{$msg|escape:html}</li>
+                        <li>{$msg}</li>
                     {/foreach}
                 </ul>
             </div>

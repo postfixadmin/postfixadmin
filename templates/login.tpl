@@ -17,7 +17,7 @@
 
             <div class="mb-3">
                 <label for=lang>{$PALANG.pLogin_language}:</label>
-                {$language_selector}
+                {$language_selector|raw}
             </div>
             <div class="text-center">
                 <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span

@@ -25,7 +25,7 @@
             {/if}
         </div>
         <table id="log_table" class="table">
-            {#tr_header#}
+            {#tr_header#|raw} {* trusted HTML from configs/menu.conf *}
             <th>{$PALANG.pViewlog_timestamp}</th>
             <th>{$PALANG.admin}</th>
             <th>{$PALANG.domain}</th>
@@ -34,7 +34,7 @@
             </tr>
             {foreach from=$tLog item=item}
                 {assign var=log_data value=$item.data|truncate:35:"...":true}
-                {$smarty.config.tr_hilightoff}
+                {$smarty.config.tr_hilightoff|raw}
                 <td nowrap="nowrap">{$item.timestamp}</td>
                 <td nowrap="nowrap">{$item.username}</td>
                 <td nowrap="nowrap">{$item.domain}</td>

@@ -7,6 +7,7 @@ class EditFormNavigationTest extends TestCase
     public function testCancelRendersAsNavigationToHandlerList(): void
     {
         $smarty = new \Smarty\Smarty();
+        $smarty->setEscapeHtml(true); // match PFASmarty
         $smarty->setTemplateDir(__DIR__ . '/../templates');
         $smarty->setCompileDir(sys_get_temp_dir());
         $smarty->registerPlugin('function', 'CSRF_Token', static fn (): string => '');
@@ -26,6 +27,7 @@ class EditFormNavigationTest extends TestCase
     {
         foreach (['sendmail.tpl', 'broadcast-message.tpl'] as $template) {
             $smarty = new \Smarty\Smarty();
+            $smarty->setEscapeHtml(true); // match PFASmarty
             $smarty->setTemplateDir(__DIR__ . '/../templates');
             $smarty->setCompileDir(sys_get_temp_dir());
             $smarty->registerPlugin('function', 'CSRF_Token', static fn (): string => '');

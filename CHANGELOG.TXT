@@ -9,6 +9,9 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
 
+   - Use Smarty auto-escaping (setEscapeHtml) - this is a big change and makes all template variables HTML-escaped by default (explicit |raw needed in the template now).
+     Note: installations with custom themes / tmeplates - the $RAW_ template variables have been removed.
+     Run upgrade.php - it decodes legacy HTML-escaped app-password / TOTP-exception descriptions (otherwise shown with literal entities).
    - Show configured MFA in administrator, domain and mailbox lists; add the admin/mailbox resetmfa CLI task.
    - Restore mailbox-user TOTP exception links and use the shared navigation header without overlapping logos.
    - Enforce managed-domain authorization for administrator TOTP self-exceptions, including partial edits.

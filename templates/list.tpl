@@ -1,3 +1,5 @@
+{* Print a list cell value, optionally wrapped in a link. All parameters are plain values and are escaped here. *}
+{function name=list_cell_link href='' title='' text=''}{if $href != ''}<a href="{$href}"{if $title != ''} title="{$title}"{/if}>{$text}</a>{else}{$text}{/if}{/function}
 <div id="{$id_div}" class="card">
 
     {if ($admin_list|count > 1) || ($table == 'domain' && $dns_check_mode > 0)}
@@ -35,7 +37,7 @@
     {/if}
 
     {if $msg.show_simple_search}
-        {#form_search#}
+        {#form_search#|raw} {* trusted HTML from configs/menu.conf *}
     {/if}
 
     {if $msg.show_simple_search}
@@ -83,17 +85,19 @@
             </tr>
             </thead>
             <tbody>
-            {foreach key=raw_itemkey from=$RAW_items item=RAW_item}
-                {assign var="itemkey" value=$raw_itemkey|htmlentities_no_double_encode} {* array keys in $items are escaped by PFASmarty::sanitise()  *}
-                {assign var="item" value=$items[$itemkey]}
+            {foreach key=itemkey from=$items item=item}
                 <tr>
 
                     {foreach key=key item=field from=$struct}
                         {if $field.display_in_list == 1 && $field.label}
 
+                            {* linktext/linkto/linktitle are plain (unescaped) values; list_cell_link escapes them on output *}
+                            {assign "linktext" $item.$key}
+                            {assign "linkto" ""}
+                            {assign "linktitle" ""}
                             {if $field.linkto != '' && ($item.$id_field != '' || $item.$id_field > 0) }
-                                {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
-                                {assign "linktitle" ""}
+                                {* unquoted on purpose: a modifier inside "{...}" would be auto-escaped here and again on output *}
+                                {assign "linkto" $field.linkto|replace:'%s':($item.$id_field|escape:url)} {* TODO: use label field instead *}
                                 {if $table == 'domain' && $key == 'domain'}
                                     {if isset($struct.maxquota) && $struct.maxquota.display_in_list == 0 && isset($item.maxquota)}
                                         {if $item.maxquota < 0}
@@ -106,17 +110,10 @@
                                         {assign "linktitle" "{$PALANG.pAdminList_domain_maxquota}: {$maxquota_text}"}
                                     {/if}
                                     {if isset($struct.password_expiry) && $struct.password_expiry.display_in_list == 0 && isset($item.password_expiry)}
-                                        {if $linktitle != ''}{assign "linktitle" "{$linktitle}&#10;"}{/if}
+                                        {if $linktitle != ''}{assign "linktitle" "{$linktitle}\n"}{/if}
                                         {assign "linktitle" "{$linktitle}{$PALANG.password_expiration}: {$item.password_expiry}"}
                                     {/if}
                                 {/if}
-                                {if $linktitle != ''}
-                                    {assign "linktext" "<a href='{$linkto}' title='{$linktitle}'>{$item.{$key}}</a>"}
-                                {else}
-                                    {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
-                                {/if}
-                            {else}
-                                {assign "linktext" $item.$key}
                             {/if}
 
                             {if $table == 'foo' && $key == 'bar'}
@@ -126,10 +123,9 @@
                                     {if $table == 'foo' && $key == 'bar'}
                                         Special handling (td content) for {$table} / {$key}
                                     {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
-                                        <a href="list-virtual.php?domain={$item.target_domain|escape:"quotes"}">{$item.target_domain}</a>
-                                        {* do we need escape:url or escpae:quotes here? see #705 *}
+                                        <a href="list-virtual.php?domain={$item.target_domain|escape:"url"}">{$item.target_domain}</a>
                                     {elseif $table == 'domain' && $key == 'domain'}
-                                        {$linktext} {if isset($item.mfa) && $item.mfa}<span class="badge text-bg-success">{$PALANG.mfa}</span>{/if}
+                                        {call list_cell_link href=$linkto title=$linktitle text=$linktext} {if isset($item.mfa) && $item.mfa}<span class="badge text-bg-success">{$PALANG.mfa}</span>{/if}
                                         {if $item.full_mailbox_count > 0}<span class="text-danger">({$item.full_mailbox_count})</span>{/if}
                                         {if $dns_check_mode > 0 && isset($item.dns_active) && $item.dns_active == 0}<span class="bi bi-exclamation-triangle text-danger" role="img" aria-label="Inactive DNS" title="Inactive DNS"></span>{/if}
                                         {*                    {elseif $table == 'domain' && $key == 'domain'}
@@ -140,7 +136,7 @@
                                     {elseif $key == 'active'}
                                         {if $item._can_edit}
                                             <a class="btn btn-sm btn-{if ($item.active==0)}info{else}warning{/if} list-action-icon" title="{$field.label}: {$item._active}" aria-label="{$field.label}: {$item._active}"
-                                            href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={CSRF_Token type="url"}">
+                                            href="{#url_editactive#}{$table}&amp;id={$item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={CSRF_Token type="url"}">
                                                 {if $item._active == $PALANG['YES']}
                                                     <span class="bi bi-check-lg" aria-hidden="true"></span>
                                                 {else}
@@ -168,23 +164,24 @@
                                         {/if}
                                         {assign "quota_tooltip" ""}
                                         {if $table == 'domain' && $key == 'total_quot' && isset($item.total_quota_used)}
-                                            {assign "quota_tooltip" "{$PALANG.quota_assigned}: {$linktext}&#10;{$PALANG.quota_used}: {$item.total_quota_used} MB"}
+                                            {assign "quota_tooltip" "{$PALANG.quota_assigned}: {$linktext}\n{$PALANG.quota_used}: {$item.total_quota_used} MB"}
                                         {/if}
                                         <div class="quota_bar{if $item[$tmpkey] <= -1 && !($table == 'domain' && (($key == 'aliases_quot' && $item.aliases == 0) || ($key == 'mailboxes_quot' && $item.mailboxes == 0) || ($key == 'total_quot' && $item.quota == 0)))} quota_no_border{/if}"{if $quota_tooltip != ''} title="{$quota_tooltip}"{/if}>
                                             {if $item[$tmpkey] > -1}
                                                 <span class="quota_fill quota_{$quota_level}" style="width:{$item[$tmpkey]}%;"></span>
-                                                <span class="quota_label quota_text_{$quota_level}">{$linktext}</span>
+                                                <span class="quota_label quota_text_{$quota_level}">{call list_cell_link href=$linkto title=$linktitle text=$linktext}</span>
                                             {else}
-                                                <span class="quota_label">{if $table == 'domain' && $key == 'total_quot' && $item.quota == 0 && $CONF.used_quotas === YES && isset($item.total_quota_used)}{$item.total_quota_used} / &infin;{else}{$linktext}{/if}</span>
+                                                <span class="quota_label">{if $table == 'domain' && $key == 'total_quot' && $item.quota == 0 && $CONF.used_quotas === YES && isset($item.total_quota_used)}{$item.total_quota_used} / &infin;{else}{call list_cell_link href=$linkto title=$linktitle text=$linktext}{/if}</span>
                                             {/if}
                                         </div>
 
                                     {elseif $field.type == 'txtl'}
                                         {foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
                                     {elseif $field.type == 'html'}
-                                        {$RAW_item.$key}
+                                        {* trusted HTML generated by the handler (e.g. alias status) - not escaped *}
+                                        {$item.$key|raw}
                                     {else}
-                                        {$linktext}
+                                        {call list_cell_link href=$linkto title=$linktitle text=$linktext}
                                     {/if}
                                 </td>
                             {/if}
@@ -193,7 +190,7 @@
 
                     <td class="list-col-action">{if $item._can_edit}
                             <a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.edit}" aria-label="{$PALANG.edit}"
-                            href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
+                            href="edit.php?table={$table|escape:"url"}&amp;edit={$item.$id_field|escape:"url"}"><span
                                         class="bi bi-pencil" aria-hidden="true"></span></a>
                         {else}&nbsp;
                         {/if}
@@ -201,11 +198,11 @@
                     <td class="list-col-action">{if $item._can_delete}
                             <form method="post" action="{#url_delete#}">
                                 <input type="hidden" name="table" value="{$table}">
-                                <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
+                                <input type="hidden" name="delete" value="{$item.$id_field}">
                                 {CSRF_Token}
 
                                 <button class="btn btn-sm btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}"
-                                        onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
+                                        onclick="return confirm('{$PALANG.{$msg.confirm_delete}|escape:'javascript'|replace:'%s':{$item.$id_field|escape:'javascript'}|escape:'force'}')">
                                     <span class="bi bi-trash" aria-hidden="true"></span>
                                 </button>
                             </form>
@@ -228,14 +225,14 @@
             {if $msg.can_create}
                 {assign var=tmpdomain value=""}
                 {if isset($fDomain)}
-                    {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
+                    {assign var=tmpdomain value="&domain={$fDomain|escape:url}"} {* plain '&' - escaped on output *}
                 {/if}
                 <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button"
                     class="btn btn-secondary"><span
                             class="bi bi-plus-circle"
                             aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
             {/if}
-            <a href="list.php?table={$table|escape:"url"}&amp;output=csv&amp;domain={$domain_selected}"
+            <a href="list.php?table={$table|escape:"url"}&amp;output=csv&amp;domain={$domain_selected|escape:url}"
                 role="button"
                 class="btn btn-secondary"><span class="bi bi-box-arrow-up-right"
                                                 aria-hidden="true"></span> {$PALANG.download_csv}</a>

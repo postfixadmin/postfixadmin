@@ -5,6 +5,5 @@
 {assign var="id_field" value=$msg.id_field}
 {assign var="formconf" value=$alias_data.formconf}
 {assign var="items" value=$tAlias}
-{assign var="RAW_items" value=$RAW_tAlias}
 
 {include 'list.tpl' pagination=$pagination_alias pagination_label=$PALANG.pOverview_alias_title}
