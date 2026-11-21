@@ -86,8 +86,11 @@ if (array_key_exists('reset_search', $_GET)) {
     $searchmode = array();
 }
 
-$_SESSION["search_$table"] = $search;
-$_SESSION["searchmode_$table"] = $searchmode;
+// CSV downloads use the search from the URL but must not overwrite the search saved for the list page
+if (safeget('output') != 'csv') {
+    $_SESSION["search_$table"] = $search;
+    $_SESSION["searchmode_$table"] = $searchmode;
+}
 
 $dns_inactive_count = 0;
 $dns_oldest_checked = '';
@@ -170,14 +173,15 @@ if (safeget('output') == 'csv') {
             $columns[] = $key;
         }
     }
-    fputcsv($out, $header);
+    fputcsv($out, $header, escape: "");
 
     # print items as csv
     foreach ($items as $item) {
         $fields = array();
 
         // skip domains that do not match selected domain (see: https://github.com/postfixadmin/postfixadmin/issues/404)
-        if (!empty($fDomain) && $item['domain'] != $fDomain) {
+        // '*' is list-virtual.php's "All domains" option - the handler already restricts to the admin's domains
+        if (!empty($fDomain) && $fDomain !== '*' && $item['domain'] != $fDomain) {
             continue;
         }
         foreach ($columns as $column) {
@@ -187,7 +191,7 @@ if (safeget('output') == 'csv') {
             }
             $fields[] = $values;
         }
-        fputcsv($out, $fields);
+        fputcsv($out, $fields, escape: "");
     }
     fclose($out);
     exit(0);

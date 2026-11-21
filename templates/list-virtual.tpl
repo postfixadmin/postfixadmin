@@ -4,13 +4,14 @@
         <div class="row align-items-center gy-2">
             <div class="{if $dns_check_mode > 0}col-md-4{else}col-md-5{/if}">
                 <form name="frmOverview" method="get" action="{$smarty.config.url_list_virtual}">
-                    {html_options name='domain' class='form-control' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
+                    {html_options name='domain' class='form-control' options=$domain_options selected=$domain_selected onchange="this.form.submit();"}
                     <input type="hidden" name="limit" value="0"/>
                     <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
                 </form>
             </div>
             {if $dns_check_mode > 0}
                 <div class="col-md-5">
+                    {if !$show_all}
                     <form method="post" action="refresh-domain-dns.php" class="d-flex align-items-center gap-2 flex-wrap">
                         {CSRF_Token}
                         <input type="hidden" name="domain" value="{$domain_selected}">
@@ -20,6 +21,7 @@
                         {/if}
                         <small class="text-muted">{$PALANG.dns_last_check}: {$domain_dns_status.dns_checked|default:$PALANG.dns_not_checked}</small>
                     </form>
+                    {/if}
                 </div>
             {/if}
             <div class="{if $dns_check_mode > 0}col-md-3{else}col-md-5 offset-md-2{/if} text-right virtual-search">{include file='virtual-search.tpl'}</div>
@@ -28,7 +30,9 @@
     <div class="card-body">
         <div class="text-center">
             {if isset($search._)}
-                <h4>{$PALANG.pSearch_welcome} {$search._}</h4>
+                <h4>{$PALANG.pSearch_welcome} {$search._} ({if $show_all}{$PALANG.pViewlog_all_domains}{else}{$fDomain}{/if})</h4>
+            {elseif $show_all}
+                <h4>{$PALANG.pOverview_welcome}{$PALANG.pViewlog_all_domains} :</h4>
             {else}
                 <h4>{$PALANG.pOverview_welcome}{$fDomain} :</h4>
                 <ul>
@@ -87,7 +91,7 @@
         {else}<a href="?domain={$smarty.get.domain|escape:url}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
     </div>
     {include file="list-virtual_alias.tpl"}
-    {if $alias_active=='inactive' && $tAlias}
+    {if $alias_active=='inactive' && $tAlias && !$show_all}
         <div class="text-center mb-2">
             <form method="post" action="delete-inactive.php" style="display:inline">
                 <input type="hidden" name="fDomain" value="{$fDomain}">
@@ -117,12 +121,12 @@
         <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
             <div class="btn-group">
                 {if $tCanAddMailbox}
-                    <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
+                    <a href="{#url_create_mailbox#}{if !$show_all}&amp;domain={$fDomain|escape:"url"}{/if}" role="button"
                         class="btn btn-secondary"><span class="bi bi-plus-circle"
                                                         aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
                 {/if}
                 <a role="button" class="btn btn-secondary"
-                    href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
+                    href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected|escape:url}{if isset($search._) && $search._ !== ''}&amp;search%5B_%5D={$search._|escape:url}{else}&amp;reset_search=1{/if}"><span
                             class="bi bi-box-arrow-up-right" aria-hidden="true"></span> {$PALANG.download_csv}</a>
             </div>
         </div>
