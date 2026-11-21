@@ -47,11 +47,7 @@
                     <td>{$gen_show_status_mailbox[$i]|raw}</td>
                 {/if}
                 <td>
-                    {if $search eq ""}
-                        {$item.username}
-                    {else}
-                        {$item.username|replace:$search:"<span class='searchresult'>$search</span>"}
-                    {/if}
+                    {$item.username|highlight:$search|raw}
                 </td>
                 {if $display_mailbox_aliases==true}
                     <td>
@@ -63,11 +59,7 @@
                             <br/>
                         {/if}
                         {foreach from=$item.goto_other item=item2 key=j}
-                            {if $search eq ""}
-                                {$item2}
-                            {else}
-                                {$item2|replace:$search:"<span class='searchresult'>$search</span>"}
-                            {/if}
+                            {$item2|highlight:$search|raw}
                             <br/>
                         {/foreach}
                     </td>
