@@ -31,7 +31,7 @@ class PageBrowserPaginationTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($pagination[1]['disabled']);
         $this->assertTrue($pagination[2]['active']);
         $this->assertSame(
-            '?table=alias&amp;username=admin%40example.com&amp;search%5B_%5D=sales%20%26%20support&amp;searchmode%5B_%5D=%3D&amp;limit=10#main_div',
+            '?table=alias&username=admin%40example.com&search%5B_%5D=sales%20%26%20support&searchmode%5B_%5D=%3D&limit=10#main_div',
             $pagination[3]['url']
         );
         $this->assertSame('Next page', $pagination[5]['aria']);
@@ -48,10 +48,10 @@ class PageBrowserPaginationTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertFalse($pagination[0]['disabled']);
-        $this->assertSame('?table=domain&amp;limit=0#main_div', $pagination[0]['url']);
-        $this->assertSame('?table=domain&amp;limit=0#main_div', $pagination[1]['url']);
+        $this->assertSame('?table=domain&limit=0#main_div', $pagination[0]['url']);
+        $this->assertSame('?table=domain&limit=0#main_div', $pagination[1]['url']);
         $this->assertTrue($pagination[3]['active']);
-        $this->assertSame('?table=domain&amp;limit=20#main_div', $pagination[5]['url']);
+        $this->assertSame('?table=domain&limit=20#main_div', $pagination[5]['url']);
         $this->assertFalse($pagination[5]['disabled']);
     }
 

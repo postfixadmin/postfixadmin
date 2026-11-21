@@ -313,7 +313,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
      * a localpart such as '@example.com@<payload>' slipped past the catch-all
      * shortcut in validate_new_id() (empty local part => check_email() skipped)
      * and was stored verbatim, leading to stored HTML/JS injection in the alias
-     * list (the id is rendered via $RAW_item in templates/list.tpl).
+     * list (the id is rendered via $item in templates/list.tpl).
      */
     public function testCannotCreateAliasWithMalformedAddress()
     {

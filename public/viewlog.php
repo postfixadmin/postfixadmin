@@ -186,12 +186,12 @@ $url = explode("?", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "h
 $domain_param = $show_all ? $all_domains_value : $fDomain;
 $pagination = array();
 if ($number_of_pages > 1) {
-    $base = $url . '?fDomain=' . urlencode($domain_param) . '&amp;page_size=' . $page_size . '&amp;page=';
+    $base = $url . '?fDomain=' . urlencode($domain_param) . '&page_size=' . $page_size . '&page='; // escaped by Smarty on output
     $on_first = ($page_number <= 1);
     $on_last  = ($page_number >= $number_of_pages);
 
-    $pagination[] = array('label' => '&laquo;',  'url' => $base . 1,                 'disabled' => $on_first, 'aria' => 'First');
-    $pagination[] = array('label' => '&lsaquo;', 'url' => $base . ($page_number - 1), 'disabled' => $on_first, 'aria' => 'Previous');
+    $pagination[] = array('label' => '«',  'url' => $base . 1,                 'disabled' => $on_first, 'aria' => 'First');
+    $pagination[] = array('label' => '‹', 'url' => $base . ($page_number - 1), 'disabled' => $on_first, 'aria' => 'Previous');
     foreach ($page_window as $p) {
         if ($p === null) {
             $pagination[] = array('ellipsis' => true);
@@ -199,8 +199,8 @@ if ($number_of_pages > 1) {
             $pagination[] = array('label' => $p, 'url' => $base . $p, 'active' => ($p == $page_number));
         }
     }
-    $pagination[] = array('label' => '&rsaquo;', 'url' => $base . ($page_number + 1), 'disabled' => $on_last, 'aria' => 'Next');
-    $pagination[] = array('label' => '&raquo;',  'url' => $base . $number_of_pages,   'disabled' => $on_last, 'aria' => 'Last');
+    $pagination[] = array('label' => '›', 'url' => $base . ($page_number + 1), 'disabled' => $on_last, 'aria' => 'Next');
+    $pagination[] = array('label' => '»',  'url' => $base . $number_of_pages,   'disabled' => $on_last, 'aria' => 'Last');
 }
 
 $smarty->assign('domain_list', $list_domains);

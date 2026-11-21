@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $header = "--\n-- Postfix Admin $version\n-- Date: " . date("D M j G:i:s T Y") . "\n--\n";
 
     if (!$fh = fopen($backup, 'w')) {
-        flash_error("<div class=\"error_msg\">Cannot open file ($backup)</div>");
+        flash_error("Cannot open file ($backup)");
         $smarty->assign('smarty_template', 'message');
         $smarty->display('index.tpl');
     } else {

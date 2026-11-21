@@ -20,6 +20,7 @@ class MailboxNavigationTemplateTest extends \PHPUnit\Framework\TestCase
                 $_SESSION['lang'] = $language;
                 foreach (['YES', 'NO'] as $totp) {
                     $smarty = new \Smarty\Smarty();
+                    $smarty->setEscapeHtml(true); // match PFASmarty
                     $smarty->setCompileDir(sys_get_temp_dir());
                     $smarty->setTemplateDir(__DIR__ . '/../templates');
                     $smarty->setConfigDir(__DIR__ . '/../configs');

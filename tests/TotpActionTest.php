@@ -104,6 +104,7 @@ class TotpActionTest extends TestCase
     public function testEditTemplateRendersBooleanAction(string $handlerClass): void
     {
         $smarty = new \Smarty\Smarty();
+        $smarty->setEscapeHtml(true); // match PFASmarty
         $smarty->setCompileDir(sys_get_temp_dir());
         $smarty->setTemplateDir(__DIR__ . '/../templates');
         $smarty->registerPlugin('function', 'CSRF_Token', static fn (): string => '<input type="hidden" name="token" value="fixture">');
@@ -118,7 +119,7 @@ class TotpActionTest extends TestCase
             require __DIR__ . '/../languages/' . $language . '.lang';
             $PALANG['pUsersMenu_reset_totp'] = '<Reset & confirm>';
             $PALANG['pUsersMenu_no_totp_set'] = '<Not configured & safe>';
-            $smarty->assign('PALANG', PFASmarty::getInstance()->sanitise($PALANG));
+            $smarty->assign('PALANG', $PALANG);
             foreach ([true, false] as $hasTotp) {
                 $smarty->assign('value_totp_action', $hasTotp);
                 $html = $smarty->fetch('editform.tpl');

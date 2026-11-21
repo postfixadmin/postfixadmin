@@ -3,7 +3,8 @@
     {if !empty($smarty.get) && !empty($smarty.get.domain)}
         {*** zuweisung muss eleganter gehen ***}
         {assign var="url_domain" value=$smarty.get.domain}
-        {assign var="url_domain" value="&amp;domain={$url_domain|escape:url}"}
+        {* plain '&' here - auto-escaping turns it into &amp; when printed *}
+        {assign var="url_domain" value="&domain={$url_domain|escape:url}"}
     {/if}
 {/strip}
 
