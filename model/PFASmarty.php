@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
+ * Wrapper around Smarty with HTML auto-escaping enabled, so every {$var} is escaped on output.
+ * Use {$var|raw} in a template only for trusted, already-safe HTML.
  */
 class PFASmarty
 {
@@ -30,13 +31,8 @@ class PFASmarty
         }
 
         $this->template = new \Smarty\Smarty();
-        // Smarty 5 no longer lets templates call native PHP functions unless they're registered first.
-        $this->template->registerPlugin('modifier', 'htmlentities', 'htmlentities');
-        $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
-        $this->template->registerPlugin('modifier', 'htmlentities_no_double_encode', function (string $string) {
-            return htmlentities($string, ENT_QUOTES, 'UTF-8', false);
-        });
-
+        // Escape all template output by default (see https://smarty-php.github.io/smarty/5.x/api/configuring/#enabling-auto-escaping)
+        $this->template->setEscapeHtml(true);
 
         $this->template->registerPlugin('function', 'CSRF_Token', function (array $args): string {
             $token = CsrfToken::generate();
@@ -104,15 +100,15 @@ class PFASmarty
             $CONF['theme_css'] = 'css/bootstrap.css';
         }
 
-        $CONF['theme_css'] = $rel_path . htmlentities($CONF['theme_css']);
+        $CONF['theme_css'] = $rel_path . $CONF['theme_css'];
         if (!empty($CONF['theme_custom_css'])) {
-            $CONF['theme_custom_css'] = $rel_path . htmlentities($CONF['theme_custom_css']);
+            $CONF['theme_custom_css'] = $rel_path . $CONF['theme_custom_css'];
         }
         if (array_key_exists('theme_favicon', $CONF)) {
-            $CONF['theme_favicon'] = $rel_path . htmlentities($CONF['theme_favicon']);
+            $CONF['theme_favicon'] = $rel_path . $CONF['theme_favicon'];
         }
 
-        $CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
+        $CONF['theme_logo'] = $rel_path . $CONF['theme_logo'];
 
         $this->assign('rel_path', $rel_path);
         $this->assign('CONF', $CONF);
@@ -120,19 +116,14 @@ class PFASmarty
 
 
     /**
+     * Assign a value to the template. Output is HTML-escaped by Smarty when rendered.
+     *
      * @param string $key
      * @param mixed $value
-     * @param TemplateEscape $sanitise Output escaping mode; RAW requires data safe for its output context.
      */
-    public function assign(string $key, mixed $value, TemplateEscape $sanitise = TemplateEscape::HTML)
+    public function assign(string $key, mixed $value): void
     {
-        $this->template->assign("RAW_$key", $value);
-        if ($sanitise === TemplateEscape::RAW) {
-            return $this->template->assign($key, $value);
-        }
-        $clean = $this->sanitise($value);
-        /* we won't run the key through sanitise() here... some might argue we should */
-        return $this->template->assign($key, $clean);
+        $this->template->assign($key, $value);
     }
 
     /**
@@ -165,29 +156,5 @@ class PFASmarty
         $this->template->display($template);
 
         unset($_SESSION['flash']); # cleanup flash messages
-    }
-
-    /**
-     * Recursive cleaning of data, using htmlentities - this assumes we only ever output to HTML and we're outputting in UTF-8 charset
-     *
-     * @param mixed $data - array or primitive type; objects not supported.
-     * @return mixed $data
-     * */
-    public function sanitise($data)
-    {
-        if (!is_array($data) && !is_string($data)) {
-            return $data; // bool, int, null, object etc - can't sanitise.
-        }
-
-        if (is_string($data)) {
-            return htmlentities($data, ENT_QUOTES, 'UTF-8', false);
-        }
-
-        $clean = array();
-        foreach ($data as $key => $value) {
-            /* as this is a nested data structure it's more likely we'll output the key too (at least in my opinion, so we'll sanitise it too */
-            $clean[$this->sanitise($key)] = $this->sanitise($value);
-        }
-        return $clean;
     }
 }

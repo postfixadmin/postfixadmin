@@ -2341,3 +2341,26 @@ function upgrade_1857()
     _db_add_field('domain', 'dns_active', 'BOOLEAN DEFAULT NULL', 'active');
     _db_add_field('domain', 'dns_checked', 'timestamp NULL DEFAULT NULL', 'dns_active');
 }
+
+/**
+ * Templates are now escaped by Smarty on output (setEscapeHtml), which - unlike the old
+ * PFASmarty::sanitise() - re-encodes existing HTML entities. Legacy app-password and
+ * TOTP-exception descriptions that were stored HTML-escaped (e.g. "R&amp;D") would therefore
+ * be displayed literally, so decode them once to the plain text they represent.
+ */
+function upgrade_1858()
+{
+    foreach (['mailbox_app_password', 'totp_exception_address'] as $key) {
+        $table = table_by_key($key);
+        $rows = db_query_all("SELECT id, description FROM $table WHERE description LIKE :amp", ['amp' => '%&%;%']);
+        foreach ($rows as $row) {
+            $decoded = html_entity_decode((string)$row['description'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            if ($decoded !== $row['description']) {
+                db_execute("UPDATE $table SET description = :description WHERE id = :id", [
+                    'description' => $decoded,
+                    'id' => $row['id'],
+                ]);
+            }
+        }
+    }
+}

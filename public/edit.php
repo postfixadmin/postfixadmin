@@ -244,15 +244,11 @@ foreach ($form_fields as $key => $_) {
         } else {
             $fielderror[$key] = '';
         }
-        $sanitise = TemplateEscape::HTML;
-        if (isset($form_fields[$key]['type']) && $form_fields[$key]['type'] == 'html') {
-            $sanitise = TemplateEscape::RAW;
-        }
-
+        // Output is auto-escaped by Smarty; 'html' type fields are printed with |raw in editform.tpl
         if (isset($values[$key])) {
-            $smarty->assign("value_$key", $values[$key], $sanitise);
+            $smarty->assign("value_$key", $values[$key]);
         } else {
-            $smarty->assign("value_$key", $form_fields[$key]['default'], $sanitise);
+            $smarty->assign("value_$key", $form_fields[$key]['default']);
         }
     }
 }

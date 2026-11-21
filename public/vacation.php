@@ -118,7 +118,7 @@ if (is_array($details)) {
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if ($vh->check_vacation()) {
-        flash_info(sprintf($PALANG['pUsersVacation_welcome_text'], htmlentities($tUseremail)));
+        flash_info(sprintf($PALANG['pUsersVacation_welcome_text'], $tUseremail));
     }
 
     //set a default, reset fields for coming back selection
@@ -197,17 +197,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // If NO error then diplay flash message  and  go back to right url where we came from
     if ($error == 0) {
         if ($action == 'fBack') {
-            flash_info(sprintf($PALANG['pVacation_result_removed'], htmlentities($tUseremail)));
+            flash_info(sprintf($PALANG['pVacation_result_removed'], $tUseremail));
             header("Location: $Return_url");
             exit;
         }
         if ($action == 'fChange') {
-            flash_info(sprintf($PALANG['pVacation_result_added'], htmlentities($tUseremail)));
+            flash_info(sprintf($PALANG['pVacation_result_added'], $tUseremail));
             header("Location: $Return_url");
             exit;
         }
     } else {
-        flash_error(sprintf($PALANG['pVacation_result_error'], htmlentities($fUsername)));
+        flash_error(sprintf($PALANG['pVacation_result_error'], $fUsername));
     }
 }
 

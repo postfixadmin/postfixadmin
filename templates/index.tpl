@@ -55,7 +55,7 @@
         {include file="$smarty_template.tpl"}
     {else}
         <h3>Template not found</h3>
-        ({$smarty.server.PHP_SELF|escape:"html"})
+        ({$smarty.server.PHP_SELF})
     {/if}
 </div>
 <!-- {$smarty.template} -->

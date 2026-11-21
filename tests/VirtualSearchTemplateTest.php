@@ -7,6 +7,8 @@ class VirtualSearchTemplateTest extends \PHPUnit\Framework\TestCase
         global $CONF;
 
         $smarty = new \Smarty\Smarty();
+
+        $smarty->setEscapeHtml(true); // match PFASmarty
         $smarty->setCompileDir(sys_get_temp_dir());
         $smarty->setTemplateDir(__DIR__ . '/../templates');
         foreach (['en', 'es'] as $language) {

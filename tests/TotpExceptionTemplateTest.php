@@ -6,6 +6,7 @@ class TotpExceptionTemplateTest extends \PHPUnit\Framework\TestCase
     {
         global $CONF;
         $smarty = new \Smarty\Smarty();
+        $smarty->setEscapeHtml(true); // match PFASmarty
         $smarty->setCompileDir(sys_get_temp_dir());
         $smarty->setTemplateDir(__DIR__ . '/../templates');
         $smarty->registerPlugin('function', 'CSRF_Token', static fn (): string => '');

@@ -29,6 +29,9 @@ class SecurityListOutputTest extends TestCase
         self::assertSame(1, db_insert('totp_exception_address', [
             'username' => self::DOMAIN, 'description' => 'Domain exception', 'ip' => '192.0.2.10',
         ], []));
+        // Smarty auto-escaping re-encodes entities, so legacy HTML-escaped descriptions are decoded
+        // by this upgrade step - run it as an upgraded installation would have.
+        upgrade_1858();
         $this->directory = sys_get_temp_dir() . '/pfa-security-list-' . bin2hex(random_bytes(6));
         self::assertTrue(mkdir($this->directory));
         $config = Config::getInstance()->getAll();

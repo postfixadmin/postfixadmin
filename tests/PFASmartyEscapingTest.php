@@ -3,64 +3,85 @@
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * PFASmarty enables Smarty auto-escaping, so output is HTML-escaped when rendered
+ * (not when assigned) unless the template explicitly uses |raw.
+ */
 class PFASmartyEscapingTest extends TestCase
 {
-    public static function modes(): array
+    private const PAYLOAD = '<b>R&D</b> "x" \'y\'';
+
+    public static function templates(): array
     {
         return [
-            'default' => [null, true],
-            'explicit HTML' => [TemplateEscape::HTML, true],
-            'explicit RAW' => [TemplateEscape::RAW, false],
+            'plain variable is escaped' => [
+                '{$t.nested.text}',
+                '&lt;b&gt;R&amp;D&lt;/b&gt; &quot;x&quot; &#039;y&#039;',
+            ],
+            '|escape (html) does not double escape' => [
+                '{$t.nested.text|escape}',
+                '&lt;b&gt;R&amp;D&lt;/b&gt; &quot;x&quot; &#039;y&#039;',
+            ],
+            '|raw is not escaped' => [
+                '{$t.nested.text|raw}',
+                self::PAYLOAD,
+            ],
+            '|escape:url is not html escaped twice' => [
+                '{$t.nested.text|escape:url}',
+                rawurlencode(self::PAYLOAD),
+            ],
+            'javascript in attribute is forced through html escaping' => [
+                '{$t.nested.text|escape:"javascript"|escape:"force"}',
+                '&lt;b&gt;R&amp;D&lt;\\/b&gt; \\&quot;x\\&quot; \\&#039;y\\&#039;',
+            ],
+            'existing entities are escaped (not passed through)' => [
+                '{$t.entity}',
+                '&amp;amp;',
+            ],
+            'array keys are not modified' => [
+                '{foreach $t.keyed as $k => $v}{$k}={$v}{/foreach}',
+                'a&lt;b=1',
+            ],
         ];
     }
 
-    #[DataProvider('modes')]
-    public function testAssignmentEscapingAndRawCompatibility(?TemplateEscape $mode, bool $escaped): void
+    #[DataProvider('templates')]
+    public function testOutputEscaping(string $template, string $expected): void
     {
         $smarty = PFASmarty::getInstance();
-        $value = ['nested' => ['text' => '<b>R&D</b>']];
-        if ($mode === null) {
-            $smarty->assign('escaping_test', $value);
-        } else {
-            $smarty->assign('escaping_test', $value, $mode);
-        }
-        self::assertSame(($escaped ? '&lt;b&gt;R&amp;D&lt;/b&gt;' : '<b>R&D</b>') . '|<b>R&D</b>', $this->renderValue());
+        $smarty->assign('t', [
+            'nested' => ['text' => self::PAYLOAD],
+            'entity' => '&amp;',
+            'keyed' => ['a<b' => 1],
+        ]);
+        self::assertSame($expected, $this->render($template));
     }
 
-    public static function invalidModes(): array
+    public function testRequestSuperglobalsAreEscaped(): void
     {
-        return [
-            'false' => [false],
-            'true' => [true],
-            'null' => [null],
-            'zero' => [0],
-            'empty string' => [''],
-            'HTML string' => ['html'],
-            'RAW string' => ['raw'],
-            'old constant value' => ['no_escaping'],
-            'array' => [[]],
-        ];
-    }
-
-    #[DataProvider('invalidModes')]
-    public function testInvalidModeIsRejectedBeforeAssignment(mixed $mode): void
-    {
-        $smarty = PFASmarty::getInstance();
-        $smarty->assign('escaping_test', ['nested' => ['text' => '<b>original</b>']]);
+        $_GET['escaping_test'] = '"><script>alert(1)</script>';
         try {
-            $smarty->assign('escaping_test', ['nested' => ['text' => 'replacement']], $mode);
-            self::fail('An invalid mode must throw TypeError');
-        } catch (TypeError $error) {
-            self::assertStringContainsString('TemplateEscape', $error->getMessage());
+            self::assertSame(
+                '&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;',
+                $this->render('{$smarty.get.escaping_test}')
+            );
+        } finally {
+            unset($_GET['escaping_test']);
         }
-        self::assertSame('&lt;b&gt;original&lt;/b&gt;|<b>original</b>', $this->renderValue());
     }
 
-    private function renderValue(): string
+    public function testRawCopiesAreNoLongerAssigned(): void
+    {
+        $smarty = PFASmarty::getInstance();
+        $smarty->assign('escaping_test', 'value');
+        self::assertSame('missing', $this->render('{if isset($RAW_escaping_test)}present{else}missing{/if}'));
+    }
+
+    private function render(string $template): string
     {
         ob_start();
         try {
-            PFASmarty::getInstance()->display('string:{$escaping_test.nested.text}|{$RAW_escaping_test.nested.text}');
+            PFASmarty::getInstance()->display('string:' . $template);
             return (string)ob_get_contents();
         } finally {
             ob_end_clean();
