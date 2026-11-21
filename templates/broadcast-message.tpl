@@ -36,13 +36,13 @@
                 <div class="col-md-6 col-sm-8">
                     <select multiple="multiple" name="domains[]" id="domains" class="form-control">
                         {foreach from=$allowed_domains item=domain}
-                            <option value="{$domain|escape}"{if in_array($domain, $busy_domains)} disabled="disabled"{else} selected="selected"{/if}>
-                                {$domain|escape}{if in_array($domain, $busy_domains)} - {$PALANG.broadcast_domain_busy}{/if}
+                            <option value="{$domain}"{if in_array($domain, $busy_domains)} disabled="disabled"{else} selected="selected"{/if}>
+                                {$domain}{if in_array($domain, $busy_domains)} - {$PALANG.broadcast_domain_busy}{/if}
                             </option>
                         {/foreach}
                     </select>
                     {if $busy_domains|@count > 0}
-                        <div class="form-text">{$PALANG.broadcast_busy_domains}: {$busy_domains_text|escape}</div>
+                        <div class="form-text">{$PALANG.broadcast_busy_domains}: {$busy_domains_text}</div>
                     {/if}
                     <div class="form-text">
                         {$PALANG.broadcast_worker_note_1}<br/>
@@ -82,8 +82,8 @@
                     {foreach from=$broadcast_jobs item=job}
                         <tr>
                             <td>{$job.id}</td>
-                            <td>{$job.subject|escape}</td>
-                            <td>{$job.status_label|escape}</td>
+                            <td>{$job.subject}</td>
+                            <td>{$job.status_label}</td>
                             <td>
                                 {$PALANG.broadcast_sent}: {$job.sent_count} |
                                 {$PALANG.broadcast_failed}: {$job.failed_count} |
