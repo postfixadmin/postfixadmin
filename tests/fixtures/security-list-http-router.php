@@ -27,6 +27,7 @@ if ($path === '/__session') {
         '/users/password.php' => 'password.php',
         '/users/totp.php' => 'totp.php',
         '/list-virtual.php' => 'list-virtual.php',
+        '/list.php' => 'list.php',
         '/edit.php' => 'edit.php',
         '/app-passwords.php' => 'app-passwords.php',
         '/users/app-passwords.php' => 'app-passwords.php',
@@ -38,6 +39,6 @@ if ($path === '/__session') {
         exit;
     }
     // Both public aliases and user routes execute these complete controllers.
-    chdir(dirname(__DIR__, 2) . (in_array($path, ['/list-virtual.php', '/edit.php'], true) ? '/public' : '/public/users'));
+    chdir(dirname(__DIR__, 2) . (in_array($path, ['/list-virtual.php', '/list.php', '/edit.php'], true) ? '/public' : '/public/users'));
     require $pages[$path];
 }

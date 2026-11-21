@@ -12,7 +12,7 @@ class MailboxHandler extends PFAHandler
     protected string $db_table = 'mailbox';
     protected string $id_field = 'username';
     protected ?string $domain_field = 'domain';
-    protected array $searchfields = ['username'];
+    protected array $searchfields = ['username', 'name'];
     protected string $quota_error = 'pEdit_mailbox_quota_text_error';
 
     # init $this->struct, $this->db_table and $this->id_field
