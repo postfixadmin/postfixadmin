@@ -85,7 +85,7 @@ class AdminpasswordHandler extends PFAHandler {
      */
     protected function build_select_query($condition, $searchmode) {
         $condition = array('username' => $this->admin_username);
-        return parent::build_select_query($condition, $searchmode);
+        return parent::build_select_query($condition, []);
     }
 
     /**
