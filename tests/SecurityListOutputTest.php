@@ -31,7 +31,7 @@ class SecurityListOutputTest extends TestCase
         ], []));
         // Smarty auto-escaping re-encodes entities, so legacy HTML-escaped descriptions are decoded
         // by this upgrade step - run it as an upgraded installation would have.
-        upgrade_1858();
+        upgrade_1859();
         $this->directory = sys_get_temp_dir() . '/pfa-security-list-' . bin2hex(random_bytes(6));
         self::assertTrue(mkdir($this->directory));
         $config = Config::getInstance()->getAll();

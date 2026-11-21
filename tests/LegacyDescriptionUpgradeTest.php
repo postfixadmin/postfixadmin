@@ -1,12 +1,12 @@
 <?php
 
 /**
- * upgrade_1858() decodes HTML-escaped legacy descriptions, which Smarty auto-escaping
+ * upgrade_1859() decodes HTML-escaped legacy descriptions, which Smarty auto-escaping
  * would otherwise display literally (e.g. "R&amp;amp;D").
  */
 class LegacyDescriptionUpgradeTest extends \PHPUnit\Framework\TestCase
 {
-    private const USERNAME = 'legacy-desc@upgrade-1858.example.com';
+    private const USERNAME = 'legacy-desc@upgrade-1859.example.com';
 
     protected function tearDown(): void
     {
@@ -29,8 +29,8 @@ class LegacyDescriptionUpgradeTest extends \PHPUnit\Framework\TestCase
             db_insert('totp_exception_address', ['username' => self::USERNAME, 'description' => $stored, 'ip' => '198.51.100.' . (++$i)], []);
         }
 
-        upgrade_1858();
-        upgrade_1858(); // must be safe to run again
+        upgrade_1859();
+        upgrade_1859(); // must be safe to run again
 
         foreach (['mailbox_app_password', 'totp_exception_address'] as $table) {
             $rows = db_query_all('SELECT description FROM ' . table_by_key($table) . ' WHERE username = :username ORDER BY id', ['username' => self::USERNAME]);
