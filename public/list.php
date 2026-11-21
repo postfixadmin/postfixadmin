@@ -170,7 +170,7 @@ if (safeget('output') == 'csv') {
             $columns[] = $key;
         }
     }
-    fputcsv($out, $header);
+    fputcsv($out, $header, escape: "");
 
     # print items as csv
     foreach ($items as $item) {
@@ -187,7 +187,7 @@ if (safeget('output') == 'csv') {
             }
             $fields[] = $values;
         }
-        fputcsv($out, $fields);
+        fputcsv($out, $fields, escape: "");
     }
     fclose($out);
     exit(0);
