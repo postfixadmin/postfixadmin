@@ -9,6 +9,7 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
 
+
    - Update bundled Bootstrap to 5.3.9 and Bootstrap Icons to 1.13.2 (thanks @TrapoSAMA)
    - Use Smarty auto-escaping (setEscapeHtml()) - this is a big change and HTML-escapes all template variables by default (at render time)
      Note: 

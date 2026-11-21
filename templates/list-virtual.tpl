@@ -145,13 +145,13 @@
     {/if}
     {if $CONF.show_popimap===YES}
         &nbsp;
-        <span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text}</span>
+        <span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text|raw}</span>
         ={$PALANG.pStatus_popimap}
     {/if}
     {if $CONF.show_custom_domains|@count>0}
         {foreach from=$CONF.show_custom_domains item=item key=i}
             &nbsp;
-            <span style='background-color:{$CONF.show_custom_colors[$i]};'>{$CONF.show_status_text}</span>
+            <span style='background-color:{$CONF.show_custom_colors[$i]};'>{$CONF.show_status_text|raw}</span>
             ={$PALANG.pStatus_custom}{$item}
         {/foreach}
     {/if}
