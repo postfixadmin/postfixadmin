@@ -167,3 +167,11 @@ div#login{ max-width: 35em; }
   border-color: #0d6efd;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 .5rem rgba(13, 110, 253, .6);
 }
+
+/* Highlight search matches in list-virtual (same colours as <mark>, so it follows light/dark mode). */
+.searchresult {
+  font-weight: bold;
+  background-color: var(--bs-highlight-bg);
+  color: var(--bs-highlight-color);
+  border-radius: .2em;
+}
