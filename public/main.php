@@ -50,9 +50,10 @@ if (!empty($q) && !empty($list_domains)) {
     $table_domain = table_by_key('domain');
     $table_mailbox = table_by_key('mailbox');
 
-    $aliases = db_query_all("SELECT * FROM $table_alias WHERE address LIKE :q AND $domain_filter ORDER BY address ASC LIMIT 15", $params);
-    $mailboxes = db_query_all("SELECT * FROM $table_mailbox WHERE username LIKE :q AND $domain_filter ORDER BY username ASC LIMIT 15", $params);
-    $domains = db_query_all("SELECT * FROM $table_domain WHERE domain LIKE :q AND $domain_filter AND domain != 'ALL'  ORDER BY domain ASC LIMIT 15", $params);
+    $like = db_like();
+    $aliases = db_query_all("SELECT * FROM $table_alias WHERE address $like :q AND $domain_filter ORDER BY address ASC LIMIT 15", $params);
+    $mailboxes = db_query_all("SELECT * FROM $table_mailbox WHERE username $like :q AND $domain_filter ORDER BY username ASC LIMIT 15", $params);
+    $domains = db_query_all("SELECT * FROM $table_domain WHERE domain $like :q AND $domain_filter AND domain != 'ALL'  ORDER BY domain ASC LIMIT 15", $params);
 
     $smarty->assign('q', $q);
     $smarty->assign('mailboxes', $mailboxes);

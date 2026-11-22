@@ -179,7 +179,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
             $struct, '', ['domain' => 'CONT'], $params
         );
 
-        $this->assertEquals(' WHERE 1=1    AND    ( domain LIKE  :_wh_domain ) ', $sql);
+        $this->assertEquals(' WHERE 1=1    AND    ( domain' . db_like() . ' :_wh_domain ) ', $sql);
         $this->assertEquals(['_wh_domain' => '%example%'], $params);
     }
 

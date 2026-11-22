@@ -227,11 +227,12 @@ if ($show_all) {
 }
 if (isset($search['_'])) {
     $searchterm = $search['_'];
-    $sql_where .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
+    $like = db_like();
+    $sql_where .= " AND ( $table_mailbox.username $like :searchterm OR $table_mailbox.name $like :searchterm ";
     $sql_params['searchterm'] = "%$searchterm%";
 
     if ($display_mailbox_aliases) {
-        $sql_where .= " OR $table_alias.goto LIKE :searchterm ";
+        $sql_where .= " OR $table_alias.goto $like :searchterm ";
     }
     $sql_where .= " ) ";
 }

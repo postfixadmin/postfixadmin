@@ -733,7 +733,7 @@ abstract class PFAHandler
                 $simple_search = array();
                 foreach ($this->searchfields as $field) {
                     $param_key = '_search_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $field);
-                    $simple_search[] = "$field LIKE :$param_key";
+                    $simple_search[] = $field . db_like() . ":$param_key";
                     $params[$param_key] = '%' . $condition['_'] . '%';
                 }
                 $additional_where .= " AND ( " . join(" OR ", $simple_search) . " ) ";
