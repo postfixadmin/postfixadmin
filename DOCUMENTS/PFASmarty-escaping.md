@@ -18,7 +18,7 @@ Example output for the value `<b>R&D</b> "x" 'y'`:
 | `{$v}` | `&lt;b&gt;R&amp;D&lt;/b&gt; &quot;x&quot; &#039;y&#039;` | Normal HTML text and attributes (the default) |
 | `{$v\|escape}` / `{$v\|escape:"html"}` | same as `{$v}` (no double escaping) | Nothing. It's redundant, so leave it out |
 | `{$v\|raw}` | `<b>R&D</b> "x" 'y'` | Trusted HTML that is already safe |
-| `{$v\|escape:url}` | `rawurlencode($v)` | Query-string values in URLs |
+| `{$v\|escape:url}` | `%3Cb%3ER%26D%3C%2Fb%3E%20%22x%22%20%27y%27` aka `rawurlencode($v)` | Query-string values in URLs |
 | `{$v\|escape:"javascript"}` | `<b>R&D<\/b> \"x\" \'y\'` | Inside a `<script>` block |
 | `{$v\|escape:"javascript"\|escape:"force"}` | `&lt;b&gt;R&amp;D&lt;\/b&gt; \&quot;x\&quot; \&#039;y\&#039;` | JavaScript inside an HTML attribute (e.g. `onclick="..."`) |
 
