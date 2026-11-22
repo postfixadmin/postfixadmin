@@ -34,6 +34,12 @@ class PFASmartyEscapingTest extends TestCase
                 '{$t.nested.text|escape:"javascript"|escape:"force"}',
                 '&lt;b&gt;R&amp;D&lt;\\/b&gt; \\&quot;x\\&quot; \\&#039;y\\&#039;',
             ],
+            // escape:javascript only backslash-escapes quotes, backslashes, newlines and "</";
+            // auto-escaping then skips HTML escaping, so < > & reach the output unchanged.
+            'javascript escaping is not html escaped' => [
+                '{$t.nested.text|escape:"javascript"}',
+                '<b>R&D<\\/b> \\"x\\" \\\'y\\\'',
+            ],
             'existing entities are escaped (not passed through)' => [
                 '{$t.entity}',
                 '&amp;amp;',
