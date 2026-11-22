@@ -254,6 +254,16 @@ class AliasHandler extends PFAHandler
             return false;
         }
 
+        # A valid alias address contains exactly one "@": either "localpart@domain"
+        # or a "@domain" catch-all. Reject anything else here - otherwise an address
+        # such as "@domain@<payload>@domain" slips past the catch-all shortcut below
+        # (explode() yields an empty local part, so check_email() is skipped) and is
+        # stored verbatim, which allows stored HTML/JS injection in the alias list.
+        if (substr_count($this->id, '@') !== 1) {
+            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error1');
+            return false;
+        }
+
         list($local_part, $domain) = explode('@', $this->id);
 
         # TODO: already checked in set() - does it make sense to check it here also? Only advantage: it's an early check

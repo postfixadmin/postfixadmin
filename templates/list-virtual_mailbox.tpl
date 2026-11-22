@@ -159,10 +159,10 @@
                 <td>
                     <form method="post" action="delete.php">
                         <input type="hidden" name="table" value="mailbox">
-                        <input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
+                        <input type="hidden" name="delete" value="{$item.username}">
                         {CSRF_Token}
                         <button type="submit" class="btn btn-sm btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}"
-                                onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
+                                onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$RAW_tMailbox[$i].username|escape:'javascript'|escape:'html'}');">
                             <span class="bi bi-trash" aria-hidden="true"></span>
                         </button>
                     </form>
