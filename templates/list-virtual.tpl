@@ -134,24 +134,24 @@
     {if $CONF.show_undeliverable===YES}
         &nbsp;
         <span title="{$PALANG.pStatus_undeliverable_tooltip}">
-            <span style='background-color:{$CONF.show_undeliverable_color};'>{$CONF.show_status_text|raw}</span>
+            <span style='background-color:{$CONF.show_undeliverable_color};'>{$CONF.show_status_text}</span>
             ={$PALANG.pStatus_undeliverable}
         </span>
         &nbsp;
         <span title="{$PALANG.pStatus_external_tooltip}">
-            <span style='background-color:{$CONF.show_external_color};'>{$CONF.show_status_text|raw}</span>
+            <span style='background-color:{$CONF.show_external_color};'>{$CONF.show_status_text}</span>
             ={$PALANG.pStatus_external}
         </span>
     {/if}
     {if $CONF.show_popimap===YES}
         &nbsp;
-        <span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text|raw}</span>
+        <span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text}</span>
         ={$PALANG.pStatus_popimap}
     {/if}
     {if $CONF.show_custom_domains|@count>0}
         {foreach from=$CONF.show_custom_domains item=item key=i}
             &nbsp;
-            <span style='background-color:{$CONF.show_custom_colors[$i]};'>{$CONF.show_status_text|raw}</span>
+            <span style='background-color:{$CONF.show_custom_colors[$i]};'>{$CONF.show_status_text}</span>
             ={$PALANG.pStatus_custom}{$item}
         {/foreach}
     {/if}
