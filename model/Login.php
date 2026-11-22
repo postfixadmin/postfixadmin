@@ -20,7 +20,10 @@ class Login
      * Attempt to log a user in.
      * @return boolean true on successful login (i.e. password matches etc)
      */
-    public function login(string $username, string $password): bool
+    public function login(
+        string $username,
+        #[\SensitiveParameter]
+        string $password): bool
     {
         $active = db_get_boolean(true);
         $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
@@ -35,8 +38,7 @@ class Login
             try {
                 $crypt_password = pacrypt($password, $row['password'], $username);
             } catch (\Exception $e) {
-                error_log("Error while trying to call pacrypt()");
-                error_log("" . $e);
+                error_log("Error while trying to call pacrypt() : " . $e->getMessage());
                 hash_equals("not", "comparable");
                 return false; // just refuse to login?
             }
@@ -48,8 +50,7 @@ class Login
             // this causes errors with e.g. dovecot as there is no prefix.
             $x = pacrypt('abc', 'def');
         } catch (\Exception $e) {
-            error_log("Error trying to call pacrypt()");
-            error_log("" . $e);
+            error_log("Error trying to call pacrypt() : " . $e->getMessage());
         }
 
         return hash_equals('not', 'comparable');
