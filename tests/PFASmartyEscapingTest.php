@@ -28,7 +28,7 @@ class PFASmartyEscapingTest extends TestCase
             ],
             '|escape:url is not html escaped twice' => [
                 '{$t.nested.text|escape:url}',
-                rawurlencode(self::PAYLOAD),
+                '%3Cb%3ER%26D%3C%2Fb%3E%20%22x%22%20%27y%27', // rawurlencode(self::PAYLOAD)
             ],
             'javascript in attribute is forced through html escaping' => [
                 '{$t.nested.text|escape:"javascript"|escape:"force"}',
