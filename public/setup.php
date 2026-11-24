@@ -10,8 +10,8 @@ require_once('common.php');
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Postfix Admin - Setup</title>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="css/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-icons-1.13.1/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-5.3.9-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-icons-1.13.2/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
 </head>
 
