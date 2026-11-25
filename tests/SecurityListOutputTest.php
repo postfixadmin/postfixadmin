@@ -181,7 +181,7 @@ class SecurityListOutputTest extends TestCase
         $this->request('/__session?role=global-admin');
         [$status, $html] = $this->request('/list-virtual.php', ['fDomain' => self::DOMAIN]);
         self::assertSame(200, $status, $html);
-        self::assertStringContainsString(self::DOMAIN . ' :</h4>', $html);
+        self::assertStringContainsString(self::DOMAIN . '</h4>', $html);
         [$status] = $this->request('/list-virtual.php', ['fDomain' => '<img src=x onerror="alert(1)">']);
         self::assertSame(302, $status);
     }
