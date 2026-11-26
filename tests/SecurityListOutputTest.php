@@ -268,6 +268,54 @@ class SecurityListOutputTest extends TestCase
         }
     }
 
+    /**
+     * With alias_control_admin=YES, list-virtual.php also searches the mailbox alias's forwarding
+     * targets (goto) - the CSV export (list.php / MailboxHandler) must return the same mailboxes.
+     */
+    public function testVirtualListAndCsvBothMatchForwardingTargets(): void
+    {
+        $config = json_decode(file_get_contents($this->directory . '/config.json'), true, 512, JSON_THROW_ON_ERROR);
+        $config['alias_control_admin'] = 'YES';
+        file_put_contents($this->directory . '/config.json', json_encode($config, JSON_THROW_ON_ERROR));
+
+        self::assertSame(1, db_insert('domain_admins', [
+            'username' => 'admin@' . self::DOMAIN, 'domain' => self::DOMAIN, 'active' => true,
+        ], ['created']));
+        $mailboxes = [
+            // matches only through its forwarding destination - not via username or name
+            'forwarder@' . self::DOMAIN => ['Forwarding person', 'forwarder@' . self::DOMAIN . ',fwdtarget@elsewhere.example'],
+            'plain@' . self::DOMAIN => ['Plain person', 'plain@' . self::DOMAIN],
+        ];
+        try {
+            foreach ($mailboxes as $username => [$name, $goto]) {
+                [$local_part, $domain] = explode('@', $username);
+                self::assertSame(1, db_insert('mailbox', [
+                    'username' => $username, 'password' => 'x', 'name' => $name, 'maildir' => "$domain/$local_part/",
+                    'local_part' => $local_part, 'domain' => $domain, 'quota' => 0,
+                ]));
+                self::assertSame(1, db_insert('alias', [
+                    'address' => $username, 'goto' => $goto, 'domain' => $domain, 'active' => true,
+                ]));
+            }
+            $this->request('/__session?role=global-admin');
+            [$status, $html] = $this->request('/list-virtual.php?' . http_build_query(['domain' => self::DOMAIN, 'search' => ['_' => 'fwdtarget']]));
+            self::assertSame(200, $status, $html);
+            self::assertStringContainsString('forwarder@' . self::DOMAIN, $html);
+            self::assertStringNotContainsString('plain@' . self::DOMAIN, $html);
+
+            self::assertSame(1, preg_match('/href="(list\.php\?table=mailbox&amp;output=csv[^"]*)"/', $html, $match));
+            [$status, $csv] = $this->request('/' . html_entity_decode($match[1]));
+            self::assertSame(200, $status, $csv);
+            $usernames = array_map(fn ($line) => str_getcsv($line, ',', '"', '')[0], array_slice(array_filter(explode("\n", trim($csv, "\xEF\xBB\xBF\n"))), 1));
+            self::assertSame(['forwarder@' . self::DOMAIN], $usernames);
+        } finally {
+            foreach (array_keys($mailboxes) as $username) {
+                db_delete('alias', 'address', $username);
+                db_delete('mailbox', 'username', $username);
+            }
+        }
+    }
+
     public static function editorRoles(): array
     {
         return ['domain admin' => ['admin'], 'global admin' => ['global-admin']];

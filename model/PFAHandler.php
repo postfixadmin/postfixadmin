@@ -80,6 +80,8 @@ abstract class PFAHandler
      * @var array fields to search when using simple search ("?search[_]=...")
      * array with one or more fields to search (all fields will be OR'ed in the query)
      * searchmode is always 'contains' (using LIKE "%searchterm%")
+     * an entry with a string key is treated as 'name' => 'raw SQL expression' (e.g. a subquery);
+     * the expression is NOT escaped, so it must never contain user input.
      */
     protected array $searchfields = [];
 
@@ -731,8 +733,9 @@ abstract class PFAHandler
         if (is_array($condition)) {
             if (isset($condition['_']) && count($this->searchfields) > 0) {
                 $simple_search = array();
-                foreach ($this->searchfields as $field) {
-                    $param_key = '_search_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $field);
+                foreach ($this->searchfields as $name => $field) {
+                    # a string key names an SQL expression (e.g. a subquery) - use the key for the parameter name
+                    $param_key = '_search_' . preg_replace('/[^a-zA-Z0-9_]/', '_', is_string($name) ? $name : $field);
                     $simple_search[] = $field . db_like() . ":$param_key";
                     $params[$param_key] = '%' . $condition['_'] . '%';
                 }
