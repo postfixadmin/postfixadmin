@@ -12,9 +12,15 @@ class UnlimitedQuotaTemplateTest extends \PHPUnit\Framework\TestCase
         self::assertNotFalse($offset);
         $length = strpos($source, $end, $offset) - $offset;
         $smarty = new \Smarty\Smarty();
+        $smarty->setEscapeHtml(true); // match PFASmarty
         $smarty->setCompileDir(sys_get_temp_dir());
         $smarty->assign($variables);
-        return $smarty->fetch('string:' . substr($source, $offset, $length));
+        $fragment = substr($source, $offset, $length);
+        // list.tpl defines {function name=list_cell_link} at the top; include it so the fragment can {call} it
+        if (preg_match('/^\{function name=list_cell_link.*?\{\/function\}$/m', $source, $function)) {
+            $fragment = $function[0] . $fragment;
+        }
+        return $smarty->fetch('string:' . $fragment);
     }
 
     public function testUnlimitedMailboxRetainsAvailableAndUnknownUsage(): void

@@ -7,12 +7,12 @@ class ListTemplatePaginationTest extends \PHPUnit\Framework\TestCase
         $html = $this->renderList([
             [
                 'label' => 'aa-cz',
-                'url' => '?table=domain&amp;limit=0#main_div',
+                'url' => '?table=domain&limit=0#main_div',
                 'active' => true,
             ],
             [
                 'label' => 'de-zz',
-                'url' => '?table=domain&amp;limit=10#main_div',
+                'url' => '?table=domain&limit=10#main_div',
             ],
         ]);
 

@@ -7,6 +7,7 @@ class DomainDnsListTemplateTest extends \PHPUnit\Framework\TestCase
         $source = file_get_contents(__DIR__ . '/../templates/list-virtual.tpl');
         $header = substr($source, 0, strpos($source, '<div class="card-body">')) . '</div>';
         $smarty = new \Smarty\Smarty();
+        $smarty->setEscapeHtml(true); // match PFASmarty
         $smarty->setCompileDir(sys_get_temp_dir());
         $smarty->setTemplateDir(__DIR__ . '/../templates');
         $smarty->setConfigDir(__DIR__ . '/../configs');

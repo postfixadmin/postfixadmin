@@ -8,13 +8,13 @@
         </p>
         <dl class="row">
             <dt class="col-sm-3">{$PALANG.subject}</dt>
-            <dd class="col-sm-9">{$broadcast_job.subject|escape}</dd>
+            <dd class="col-sm-9">{$broadcast_job.subject}</dd>
 
             <dt class="col-sm-3">{$PALANG.broadcast_job_status}</dt>
-            <dd class="col-sm-9">{$broadcast_job.status_label|escape}</dd>
+            <dd class="col-sm-9">{$broadcast_job.status_label}</dd>
 
             <dt class="col-sm-3">{$PALANG.broadcast_domains}</dt>
-            <dd class="col-sm-9">{$broadcast_domains_text|escape}</dd>
+            <dd class="col-sm-9">{$broadcast_domains_text}</dd>
 
             <dt class="col-sm-3">{$PALANG.broadcast_progress}</dt>
             <dd class="col-sm-9">
@@ -122,8 +122,8 @@
                 <tbody>
                 {foreach from=$broadcast_unknown_recipients item=recipient}
                     <tr>
-                        <td>{$recipient.recipient|escape}</td>
-                        <td>{$recipient.smtp_response|escape}</td>
+                        <td>{$recipient.recipient}</td>
+                        <td>{$recipient.smtp_response}</td>
                         <td>
                             <form method="post" action="broadcast-status.php" class="d-inline broadcast-retry-form">
                                 {CSRF_Token}
@@ -176,9 +176,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 <tbody>
                 {foreach from=$broadcast_recipients item=recipient}
                     <tr>
-                        <td>{$recipient.recipient|escape}</td>
-                        <td>{$recipient.status_label|escape}</td>
-                        <td>{if $recipient.error}{$recipient.error|escape}{else}{$recipient.smtp_response|escape}{/if}</td>
+                        <td>{$recipient.recipient}</td>
+                        <td>{$recipient.status_label}</td>
+                        <td>{if $recipient.error}{$recipient.error}{else}{$recipient.smtp_response}{/if}</td>
                     </tr>
                 {/foreach}
                 </tbody>

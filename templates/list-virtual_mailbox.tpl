@@ -17,7 +17,7 @@
     <div class="mailbox-list-scroll">
     <table class="table table-hover table-sm table-striped align-middle" id="mailbox_table">
         <thead>
-        {#tr_header#}
+        {#tr_header#|raw} {* trusted HTML from configs/menu.conf *}
         {if $CONF.show_status===YES}
             <th></th>
         {/if}
@@ -44,7 +44,7 @@
         {foreach from=$tMailbox item=item key=i}
             <tr>
                 {if $CONF.show_status===YES}
-                    <td>{$gen_show_status_mailbox[$i]}</td>
+                    <td>{$gen_show_status_mailbox[$i]|raw}</td>
                 {/if}
                 <td>
                     {if $search eq ""}
@@ -162,7 +162,7 @@
                         <input type="hidden" name="delete" value="{$item.username}">
                         {CSRF_Token}
                         <button type="submit" class="btn btn-sm btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}"
-                                onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$RAW_tMailbox[$i].username|escape:'javascript'|escape:'html'}');">
+                                onclick="return confirm ('{"`$PALANG.confirm``$PALANG.mailboxes`: `$tMailbox[$i].username`"|escape:'javascript'|escape:'force'}');">
                             <span class="bi bi-trash" aria-hidden="true"></span>
                         </button>
                     </form>

@@ -232,7 +232,7 @@ function language_selector()
 function check_domain($domain)
 {
     if (!preg_match('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){1,13}$/i', ($domain))) {
-        $str = sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
+        $str = sprintf(Config::lang('pInvalidDomainRegex'), $domain);
         if (is_string($str)) {
             return $str;
         }
@@ -253,7 +253,7 @@ function check_domain($domain)
                 error_log("DNS is not correctly configured for $domain to send or receive email");
                 $retval = '';
             } else {
-                $retval = sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
+                $retval = sprintf(Config::lang('pInvalidDomainDNS'), $domain);
             }
 
             $end = microtime(true); # check for slow nameservers, part 2
@@ -295,7 +295,7 @@ function check_localaliasonly($domain)
             return '';
         } else {
             // FIXME: Add transaltions
-            return sprintf("You may only make aliases to domains hosted on this server. %s is a remote domain name.", htmlentities($domain));
+            return sprintf("You may only make aliases to domains hosted on this server. %s is a remote domain name.", $domain);
         }
     } else {
         return '';
@@ -2224,18 +2224,18 @@ function page_browser_pagination(
     $url_for_page = static function (int $page) use ($query_params, $page_size, $anchor): string {
         $query_params['limit'] = $page * $page_size;
         $query = http_build_query($query_params, '', '&', PHP_QUERY_RFC3986);
-        return '?' . htmlspecialchars($query, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '#' . rawurlencode($anchor);
+        return '?' . $query . '#' . rawurlencode($anchor); // escaped by Smarty on output
     };
 
     $pagination = [
         [
-            'label' => '&laquo;',
+            'label' => '«',
             'url' => $url_for_page(0),
             'disabled' => $current_page === 0,
             'aria' => $aria_labels['first'] ?? '',
         ],
         [
-            'label' => '&lsaquo;',
+            'label' => '‹',
             'url' => $url_for_page(max(0, $current_page - 1)),
             'disabled' => $current_page === 0,
             'aria' => $aria_labels['previous'] ?? '',
@@ -2251,7 +2251,7 @@ function page_browser_pagination(
     }
 
     $pagination[] = [
-        'label' => '&rsaquo;',
+        'label' => '›',
         'url' => $url_for_page(min($last_page, $current_page + 1)),
         'disabled' => $current_page >= $last_page,
         'aria' => $aria_labels['next'] ?? '',
