@@ -50,6 +50,9 @@ class PFASmarty
             throw new \InvalidArgumentException("Unknown CSRF_Token type: $type");
         });
 
+        // {$text|highlight:$search|raw} - HTML-escapes $text and wraps each occurrence of $search in a searchresult span.
+        $this->template->registerPlugin('modifier', 'highlight', [self::class, 'highlight']);
+
         $template_dir = __DIR__ . '/../templates/' . $theme;
 
         if (!is_dir($template_dir)) {
@@ -72,6 +75,29 @@ class PFASmarty
         $this->configureTheme('');// default to something.
     }
 
+
+    /**
+     * HTML-escape $text and wrap each (case-sensitive) occurrence of $search in <span class='searchresult'>.
+     * The result is safe HTML, so print it with |raw.
+     */
+    public static function highlight(mixed $text, mixed $search): string
+    {
+        $text = (string) $text;
+        $search = (string) $search;
+
+        if ($search === '') {
+            return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        }
+
+        $parts = array_map(
+            fn (string $part): string => htmlspecialchars($part, ENT_QUOTES, 'UTF-8'),
+            explode($search, $text)
+        );
+
+        $marked = "<span class='searchresult'>" . htmlspecialchars($search, ENT_QUOTES, 'UTF-8') . '</span>';
+
+        return implode($marked, $parts);
+    }
 
     /**
      * get relative path to css etc. based on permissions (user vs. admin)

@@ -118,6 +118,18 @@ class BuildSelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('alice@example.com', $rows[0]['username']);
     }
 
+    /**
+     * CONT is a user-facing "contains" search, so it ignores case on every database
+     * (PostgreSQL's LIKE is case-sensitive, so db_like() uses ILIKE there).
+     */
+    public function testContSearchmodeIsCaseInsensitive()
+    {
+        [, $rows] = $this->runQuery(['name' => 'aARDVARK'], ['name' => 'CONT']);
+
+        $this->assertCount(1, $rows);
+        $this->assertEquals('alice@example.com', $rows[0]['username']);
+    }
+
     public function testLikeSearchmodeUsesValueVerbatim()
     {
         // LIKE (unlike CONT) does not add wildcards automatically - the caller supplies them
@@ -157,8 +169,16 @@ class BuildSelectQueryTest extends \PHPUnit\Framework\TestCase
         // MailboxHandler::$searchfields = ['username'] - '_' should LIKE-match against it
         [$queryparts, $rows] = $this->runQuery(['_' => 'bob']);
 
-        $this->assertStringContainsString('username LIKE :_search_username', $queryparts['from_where_order']);
+        $this->assertStringContainsString('username' . db_like() . ':_search_username', $queryparts['from_where_order']);
         $this->assertEquals('%bob%', $queryparts['params']['_search_username']);
+        $this->assertCount(1, $rows);
+        $this->assertEquals('bob@example.com', $rows[0]['username']);
+    }
+
+    public function testSimpleSearchIsCaseInsensitive()
+    {
+        [, $rows] = $this->runQuery(['_' => 'BOB@Example']);
+
         $this->assertCount(1, $rows);
         $this->assertEquals('bob@example.com', $rows[0]['username']);
     }

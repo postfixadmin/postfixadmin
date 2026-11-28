@@ -54,6 +54,10 @@ if (isset($_POST['search']) && is_array($_POST['search'])) {
 } elseif (isset($_GET['search']) && is_array($_GET['search'])) {
     $search = $_GET['search'];
 }
+// the simple search term must be a non-blank string (not search[_][]=foo); a blank search box means "no search"
+if (isset($search['_']) && (!is_string($search['_']) || trim($search['_']) === '')) {
+    unset($search['_']);
+}
 
 // Active-status filter for the alias list (all|active|inactive). Persisted in
 // $_SESSION like the 'tab' selector below, so it survives pagination (whose
@@ -85,14 +89,17 @@ if (!is_string($fDomain)) {
     throw new InvalidArgumentException(Config::Lang('invalid_parameter'));
 }
 
-if (!in_array($fDomain, $list_domains)) {
+$all_domains_value = '*'; # dropdown sentinel for the "All domains" option (same as viewlog.php)
+$show_all = ($fDomain === $all_domains_value); # list everything in the admin's domains
+
+if (!$show_all && !in_array($fDomain, $list_domains)) {
     flash_error($PALANG['invalid_parameter']);
     unset($_SESSION['list-virtual:domain']);
     header("Location: list.php?table=domain"); # invalid domain, or not owned by this admin
     exit(0);
 }
 
-if (!check_owner(authentication_get_username(), $fDomain)) {
+if (!$show_all && !check_owner(authentication_get_username(), $fDomain)) {
     flash_error($PALANG['invalid_parameter'] . " If you see this message, please open a bugreport"); # this check is most probably obsoleted by the in_array() check above
     unset($_SESSION['list-virtual:domain']);
     header("Location: list.php?table=domain"); # domain not owned by this admin
@@ -100,15 +107,17 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
 }
 
 $domain_handler = new DomainHandler(0, $admin_username);
-$smarty->assign('domain_dns_status', DomainDnsStatus::configuredMode() > 0
+$smarty->assign('domain_dns_status', (DomainDnsStatus::configuredMode() > 0 && !$show_all)
     ? $domain_handler->dnsStatus($fDomain) : []);
 
 // store domain and page browser offset in $_SESSION so after adding/editing aliases/mailboxes we can
 // take the user back to the appropriate domain listing.
 $_SESSION['list-virtual:domain'] = $fDomain;
-$_SESSION['prefill:alias:domain'] = $fDomain;
-$_SESSION['prefill:mailbox:domain'] = $fDomain;
-$_SESSION['prefill:aliasdomain:target_domain'] = $fDomain;
+if (!$show_all) {
+    $_SESSION['prefill:alias:domain'] = $fDomain;
+    $_SESSION['prefill:mailbox:domain'] = $fDomain;
+    $_SESSION['prefill:aliasdomain:target_domain'] = $fDomain;
+}
 
 $_SESSION['list-virtual:limit'] = $fDisplay;
 
@@ -137,28 +146,21 @@ if (Config::bool('alias_domain')) {
         $aliasdomain_data['msg']['can_create'] = 0;
     } # all domains (of this admin) are already alias domains
 
-    # get the really requested list
-    if (count($search) == 0) {
-        $list_param = "alias_domain='$fDomain' OR target_domain='$fDomain'";
+    # get the really requested list (alias domains of the selected domain - the search term is for mailboxes/aliases)
+    if ($show_all) {
+        $handler->getList(""); # getList() is restricted to the admin's domains
+        $aliasdomain_data['struct']['target_domain']['linkto'] = 'target';
     } else {
-        $list_param = $search;
+        $handler->getList("alias_domain='$fDomain' OR target_domain='$fDomain'");
     }
-
-    $handler->getList($list_param);
     $tAliasDomains = $handler->result();
 
     foreach ($tAliasDomains as $row) {
         if ($row['alias_domain'] == $fDomain) {
             $aliasdomain_data['struct']['target_domain']['linkto'] = 'target';
-            if (count($search) == 0) {
-                $aliasdomain_data['struct']['alias_domain']['linkto'] = '';
-                $aliasdomain_data['msg']['can_create'] = 0; # domain is already an alias domain
-            }
+            $aliasdomain_data['struct']['alias_domain']['linkto'] = '';
+            $aliasdomain_data['msg']['can_create'] = 0; # domain is already an alias domain
         }
-    }
-
-    if (count($search) > 0) {
-        $aliasdomain_data['struct']['target_domain']['linkto'] = 'target';
     }
 }
 
@@ -170,10 +172,10 @@ $table_alias = table_by_key('alias');
 $table_domain = table_by_key('domain');
 $table_mailbox = table_by_key('mailbox');
 
-if (count($search) == 0 || !isset($search['_'])) {
-    $search_alias = array('domain' => $fDomain);
-} else {
-    $search_alias = array('_' => $search['_']);
+// the search only covers the selected domain (or all of the admin's domains - getList() restricts to those)
+$search_alias = $show_all ? array() : array('domain' => $fDomain);
+if (isset($search['_'])) {
+    $search_alias['_'] = $search['_'];
 }
 
 // Restrict the alias list to (in)active entries when the filter is set. 'active'
@@ -216,17 +218,21 @@ $sql_order = " ORDER BY $table_mailbox.username ";
 $sql_limit = " LIMIT $page_size OFFSET $fDisplay";
 $sql_params = [];
 
-if (count($search) == 0 || !isset($search['_'])) {
+// the search only covers the selected domain (or all of the admin's domains)
+if ($show_all) {
+    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains, $sql_params) . " ";
+} else {
     $sql_where .= " $table_mailbox.domain= :domain ";
     $sql_params['domain'] = $fDomain;
-} else {
+}
+if (isset($search['_'])) {
     $searchterm = $search['_'];
-    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains, $sql_params) . " ";
-    $sql_where .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
+    $like = db_like();
+    $sql_where .= " AND ( $table_mailbox.username $like :searchterm OR $table_mailbox.name $like :searchterm ";
     $sql_params['searchterm'] = "%$searchterm%";
 
     if ($display_mailbox_aliases) {
-        $sql_where .= " OR $table_alias.goto LIKE :searchterm ";
+        $sql_where .= " OR $table_alias.goto $like :searchterm ";
     }
     $sql_where .= " ) ";
 }
@@ -332,9 +338,13 @@ foreach ($result as $row) {
 $alias_data['msg']['can_create'] = false;
 $tCanAddMailbox = false;
 
-$limit = get_domain_properties($fDomain);
+$limit = $show_all ? null : get_domain_properties($fDomain);
 
-if (isset($limit)) {
+if ($show_all) {
+    # per-domain limits don't apply to the combined list; the create forms let the admin pick the domain (and check its limits)
+    $alias_data['msg']['can_create'] = true;
+    $tCanAddMailbox = true;
+} elseif (isset($limit)) {
     if ($limit['aliases'] == 0) {
         $alias_data['msg']['can_create'] = true;
     } elseif ($limit['alias_count'] < $limit['aliases']) {
@@ -418,6 +428,8 @@ if (empty($_GET['domain'])) {
 }
 $smarty->assign('admin_list', array());
 $smarty->assign('domain_list', $list_domains);
+$smarty->assign('domain_options', [$all_domains_value => Config::lang('pViewlog_all_domains')] + array_combine($list_domains, $list_domains));
+$smarty->assign('show_all', $show_all);
 $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('pagination_alias', $pagination_alias);
 $smarty->assign('pagination_mailbox', $pagination_mailbox);

@@ -2150,6 +2150,19 @@ function db_log(string $domain, string $action, string $data): bool
  * @param array $values
  * @return string
  */
+/**
+ * SQL operator for a case-insensitive pattern match, for use in user-facing searches.
+ *
+ * MySQL (with the usual _ci collations) and SQLite (for ASCII) already compare case-insensitively
+ * with LIKE, but PostgreSQL's LIKE is case-sensitive, so ILIKE is used there.
+ *
+ * @return string ' ILIKE ' (PostgreSQL) or ' LIKE ' (everything else), padded with spaces
+ */
+function db_like(): string
+{
+    return db_pgsql() ? ' ILIKE ' : ' LIKE ';
+}
+
 function db_in_clause(string $field, array $values, array &$params = []): string
 {
     if (empty($values)) {
@@ -2339,8 +2352,8 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
             if (in_array($searchmode[$field], $allowed_operators)) {
                 $operator = $searchmode[$field];
 
-                if ($operator == 'CONT') { # CONT - as in "contains"
-                    $operator = ' LIKE ';
+                if ($operator == 'CONT') { # CONT - as in "contains" (case-insensitive)
+                    $operator = db_like();
                     $value = '%' . $value . '%';
                 } elseif ($operator == 'LIKE') { # LIKE -without adding % wildcards (the search value can contain %)
                     $operator = ' LIKE ';

@@ -12,12 +12,19 @@ class MailboxHandler extends PFAHandler
     protected string $db_table = 'mailbox';
     protected string $id_field = 'username';
     protected ?string $domain_field = 'domain';
-    protected array $searchfields = ['username'];
+    protected array $searchfields = ['username', 'name'];
     protected string $quota_error = 'pEdit_mailbox_quota_text_error';
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct()
     {
+        if (Config::bool('alias_control_admin')) {
+            // match list-virtual.php: the search also covers the mailbox alias's forwarding targets
+            $table_mailbox = table_by_key('mailbox');
+            $table_alias = table_by_key('alias');
+            $this->searchfields['goto'] = "(SELECT $table_alias.goto FROM $table_alias WHERE $table_alias.address = $table_mailbox.username)";
+        }
+
         $passwordReset = (int)(Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script'));
         $smtpActiveFlag = (int)(Config::bool('smtp_active_flag'));
         $reset_by_sms = 0;
